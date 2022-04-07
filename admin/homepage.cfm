@@ -9,13 +9,13 @@
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
     <link href="css/styles.css" rel="stylesheet" />
-    <script src="js/all.js"></script>
+    <!-- <link href="css/datatables.css" rel="stylesheet" /> -->
 </head>
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">Admin</a>
+        <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
@@ -41,31 +41,31 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-                        <a class="nav-link collapsed" href="movie-theatres.html">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Movie Theatres
                         </a>
-                        <a class="nav-link collapsed" href="movies.html">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                             Movies
                         </a>
-                        <a class="nav-link" href="show-timings.html">
+                        <a class="nav-link" href="charts.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Show Timings
                         </a>
-                        <a class="nav-link" href="homepage.html">
+                        <a class="nav-link" href="tables.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Home Page
                         </a>
-                        <a class="nav-link" href="users.html">
+                        <a class="nav-link" href="tables.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Users
                         </a>
-                        <a class="nav-link" href="booking.html">
+                        <a class="nav-link" href="tables.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Booking
                         </a>
-                        <a class="nav-link" href="update-password.html">
+                        <a class="nav-link" href="tables.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Update Password
                         </a>
@@ -80,49 +80,42 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Dashboard</h1>
+                    <h1 class="mt-4">Home Page</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item">Home</li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active">Home Page</li>
                     </ol>
                     <div class="row">
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-primary text-white mb-4">
-                                <div class="card-cnt">12</div>
-                                <div class="card-body pt-1">Users</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-warning text-white mb-4">
-                                <div class="card-cnt">12</div>
-                                <div class="card-body pt-1">Theatres</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-success text-white mb-4">
-                                <div class="card-cnt">12</div>
-                                <div class="card-body pt-1">Movies</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-danger text-white mb-4">
-                                <div class="card-cnt">102</div>
-                                <div class="card-body pt-1">Bookings</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <table id="datatablesSimple">
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Movie Image</th>
+                                                <th>Movie Name</th>
+                                                <th>Movie Details</th>
+                                                <th>Rating</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td><img class="" id="" src="img/download.jpg" width="75%"></td>
+                                                <td>System Architect</td>
+                                                <td>Edinburgh</td>
+                                                <td>4</td>
+                                                <td>
+                                                    <a class="btn btn-primary">Activated</a>
+                                                    <!-- <a class="btn btn-primary">Edit</a> -->
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -138,9 +131,10 @@
             </footer>
         </div>
     </div>
-
+    <script src="js/all.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/scripts.js"></script>
+    <script src="js/simple-datatables.js"></script>
 
 </body>
 

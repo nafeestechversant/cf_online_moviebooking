@@ -11727,3 +11727,13 @@ body {
     width: 20%;
     padding-right: 0;
 }
+
+.error {
+    position: relative !important;
+    padding: 0 !important;
+    color: red;
+}
+
+.red {
+    color: red;
+}
