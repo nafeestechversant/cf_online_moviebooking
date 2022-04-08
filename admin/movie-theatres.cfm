@@ -9,8 +9,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
-    <link href="../css/styles.css" rel="stylesheet" />
-    <!-- <link href="css/datatables.css" rel="stylesheet" /> -->
+    <link href="../css/styles.css" rel="stylesheet" />    
 </head>
 <body class="sb-nav-fixed">
     <cfoutput>
@@ -52,7 +51,7 @@
                                                         <td>#TheatresLists.theatre_name#</td>
                                                         <td><img class="" id="" src="uploads/MovieTheatres/#TheatresLists.theatre_image#" width="50%"></td>
                                                         <td><a class="btn btn-primary btn-edit-theatre" data-id="#TheatresLists.theatre_id#" data-bs-toggle="modal" data-bs-target="##exampleModal">Edit</a></td>
-                                                        <td><a class="btn btn-primary btn-delete-theatre" data-id="#TheatresLists.theatre_id#" data-bs-toggle="modal" data-bs-target="##DeleteModal">Delete</a></td>
+                                                        <td><a class="btn btn-primary btn-delete-theatre" href="1" data-record-id="#TheatresLists.theatre_id#" data-id="#TheatresLists.theatre_id#" data-bs-toggle="modal" data-bs-target="##DeleteModal">Delete</a></td>
                                                     </tr>
                                                 </cfloop>                                                
                                             </tbody>
@@ -63,13 +62,7 @@
                         </div>
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
-                        </div>
-                    </div>
-                </footer>
+                <cfinclude template="footer.cfm">
             </div>
         </div>
         <!-- Modal -->
@@ -83,7 +76,7 @@
                     <cfparam name="form.theatre_id"  default=""  type="string">
                     <cfparam name="form.theatre_name"  default=""  type="string">
                     <cfparam name="form.theatre_img"  default=""  type="string">
-                    <form class="row g-3" id="form_addTheatre" method="post" action="cfc/admin.cfc?method=addTheatre" enctype="multipart/form-data">
+                    <form class="row g-3" id="form_addTheatre" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="theatre_id" id="theatre_id" value="">
                         <input type="hidden" name="theatre_img" id="theatre_img" value="">
                         <div class="modal-body">                        
@@ -120,14 +113,13 @@
                     <div class="modal-footer">
                         <input type="hidden" name="cntId" id="cntId" value=""/>
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">No</button>
-                        <a class="btn btn-primary" href="">Yes</a>
+                        <a class="btn btn-primary btn-yes" >Yes</a>
                     </div>
                 </div>
             </div>
         </div>
     </cfoutput>
-   <script src="../js/jquery.min.js"></script>
-<!---     <script src="../js/all.js"></script> --->
+    <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/scripts.js"></script>
     <script src="../js/simple-datatables.js"></script>
