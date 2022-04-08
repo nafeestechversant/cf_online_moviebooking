@@ -8,7 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="../css/styles.css" rel="stylesheet" />
     <!-- <link href="css/datatables.css" rel="stylesheet" /> -->
 </head>
 
@@ -221,10 +221,10 @@
             </div>
         </div>
     </div>
-    <script src="js/all.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="js/simple-datatables.js"></script>
+    <script src="../js/all.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../js/simple-datatables.js"></script>
 
 </body>
 
