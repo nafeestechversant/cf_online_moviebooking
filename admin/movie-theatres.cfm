@@ -9,7 +9,8 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
-    <link href="../css/styles.css" rel="stylesheet" />    
+    <link href="../css/styles.css" rel="stylesheet" /> 
+    <link href="../css/jquery.dataTables.min.css" rel="stylesheet" />    
 </head>
 <body class="sb-nav-fixed">
     <cfoutput>
@@ -41,18 +42,25 @@
                                                     <th>S.No</th>
                                                     <th>Theatre Name</th>
                                                     <th>Theatre Image</th>
-                                                    <th colspan="2">Action</th>
+                                                    <th>Action</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <cfset variables.sno = 1 >
                                                 <cfloop query="#TheatresLists#"> 
                                                     <tr>
-                                                        <td>1</td>
+                                                        <td>#sno#</td>
                                                         <td>#TheatresLists.theatre_name#</td>
-                                                        <td><img class="" id="" src="uploads/MovieTheatres/#TheatresLists.theatre_image#" width="50%"></td>
+                                                        <td>
+                                                            <cfif TheatresLists.theatre_image NEQ ''>
+                                                                <img class="" id="" src="uploads/MovieTheatres/#TheatresLists.theatre_image#" width="50%">
+                                                            </cfif>                                                            
+                                                        </td>
                                                         <td><a class="btn btn-primary btn-edit-theatre" data-id="#TheatresLists.theatre_id#" data-bs-toggle="modal" data-bs-target="##exampleModal">Edit</a></td>
-                                                        <td><a class="btn btn-primary btn-delete-theatre" href="1" data-record-id="#TheatresLists.theatre_id#" data-id="#TheatresLists.theatre_id#" data-bs-toggle="modal" data-bs-target="##DeleteModal">Delete</a></td>
+                                                        <td><a class="btn btn-primary btn-delete-theatre" href="" data-href="cfc/admin.cfc?method=delTheatre&DelId=#TheatresLists.theatre_id#" data-bs-toggle="modal" data-bs-target="##TheatreDeleteModal">Delete</a></td>
                                                     </tr>
+                                                    <cfset variables.sno ++ >
                                                 </cfloop>                                                
                                             </tbody>
                                         </table>
@@ -76,10 +84,12 @@
                     <cfparam name="form.theatre_id"  default=""  type="string">
                     <cfparam name="form.theatre_name"  default=""  type="string">
                     <cfparam name="form.theatre_img"  default=""  type="string">
+                    <cfparam name="form.hid_theatre_img"  default=""  type="string">
                     <form class="row g-3" id="form_addTheatre" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="theatre_id" id="theatre_id" value="">
-                        <input type="hidden" name="theatre_img" id="theatre_img" value="">
-                        <div class="modal-body">                        
+                        <input type="hidden" name="hid_theatre_img" id="hid_theatre_img" value="">
+                        <div class="modal-body">
+                            <div  class="red" id="valid-err"></div>
                             <div class="col-md-12">
                                 <label for="inputEmail4" class="form-label">Theatre Name</label>
                                 <input type="text" name="theatre_name" id="theatre_name" class="form-control" id="inputEmail4">
@@ -100,8 +110,8 @@
                 </div>
             </div>
         </div>
-         <!-- Delete Contact Modal-->
-        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         <!-- Delete  Modal-->
+        <div class="modal fade" id="TheatreDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -109,7 +119,7 @@
                         <h5 class="modal-title" id="exampleModalLabel">Confirm Delete?</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>                    
                     </div>
-                    <div class="modal-body">Are you sure want to delete.</div>
+                    <div class="modal-body">Are you sure want to delete.</div>                    
                     <div class="modal-footer">
                         <input type="hidden" name="cntId" id="cntId" value=""/>
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">No</button>
@@ -120,10 +130,9 @@
         </div>
     </cfoutput>
     <script src="../js/jquery.min.js"></script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/scripts.js"></script>
-    <script src="../js/simple-datatables.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>    
+    <script src="../js/jquery.dataTables.min.js"></script>
     <script src="../js/jquery.validate.js"></script>
-    <script src="../js/validation.js"></script>  
+    <script src="../js/scripts.js"></script>
 </body>
 </html>
