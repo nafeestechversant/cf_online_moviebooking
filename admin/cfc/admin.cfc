@@ -138,7 +138,7 @@
 
 	<cffunction name="getMovies" access="public" output="false" returntype="query">		
 		<cfquery name="qry.rs_getMovies">
-			SELECT * FROM mv_movies  WHERE created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
+			SELECT * FROM mv_movies  WHERE created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" /> ORDER BY movie_id DESC
 		</cfquery>		
 		<cfreturn qry.rs_getMovies />
 	</cffunction>
@@ -229,13 +229,10 @@
 			<cfset arrayAppend(errorMessage, 'Please Enter Price of Price Box')>
 		</cfif>						
 		<cfif NOT arrayIsEmpty(errorMessage)>
-			<cfset arrayAppend(errorMessage, 'error')>
+			
 		</cfif>
-		<cfset variables.theatre_image = variables.hid_theatre_img>
-		
-		<cfset variables.curr_time = Now()>
 		<cfif arrayIsEmpty(errorMessage) AND variables.show_id EQ ''>
-			<cfset arrayAppend(errorMessage, 'success')>
+			
 			<cfquery name="tableElements" result="r">
 				INSERT INTO mv_show_timing (theatre_id,movie_id,start_date,end_date,start_time,end_time,online_booking,price_gold_full,price_gold_half,price_odc_full,price_odc_half,price_box,created_by)
 				VALUES (
@@ -256,15 +253,66 @@
 			</cfquery>												
 		</cfif>
 		<cfif arrayIsEmpty(errorMessage) AND variables.show_id NEQ ''>
-			<cfset arrayAppend(errorMessage, 'success')>
+			
 			<cfquery>
-				UPDATE mv_movie_theatres SET 			
-				theatre_name = <cfqueryparam value="#variables.theatre_name#" cfsqltype="cf_sql_varchar" />,				
-				theatre_image = <cfqueryparam value="#variables.theatre_image#" cfsqltype="cf_sql_varchar" />
-				WHERE theatre_id = #variables.theatre_id# AND created_by = #session.stLoggedInAdmin.adminID#			
+				UPDATE mv_show_timing SET 			
+				theatre_id = <cfqueryparam value="#variables.theatre_id#" cfsqltype="cf_sql_integer" />,				
+				movie_id = <cfqueryparam value="#variables.movie_id#" cfsqltype="cf_sql_integer" />,
+				start_date = <cfqueryparam value="#variables.start_date#" cfsqltype="cf_sql_date" />,
+				end_date = <cfqueryparam value="#variables.end_date#" cfsqltype="cf_sql_date" />,
+				start_time = <cfqueryparam value="#variables.start_time#" cfsqltype="cf_sql_time" />,
+				end_time = <cfqueryparam value="#variables.end_time#" cfsqltype="cf_sql_time" />,
+				online_booking = <cfqueryparam value="#variables.online_booking#" cfsqltype="cf_sql_integer" />,
+				price_gold_full = <cfqueryparam value="#variables.price_gold_full#" cfsqltype="cf_sql_decimal" />,
+				price_gold_half = <cfqueryparam value="#variables.price_gold_half#" cfsqltype="cf_sql_decimal" />,
+				price_odc_full = <cfqueryparam value="#variables.price_odc_full#" cfsqltype="cf_sql_decimal" />,
+				price_odc_half = <cfqueryparam value="#variables.price_odc_half#" cfsqltype="cf_sql_decimal" />,
+				price_box = <cfqueryparam value="#variables.price_box#" cfsqltype="cf_sql_decimal" />
+				WHERE show_id = <cfqueryparam value="#variables.show_id#" cfsqltype="cf_sql_integer" /> AND created_by =  <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />			
 			</cfquery>						
 		</cfif>
  		<cfreturn variables.errorMessage />
-	</cffunction>			 
+	</cffunction>
+
+	<cffunction name="getShows" access="public" output="false" returntype="query">		
+		<cfquery name="qry.rs_getShows">
+			SELECT * FROM mv_show_timing  WHERE created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
+		</cfquery>		
+		<cfreturn qry.rs_getShows />
+	</cffunction>
+
+	<cffunction name="getShowById" access="remote" output="false" returntype="any" returnformat="JSON">
+		<cfargument name="show_id" required="yes">		
+		<cfquery name="qry.rs_getShowById">
+			SELECT show_id,theatre_id,movie_id,start_date,end_date,start_time,end_time,online_booking,price_gold_full,price_gold_half,price_odc_full,price_odc_half,price_box FROM mv_show_timing WHERE show_id = <cfqueryparam value="#arguments.show_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
+		</cfquery>			
+		<cfreturn serializeJSON(qry.rs_getShowById,"struct") />
+	</cffunction>
+
+	<cffunction name="delShow" access="remote" returntype="void" >		
+		<cfquery>
+			DELETE FROM mv_show_timing WHERE show_id = <cfqueryparam value="#URL.DelId#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
+		</cfquery>
+		<cflocation url = "../show-timings.cfm" addtoken="false" />
+	</cffunction>
+
+	<cffunction name="updateHomePageMovie" access="remote" returntype="void" >
+		<cfargument name="movie_id" required="yes">
+		<cfargument name="actid_status" required="yes">
+		<cfquery name="qry.rs_updateHomePageMovie">
+			UPDATE mv_movies SET 			
+				active_homepage = <cfqueryparam value="#arguments.actid_status#" cfsqltype="cf_sql_integer" />
+				WHERE movie_id  = <cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" />
+		</cfquery>
+		<cflocation url = "../homepage.cfm" addtoken="false" />				
+	</cffunction>
+
+	<cffunction name="getUsers" access="public" output="false" returntype="query">		
+		<cfquery name="qry.rs_getUsers">
+			SELECT user_fullname,user_phone,user_email,user_address,user_status FROM mv_users  ORDER BY user_id DESC
+		</cfquery>		
+		<cfreturn qry.rs_getUsers />
+	</cffunction>
+				 
 </cfcomponent>
 

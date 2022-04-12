@@ -1,3 +1,7 @@
+<cfobject name="compAdmin" component="cfc/admin"> 
+<cfinvoke component="cfc/admin" method="getShows" returnvariable="ShowLists"></cfinvoke>
+<cfinvoke component="#compAdmin#" method="getMovieTheatres" returnvariable="Theatres"></cfinvoke>
+<cfinvoke component="#compAdmin#" method="getMovies" returnvariable="Movies"></cfinvoke>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,20 +56,24 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Theatre 1</td>
-                                                    <td>Movie 1</td>
-                                                    <td>2022-03-10/2022-04-10</td>
-                                                    <td>11:00:00/14:00:00</td>
-                                                    <td>Rs:400</td>
-                                                    <td>Rs:200</td>
-                                                    <td>Rs:300</td>
-                                                    <td>Rs:300</td>
-                                                    <td>Rs:1000</td>
-                                                    <td><a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="##exampleModal">Edit</a></td>
-                                                    <td><a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="##">Delete</a></td>
-                                                </tr>
+                                                <cfset variables.sno = 1 >
+                                                <cfloop query="#ShowLists#">
+                                                    <tr>
+                                                        <td>#sno#</td>
+                                                        <td>#ShowLists.theatre_id#</td>
+                                                        <td>#ShowLists.movie_id#</td>
+                                                        <td>#ShowLists.start_date#/#ShowLists.end_date#</td>
+                                                        <td>#ShowLists.start_time#/#ShowLists.end_time#</td>
+                                                        <td>Rs:#ShowLists.price_gold_full#</td>
+                                                        <td>Rs:#ShowLists.price_gold_half#</td>
+                                                        <td>Rs:#ShowLists.price_odc_full#</td>
+                                                        <td>Rs:#ShowLists.price_odc_half#</td>
+                                                        <td>Rs:#ShowLists.price_box#</td>
+                                                        <td><a class="btn btn-primary btn-edit-show" data-id="#ShowLists.show_id#" data-bs-toggle="modal" data-bs-target="##exampleModal">Edit</a></td>
+                                                        <td><a class="btn btn-primary btn-delete-show" href="" data-href="cfc/admin.cfc?method=delShow&DelId=#ShowLists.show_id#" data-bs-toggle="modal" data-bs-target="##ShowDeleteModal">Delete</a></td>
+                                                    </tr>
+                                                    <cfset variables.sno ++ >
+                                                </cfloop>
                                             </tbody>
                                         </table>
                                     </div>
@@ -74,13 +82,7 @@
                         </div>
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
-                        </div>
-                    </div>
-                </footer>
+                <cfinclude template="footer.cfm">
             </div>
         </div>
         <!-- Modal -->
@@ -92,24 +94,26 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form class="" id="form_addShowTime" method="post">
-                        <div class="modal-body">                                 
+                        <div class="modal-body">
+                            <div  class="red" id="valid-err"></div> 
+                            <div class="row">                                 
                                 <input type="hidden" name="show_id" id="show_id" value="">
                                 <div class="col-md-6">
                                     <label for="inputEmail4" class="form-label">Select Theatre</label>
                                     <select class="form-select" name="theatre_id" id="theatre_id" aria-label="Default select example">
                                         <option value="">Open this select menu</option>
-                                        <option value="1">Theatre 1</option>
-                                        <option value="2">Theatre 2</option>
-                                        <option value="3">Theatre 3</option>
+                                        <cfloop query="#Theatres#">
+                                            <option value="#Theatres.theatre_id#">#Theatres.theatre_name#</option>
+                                        </cfloop>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="inputPassword4" class="form-label">Select Movie</label>
                                     <select class="form-select" name="movie_id" id="movie_id" aria-label="Default select example">
                                         <option value="">Open this select menu</option>
-                                        <option value="1">Movie 1</option>
-                                        <option value="2">Movie 2</option>
-                                        <option value="3">Movie 3</option>
+                                        <cfloop query="#Movies#">
+                                            <option value="#Movies.movie_id#">#Movies.movie_name#</option>
+                                        </cfloop>                                      
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -157,13 +161,32 @@
                                         <label for="inputPassword4" class="form-label">Box:</label>
                                         <input type="text" name="price_box" id="price_box" class="form-control" id="inputCity">
                                     </div>
-                                </div>                        
+                                </div>
+                            </div>                        
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <input type="submit" class="btn btn-primary" value ="Add Show">                            
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+          <!-- Delete  Modal-->
+        <div class="modal fade" id="ShowDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">                                              
+                        <h5 class="modal-title" id="exampleModalLabel">Confirm Delete?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>                    
+                    </div>
+                    <div class="modal-body">Are you sure want to delete.</div>                    
+                    <div class="modal-footer">
+                        <input type="hidden" name="cntId" id="cntId" value=""/>
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">No</button>
+                        <a class="btn btn-primary btn-yes" >Yes</a>
+                    </div>
                 </div>
             </div>
         </div>
