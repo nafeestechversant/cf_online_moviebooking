@@ -160,7 +160,7 @@ $(document).ready(function() {
     });
 
     $(document).on("submit", "#form_addShowTime", function(event) {
-        // event.preventDefault();
+        event.preventDefault();
         $.ajax({
             url: "cfc/admin.cfc?method=addShowTime&returnformat=json",
             type: "POST",
@@ -169,9 +169,11 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(response) {
-                if (response[1] == "error") {
-                    $("#valid-err").append("<p>" + response[0] + "</p>");
-
+                if (response.length != 0) {
+                    $("#valid-err").empty();
+                    for (i = 0; i < response.length - 1; ++i) {
+                        $("#valid-err").append("<p>" + response[i] + "</p>");
+                    }
                 } else {
                     $('#exampleModal').modal('hide');
                     location.reload();
@@ -182,6 +184,51 @@ $(document).ready(function() {
             }
         });
 
+    });
+
+    $(document).on("click", ".btn-edit-show", function(event) {
+        var show_id = $(this).data('id');
+        $.ajax({
+            type: "POST",
+            url: "cfc/admin.cfc?method=getShowById",
+            data: "show_id=" + show_id,
+            dataType: "json",
+            cache: false,
+            success: function(data) {
+                $('#theatre_id').val(data[0].THEATRE_ID);
+                $('#movie_id').val(data[0].MOVIE_ID);
+                $('#online_booking').val(data[0].ONLINE_BOOKING);
+                $('#price_gold_full').val(data[0].PRICE_GOLD_FULL);
+                $('#price_gold_half').val(data[0].PRICE_GOLD_HALF);
+                $('#price_odc_full').val(data[0].PRICE_ODC_FULL);
+                $('#price_odc_half').val(data[0].PRICE_ODC_HALF);
+                $('#price_box').val(data[0].PRICE_BOX);
+                $('#show_id').val(show_id);
+
+            }
+        });
+    });
+
+    $('#ShowDeleteModal').on('show.bs.modal', function(e) {
+        $(this).find('.btn-yes').attr('href', $(e.relatedTarget).data('href'));
+        $(this).find('.btn-yes').attr('href');
+    });
+
+    $(document).on("click", ".btn-activate-home", function(event) {
+        var movie_id = $(this).data('id');
+        var actid_status = $(this).data('actid');
+        $.ajax({
+            type: "POST",
+            url: "cfc/admin.cfc?method=updateHomePageMovie",
+            data: "movie_id=" + movie_id + "&actid_status=" + actid_status,
+            dataType: "json",
+            cache: false,
+            success: function() {
+
+
+
+            }
+        });
     });
 
 });
