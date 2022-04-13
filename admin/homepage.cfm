@@ -55,7 +55,7 @@
                                                             <td>#MoviesLists.movie_name#</td>
                                                             <td>#MoviesLists.movie_name#</td>
                                                             <td>
-                                                                <a class="btn btn-primary btn-activate-home" id="movie-actID-#MoviesLists.movie_id#" data-id="#MoviesLists.movie_id#" data-actid="#MoviesLists.active_homepage#">#IIF(MoviesLists.active_homepage eq 1, de("Deactivate"), de("Activate"))#</a>                                                    
+                                                                <a class="btn btn-primary btn-activate-home" id="movie-actID-#MoviesLists.movie_id#" data-id="#MoviesLists.movie_id#" data-actid="#IIF(MoviesLists.active_homepage eq 1, de("0"), de("1"))#">#IIF(MoviesLists.active_homepage eq 1, de("Deactivate"), de("Activate"))#</a>                                                    
                                                             </td>
                                                         </tr>
                                                         <cfset variables.sno ++ >

@@ -48,6 +48,64 @@ $(document).ready(function() {
         }
     });
 
+    $("#form_addShowTime").validate({
+        rules: {
+            theatre_id: {
+                required: true
+            },
+            movie_id: {
+                required: true
+            },
+            start_date: {
+                required: true
+            },
+            end_date: {
+                required: true
+            },
+            start_time: {
+                required: true
+            },
+            end_time: {
+                required: true
+            },
+            online_booking: {
+                required: true
+            },
+            price_gold_full: {
+                required: true
+            },
+            price_gold_half: {
+                required: true
+            },
+            price_odc_full: {
+                required: true
+            },
+            price_odc_half: {
+                required: true
+            },
+            price_box: {
+                required: true
+            }
+        }
+    });
+
+    $("#form_updatePwd").validate({
+        rules: {
+            admin_oldpwd: {
+                required: true
+            },
+            admin_newpwd: {
+                required: true,
+                minlength: 5
+            },
+            admin_cnfpwd: {
+                required: true,
+                minlength: 5,
+                equalTo: "#admin_newpwd"
+            },
+        }
+    });
+
     $(document).on("submit", "#form_addTheatre", function(event) {
         event.preventDefault();
         $.ajax({
@@ -84,7 +142,6 @@ $(document).ready(function() {
             success: function(data) {
                 $('#theatre_name').val(data[0].THEATRE_NAME);
                 $('#hid_theatre_img').val(data[0].THEATRE_IMAGE);
-
                 $('#theatre_id').val(theatre_id);
                 if (data[0].THEATRE_IMAGE != '') {
                     $('#show-thr-img').attr('src', 'uploads/MovieTheatres/' + data[0].THEATRE_IMAGE);
@@ -219,14 +276,12 @@ $(document).ready(function() {
         var actid_status = $(this).data('actid');
         $.ajax({
             type: "POST",
-            url: "cfc/admin.cfc?method=updateHomePageMovie",
+            url: "cfc/admin.cfc?method=updateHomePageMovie&returnformat=json",
             data: "movie_id=" + movie_id + "&actid_status=" + actid_status,
             dataType: "json",
             cache: false,
-            success: function() {
-
-
-
+            success: function(response) {
+                location.reload();
             }
         });
     });

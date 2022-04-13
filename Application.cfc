@@ -23,7 +23,7 @@
 		</cfif>
 		<cfif structKeyExists(URL,'logout')>
 			<cfset structdelete(session,'stLoggedInAdmin') />			
-		</cfif>		
+		</cfif>			
 		<cfreturn true />
 	</cffunction>	 	
 </cfcomponent>

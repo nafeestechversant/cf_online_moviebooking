@@ -296,7 +296,7 @@
 		<cflocation url = "../show-timings.cfm" addtoken="false" />
 	</cffunction>
 
-	<cffunction name="updateHomePageMovie" access="remote" returntype="void" >
+	<cffunction name="updateHomePageMovie" access="remote" output="false" returntype="any">
 		<cfargument name="movie_id" required="yes">
 		<cfargument name="actid_status" required="yes">
 		<cfquery name="qry.rs_updateHomePageMovie">
@@ -304,7 +304,7 @@
 				active_homepage = <cfqueryparam value="#arguments.actid_status#" cfsqltype="cf_sql_integer" />
 				WHERE movie_id  = <cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" />
 		</cfquery>
-		<cflocation url = "../homepage.cfm" addtoken="false" />				
+		<cfreturn true />					
 	</cffunction>
 
 	<cffunction name="getUsers" access="public" output="false" returntype="query">		
@@ -313,6 +313,80 @@
 		</cfquery>		
 		<cfreturn qry.rs_getUsers />
 	</cffunction>
-				 
+
+	<cffunction name="getUsersCnt" access="public" >		
+		<cfquery name="qry.rs_getUsersCnt">
+			SELECT COUNT(user_id) as UsersCnt FROM mv_users
+		</cfquery>				
+		<cfreturn qry.rs_getUsersCnt.UsersCnt />
+	</cffunction>
+
+	<cffunction name="getTheatreCnt" access="public" >		
+		<cfquery name="qry.rs_getTheatreCnt">
+			SELECT COUNT(theatre_id) as TheatreCnt FROM mv_movie_theatres
+		</cfquery>				
+		<cfreturn qry.rs_getTheatreCnt.TheatreCnt />
+	</cffunction>
+
+	<cffunction name="getMovieCnt" access="public" >		
+		<cfquery name="qry.rs_getMovieCnt">
+			SELECT COUNT(movie_id) as MovieCnt FROM mv_movies
+		</cfquery>				
+		<cfreturn qry.rs_getMovieCnt.MovieCnt />
+	</cffunction>
+
+	<cffunction name="getBookingCnt" access="public" >		
+		<cfquery name="qry.rs_getBookingCnt">
+			SELECT COUNT(booking_id) as BookingCnt FROM mv_booking
+		</cfquery>				
+		<cfreturn qry.rs_getBookingCnt.BookingCnt />
+	</cffunction>
+
+	<cffunction name="getBookings" access="public" output="false" returntype="query">		
+		<cfquery name="qry.rs_getBooking">
+			SELECT mv_users.user_fullname,mv_show_timing.show_id,booked_on,category_name,booking_status FROM mv_booking JOIN mv_users ON mv_booking.user_id=mv_users.user_id JOIN mv_show_timing ON mv_booking.show_id=mv_show_timing.show_id ORDER BY booking_id DESC
+		</cfquery>		
+		<cfreturn qry.rs_getBooking />
+	</cffunction>
+
+	<cffunction name="updateAdminPwd" access="remote" output="false">
+		<cfset variables.errorMessage= arrayNew(1) />	
+		<cfset variables.admin_oldpwd = form.admin_oldpwd/>
+		<cfset variables.admin_newpwd = form.admin_newpwd/>
+		<cfset variables.admin_cnfpwd = form.admin_cnfpwd/>		
+			
+		<cfif variables.admin_oldpwd EQ ''>
+			<cfset arrayAppend(errorMessage, 'Please Enter old Password')>
+		</cfif>
+		<cfif variables.admin_newpwd EQ ''>
+			<cfset arrayAppend(errorMessage, 'Please Enter new Password')>
+		</cfif>
+		<cfif variables.admin_cnfpwd EQ ''>
+			<cfset arrayAppend(errorMessage, 'Please Enter Confirm Password')>
+		</cfif>
+		<cfif  variables.admin_cnfpwd NOT EQUAL '' AND variables.admin_newpwd NOT EQUAL variables.admin_cnfpwd>
+			<cfset arrayAppend(errorMessage, 'Confirm Password Mismatch')>
+		</cfif>
+		<cfoutput>#hash(variables.admin_oldpwd)#</cfoutput>
+		<cfquery name="qry.checkOldpwd">
+			SELECT admin_name FROM admin WHERE admin_pwd = <cfqueryparam value="#hash(variables.admin_oldpwd)#" cfsqltype="cf_sql_varchar" />
+		</cfquery>
+		<cfif qry.checkOldpwd.recordcount EQ 0>
+			<cfset arrayAppend(errorMessage, 'Old Password Not exists')>
+		</cfif>		
+		<cfif arrayIsEmpty(errorMessage)>
+			<cfset structdelete(session,'ErrmsgForm')>
+			<cfquery name="qry.rs_updateHomePageMovie">
+				UPDATE admin SET 			
+				admin_pwd = <cfqueryparam value="#hash(variables.admin_newpwd)#" cfsqltype="cf_sql_varchar" />
+				WHERE admin_id  = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
+			</cfquery>
+			<cflocation url = "../update-password.cfm?status=success" addtoken="false" />
+		<cfelse>
+			<cfset session.ErrmsgForm = errorMessage />	
+			<cflocation url = "../update-password.cfm" addtoken="false" />					
+		</cfif>
+		<cfreturn variables.errorMessage />						
+	</cffunction>				 
 </cfcomponent>
 
