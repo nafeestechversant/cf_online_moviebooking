@@ -37,7 +37,7 @@
                         <div class="row">
                             <div class="col-xl-12 col-md-12">
                                 <div class="card mb-4">
-                                    <div class="card-body">
+                                    <div class="card-body">                                                                                
                                         <table id="datatablesShows">
                                             <thead>
                                                 <tr>
@@ -58,10 +58,12 @@
                                             <tbody>
                                                 <cfset variables.sno = 1 >
                                                 <cfloop query="#ShowLists#">
+                                                    <cfset  variables.Theatrename="#deserializeJSON(compAdmin.getTheatreById(ShowLists.theatre_id))#">
+                                                    <cfset  variables.Moviname="#deserializeJSON(compAdmin.getMovieById(ShowLists.movie_id))#">                                                                                                        
                                                     <tr>
                                                         <td>#sno#</td>
-                                                        <td>#ShowLists.theatre_id#</td>
-                                                        <td>#ShowLists.movie_id#</td>
+                                                        <td>#Theatrename[1].THEATRE_NAME#</td>
+                                                        <td>#Moviname[1].movie_name#</td>
                                                         <td>#ShowLists.start_date#/#ShowLists.end_date#</td>
                                                         <td>#ShowLists.start_time#/#ShowLists.end_time#</td>
                                                         <td>Rs:#ShowLists.price_gold_full#</td>
