@@ -17,7 +17,7 @@
     <!---onRequestStart() method--->
 	<cffunction name="onRequestStart" returntype="boolean">		
 		<cfargument name="targetPage" type="string" required="true" />			
-		<cfset variables.files = "index.cfm">
+		<cfset variables.files = "index1.cfm">
 		<cfif ListContains(variables.files, GetFileFromPath(CGI.CF_TEMPLATE_PATH)) AND NOT structKeyExists(session,'stLoggedInAdmin')>
 			<cflocation url = "login.cfm" addtoken="false" />
 		</cfif>

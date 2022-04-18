@@ -92,7 +92,9 @@
                     <cfparam name="form.movie_name"  default=""  type="string">
                     <cfparam name="form.movie_youtubelink"  default=""  type="string">
                     <cfparam name="form.movie_rating"  default=""  type="string">
-                    <cfparam name="form.movie_details"  default=""  type="string">   
+                    <cfparam name="form.movie_details"  default=""  type="string"> 
+                    <cfparam name="form.movie_language"  default=""  type="string">
+                    <cfparam name="form.movie_cmngsoon"  default=""  type="string">   
                     <cfparam name="form.hid_movie_poster"  default=""  type="string">
                     <form class="row g-3" id="form_addmovie" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="movie_id" id="movie_id" value="">
@@ -107,11 +109,21 @@
                                 <label for="inputPassword4" class="form-label">Poster</label>
                                 <input class="form-control" type="file" name="movie_poster" id="movie_poster">
                             </div>
+                             <div class="col-md-12">
+                                <label for="inputCity" class="form-label">Youtube Link</label>
+                                <input type="text" class="form-control" name="movie_youtubelink" id="movie_youtubelink">
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="inputCity" class="form-label">Youtube Link</label>
-                                    <input type="text" class="form-control" name="movie_youtubelink" id="movie_youtubelink">
-                                </div>
+                                    <label for="inputCity" class="form-label">Movie Language</label>
+                                    <select class="form-select" name="movie_language" id="movie_language" aria-label="Default select example">
+                                        <option value="">Open this select menu</option>
+                                        <option value="Malayalam">Malayalam</option>
+                                        <option value="Tamil">Tamil</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="English">English</option>                                        
+                                    </select>
+                                </div>                               
                                 <div class="col-md-6">
                                     <label for="inputCity" class="form-label">Movie Ratings</label>
                                     <select class="form-select" name="movie_rating" id="movie_rating" aria-label="Default select example">
@@ -127,7 +139,11 @@
                             <div class="col-md-12">
                                 <label for="inputPassword4" class="form-label">Movie Details</label>
                                 <textarea class="form-control" name="movie_details" id="movie_details" rows="3"></textarea>
-                            </div>                             
+                            </div> 
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Coming Soon</label>
+                                <input type="checkbox" id="movie_cmngsoon" name="movie_cmngsoon" value="1">
+                            </div>                            
                             <div class="col-md-6">
                                 <img class="" id="show-mov-img" src="">
                             </div>                           
