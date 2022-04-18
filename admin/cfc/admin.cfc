@@ -91,6 +91,8 @@
 		<cfset variables.movie_youtubelink = form.movie_youtubelink/>
 		<cfset variables.movie_rating = form.movie_rating/>
 		<cfset variables.movie_details = form.movie_details/>
+		<cfset variables.movie_language = form.movie_language/>
+		<cfset variables.movie_cmngsoon = form.movie_cmngsoon/>
 		<cfset variables.movie_id = form.movie_id/>
 		<cfset variables.hid_movie_poster = form.hid_movie_poster/>
 
@@ -110,13 +112,15 @@
 		<cfif arrayIsEmpty(errorMessage) AND variables.movie_id EQ ''>
 			<cfset arrayAppend(errorMessage, 'success')>
 			<cfquery name="tableElements" result="r">
-				INSERT INTO mv_movies (movie_name,movie_poster,movie_youtubelink,movie_rating,movie_details,created_by)
+				INSERT INTO mv_movies (movie_name,movie_poster,movie_youtubelink,movie_rating,movie_details,movie_lang,coming_soon,created_by)
 				VALUES (
 						<cfqueryparam value="#variables.movie_name#" cfsqltype="cf_sql_varchar" />,
 						<cfqueryparam value="#variables.movie_poster#" cfsqltype="cf_sql_varchar" />,
 						<cfqueryparam value="#variables.movie_youtubelink#" cfsqltype="cf_sql_varchar" />,
 						<cfqueryparam value="#variables.movie_rating#" cfsqltype="cf_sql_varchar" />,
 						<cfqueryparam value="#variables.movie_details#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.movie_language#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.movie_cmngsoon#" cfsqltype="cf_sql_integer" />,
 						<cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
 					)
 			</cfquery>												
@@ -129,7 +133,9 @@
 				movie_poster = <cfqueryparam value="#variables.movie_poster#" cfsqltype="cf_sql_varchar" />,
 				movie_youtubelink = <cfqueryparam value="#variables.movie_youtubelink#" cfsqltype="cf_sql_varchar" />,
 				movie_rating = <cfqueryparam value="#variables.movie_rating#" cfsqltype="cf_sql_integer" />,
-				movie_details = <cfqueryparam value="#variables.movie_details#" cfsqltype="cf_sql_varchar" />
+				movie_details = <cfqueryparam value="#variables.movie_details#" cfsqltype="cf_sql_varchar" />,
+				movie_language = <cfqueryparam value="#variables.movie_language#" cfsqltype="cf_sql_varchar" />,
+				movie_cmngsoon = <cfqueryparam value="#variables.movie_cmngsoon#" cfsqltype="cf_sql_integer" />
 				WHERE movie_id = #variables.movie_id# AND created_by = #session.stLoggedInAdmin.adminID#			
 			</cfquery>						
 		</cfif>
@@ -146,7 +152,7 @@
 	<cffunction name="getMovieById" access="remote" output="false" returntype="any" returnformat="JSON">
 		<cfargument name="movie_id" required="yes">		
 		<cfquery name="qry.rs_getMovieById">
-			SELECT movie_id,movie_name,movie_poster,movie_youtubelink,movie_rating,movie_details FROM mv_movies  WHERE movie_id = <cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
+			SELECT movie_id,movie_name,movie_poster,movie_youtubelink,movie_rating,movie_details,movie_lang,coming_soon FROM mv_movies  WHERE movie_id = <cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
 		</cfquery>			
 		<cfreturn serializeJSON(qry.rs_getMovieById,"struct") />
 	</cffunction>

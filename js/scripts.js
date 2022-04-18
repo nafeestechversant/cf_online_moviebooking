@@ -189,9 +189,14 @@ $(document).ready(function() {
                 $('#hid_movie_poster').val(data[0].MOVIE_POSTER);
                 $('#movie_youtubelink').val(data[0].MOVIE_YOUTUBELINK);
                 $('#movie_rating').val(data[0].MOVIE_RATING);
+                $('#movie_language').val(data[0].MOVIE_LANG);
                 $('#movie_details').val(data[0].MOVIE_DETAILS);
-
                 $('#movie_id').val(movie_id);
+                if (data[0].COMING_SOON == '1') {
+                    $('#movie_cmngsoon').prop('checked', true);
+                } else {
+                    $('#movie_cmngsoon').prop('checked', false);
+                }
                 if (data[0].MOVIE_POSTER != '') {
                     $('#show-mov-img').attr('src', 'uploads/Movie/' + data[0].MOVIE_POSTER);
                 }
