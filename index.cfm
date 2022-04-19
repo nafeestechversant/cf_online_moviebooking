@@ -76,12 +76,12 @@
                             <div class="col-md-3 col-sm-3 col-xs-12">
                                 <div class="single-team-member">
                                     <div class="team-img">
-                                        <a href="##">
+                                        <a href="movie-details.cfm?movie=#MoviesLists.movie_id#">
                                             <img class="img-fluid" src="admin/uploads/Movie/#MoviesLists.movie_poster#" alt="" width= "100%">
                                         </a>
                                     </div>
                                     <div class="team-content text-center">
-                                        <h4>#MoviesLists.movie_name#</h4>
+                                        <h4><a href="movie-details.cfm?movie=#MoviesLists.movie_id#">#MoviesLists.movie_name#</a></h4>
                                         <p>#MoviesLists.movie_lang#</p>
                                         <a href="##about" class="btn-get-started">Book Tickets</a>
                                     </div>
@@ -108,7 +108,7 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="single-blog">
                                     <div class="single-blog-img">
-                                        <a href="blog.html">
+                                        <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#">
                                             <img src="admin/uploads/Movie/#ComingSoonMovies.movie_poster#" alt="">
                                         </a>
                                     </div>
@@ -123,11 +123,11 @@
                                     </div>
                                     <div class="blog-text">
                                         <h4>
-                                            <a href="blog.html">#ComingSoonMovies.movie_name#</a>
+                                            <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#">#ComingSoonMovies.movie_name#</a>
                                         </h4>
                                     </div>
                                     <span>
-                                        <a href="blog.html" class="ready-btn">More Info</a>
+                                        <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#" class="ready-btn">More Info</a>
                                     </span>
                                 </div>
                             </div> 

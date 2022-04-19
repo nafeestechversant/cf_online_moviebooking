@@ -5,14 +5,14 @@
         </div>
         <nav id="navbar" class="navbar">
             <ul class="adj-menubar">
-                <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                <li><a class="nav-link scrollto" href="index.cfm">Home</a></li>
 
-                <li class="dropdown"><a href="#"><span>Movies</span> <i class="bi bi-chevron-down"></i></a>
+                <li class="dropdown"><a href="movies.cfm"><span>Movies</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li><a href="#">Drop Down 1</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#"><span>Theatres</span> <i class="bi bi-chevron-down"></i></a>
+                <li class="dropdown"><a href="theatres.cfm"><span>Theatres</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li><a href="#">Drop Down 1</a></li>
                     </ul>

@@ -1692,7 +1692,7 @@ div#preloader {
 
 .blog-meta {
     border-bottom: 1px dotted #fff;
-    padding: 10px 0;
+    padding: 10px 10px;
 }
 
 .comments-type>a,
@@ -1835,7 +1835,7 @@ div#preloader {
     display: inline-block;
     float: left;
     padding: 0 5px;
-    width: 35%;
+    width: 10%;
 }
 
 .pst-content {
@@ -1851,6 +1851,11 @@ div#preloader {
 
 .blog-page .single-blog {
     margin-bottom: 40px;
+    border: 1px solid;
+}
+
+.blog-page .single-blog .blog-text {
+    padding: 10px;
 }
 
 .pst-content p a {
@@ -1902,17 +1907,17 @@ div#preloader {
 --------------------------------------------------------------*/
 
 .post-information h2 {
-    color: #363636;
+    color: #fff;
     font-size: 22px;
     text-transform: uppercase;
 }
 
 .post-information {
-    padding: 20px 0;
+    /* padding: 20px 0; */
 }
 
 .post-information .entry-meta span a {
-    color: #444;
+    color: #fff;
     display: inline-block;
     padding: 10px 0;
 }
@@ -1931,11 +1936,11 @@ div#preloader {
 }
 
 .entry-content>p {
-    color: #444;
+    color: #fff;
 }
 
 .entry-meta>span {
-    color: #444;
+    color: #fff;
 }
 
 .entry-content blockquote {
@@ -2298,9 +2303,17 @@ span.email-notes {
     text-align: center;
 }
 
+.all-center {
+    text-align: center;
+}
+
 .adj-menubar {
     position: relative;
     margin-left: -60% !important;
+}
+
+.movie-listbanner {
+    height: 60vh !important;
 }
 
 .login-menu {
