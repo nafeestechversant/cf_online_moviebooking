@@ -1927,7 +1927,7 @@ div#preloader {
 }
 
 .post-information .entry-meta {
-    border-bottom: 1px solid #ccc;
+    /* border-bottom: 1px solid #ccc; */
     margin: 20px 0;
 }
 
@@ -2335,6 +2335,66 @@ span.email-notes {
     margin: 10px;
     color: #fff;
     background: #E72C30;
+}
+
+.team-content h4 a {
+    color: #444;
+}
+
+.post-information p {
+    color: #fff;
+    margin-bottom: 0px;
+}
+
+.bi-star-fill::before {
+    color: orange;
+}
+
+.single-blog {
+    border: 1px solid #ddd;
+}
+
+.blog-text {
+    text-align: center;
+}
+
+.blog-morebtn {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.no-arrow a {
+    padding-left: 10px;
+}
+
+.bi-box-arrow-in-right::before {
+    font-size: 18px;
+}
+
+.bi-person::before {
+    font-size: 18px;
+}
+
+.login-span {
+    padding-left: 5px;
+}
+
+.cus-modal-title {
+    margin-left: 30%;
+}
+
+.cus-modal-login {
+    margin-left: 40%;
+}
+
+.cus-modal-header {
+    border-bottom: none;
+}
+
+.cus-modal-footer {
+    text-align: center;
+    display: block;
+    border-top: none;
 }
 
 

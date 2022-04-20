@@ -14,5 +14,79 @@
     </div>
 </footer>
 <!-- End  Footer -->
+<!-- SignUp Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header cus-modal-header">
+                <h5 class="modal-title cus-modal-title" id="exampleModalLabel">Create an Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <cfparam name="form.fld_userName"  default=""  type="string">
+            <cfparam name="form.fld_userEmail"  default=""  type="string"> 
+            <cfparam name="form.fld_userMobile"  default=""  type="string">
+            <cfparam name="form.fld_userPwd"  default=""  type="string">
+            <cfparam name="form.fld_userCnfPwd"  default=""  type="string">            
+            <form class="row g-3" id="form_addUser" method="post">              
+                <div class="modal-body">
+                    <div  class="red" id="valid-err"></div>
+                    <div class="col-md-12">
+                        <label for="inputEmail4" class="form-label">Full Name</label>
+                        <input type="text" name="fld_userName" id="fld_userName" class="form-control" id="inputEmail4">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputPassword4" class="form-label">Email Address</label>
+                        <input class="form-control" name="fld_userEmail" id="fld_userEmail" type="email" id="formFile">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputPassword4" class="form-label">Mobile</label>
+                        <input class="form-control" name="fld_userMobile" id="fld_userMobile" type="text" id="formFile">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputPassword4" class="form-label">Password</label>
+                        <input class="form-control" name="fld_userPwd" id="fld_userPwd" type="password" id="formFile">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputPassword4" class="form-label">Confirm Password</label>
+                        <input class="form-control" name="fld_userCnfPwd" id="fld_userCnfPwd" type="password" id="formFile">
+                    </div>                                           
+                </div>
+                <div class="modal-footer cus-modal-footer">                    
+                    <input type="submit" class="btn-get-started" value ="Create Account">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header cus-modal-header">
+                <h5 class="modal-title cus-modal-login" id="exampleModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <cfparam name="form.fld_userEmail"  default=""  type="string">
+            <cfparam name="form.fld_userPwd"  default=""  type="string">            
+            <form class="row g-3" id="form_login" method="post" >              
+                <div class="modal-body">
+                    <div  class="red" id="valid-err"></div>                 
+                    <div class="col-md-12">
+                        <label for="inputPassword4" class="form-label">Email Address</label>
+                        <input class="form-control" name="fld_userEmail" id="fld_userEmail" type="email" id="formFile">
+                    </div>             
+                    <div class="col-md-12">
+                        <label for="inputPassword4" class="form-label">Password</label>
+                        <input class="form-control" name="fld_userPwd" id="fld_userPwd" type="password" id="formFile">
+                    </div>                                                            
+                </div>
+                <div class="modal-footer cus-modal-footer">                    
+                    <input type="submit" class="btn-get-started" value ="Create Account">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div id="preloader"></div>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

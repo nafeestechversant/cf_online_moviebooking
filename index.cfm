@@ -126,9 +126,9 @@
                                             <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#">#ComingSoonMovies.movie_name#</a>
                                         </h4>
                                     </div>
-                                    <span>
+                                    <div class="blog-morebtn">
                                         <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#" class="ready-btn">More Info</a>
-                                    </span>
+                                    </div>
                                 </div>
                             </div> 
                             </cfloop>                                                
@@ -139,7 +139,11 @@
         </main>
         <cfinclude template="footer.cfm">
     </cfoutput>
+    <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+       
+    </script>
 </body>
 </html>

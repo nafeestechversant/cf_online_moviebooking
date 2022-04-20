@@ -1,9 +1,3 @@
-/**
- * Template Name: eBusiness - v4.7.0
- * Template URL: https://bootstrapmade.com/ebusiness-bootstrap-corporate-template/
- * Author: BootstrapMade.com
- * License: https://bootstrapmade.com/license/
- */
 (function() {
     "use strict";
 
@@ -189,9 +183,31 @@
         showCarouselIndicators.innerHTML += "<li data-bs-target='#ShownowCarousel' data-bs-slide-to='" + index + "' class='active'></li>":
             showCarouselIndicators.innerHTML += "<li data-bs-target='#ShownowCarousel' data-bs-slide-to='" + index + "'></li>"
     });
-
-
-
-
-
 })()
+
+$(document).on("submit", "#form_addUser", function(event) {
+    alert("ffffff");
+    event.preventDefault();
+    $.ajax({
+        url: "cfc/user.cfc?method=addUser&returnformat=json",
+        type: "POST",
+        dataType: 'json',
+        data: new FormData(this),
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            if (response[1] == "error") {
+                $("#valid-err").append("<p>" + response[0] + "</p>");
+                //$("#valid-err").append("<p>" + response[1] + "</p>");
+            } else {
+                $('#exampleModal').modal('hide');
+                //location.reload();
+            }
+
+        },
+        error: function(xhr, desc, err) {
+
+        }
+    });
+
+});
