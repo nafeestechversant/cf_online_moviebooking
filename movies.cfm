@@ -12,6 +12,7 @@
 
     <link href="css/frontend/animate.min.css" rel="stylesheet">
     <link href="css/frontend/bootstrap.min.css" rel="stylesheet">
+    <link href="css/frontend/bootstrap-icons.css" rel="stylesheet">
     <link href="css/frontend/boxicons.min.css" rel="stylesheet">
     <link href="css/frontend/style.css" rel="stylesheet">
 </head>

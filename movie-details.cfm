@@ -4,10 +4,12 @@
         <cfset variables.movie_id = URL.movie/>
         <cfinvoke component="#MovieList#" method="getMoviesById" returnvariable="MoviesById">
             <cfinvokeargument  name="movie_id" value="#variables.movie_id#" />
-        </cfinvoke>
-        <cfdump  var="#MoviesById#">
+        </cfinvoke> 
+        <cfinvoke component="#MovieList#" method="getTheatreShow" returnvariable="TheatreShow">
+            <cfinvokeargument  name="movie_id" value="#variables.movie_id#" />
+        </cfinvoke>         
     </cfif>
-</cfif> 
+</cfif>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +19,7 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
     <link href="css/frontend/bootstrap.min.css" rel="stylesheet">
-    <link href="css/frontend/boxicons.min.css" rel="stylesheet">
+    <link href="css/frontend/bootstrap-icons.css" rel="stylesheet">    
     <link href="css/frontend/style.css" rel="stylesheet">
 </head>
 <body>
@@ -29,32 +31,29 @@
                     <div class="row">
                         <div class="col-lg-5 col-md-5">
                             <div class="post-thumbnail">
-                                <img src="assets/img/blog/6.jpg" alt="" />
+                                <img src="admin/uploads/Movie/#MoviesById.movie_poster#" alt="" />
                             </div>
                         </div>
                         <div class="col-md-7 col-sm-7 col-xs-12">                        
                             <article class="blog-post-wrapper">
                                 <div class="post-information">
-                                    <h2>Blog image post layout</h2>
+                                    <h2>#MoviesById.movie_name#</h2>
+                                    <p>#MoviesById.movie_lang#</p>
                                     <div class="entry-meta">
-                                        <span class="author-meta"><i class="bi bi-person"></i> <a href="##">admin</a></span>
-                                        <span><i class="bi bi-clock"></i> march 28, 2016</span>
-                                        <span class="tag-meta">
-                                            <i class="bi bi-folder"></i>
-                                            <a href="##">painting</a>,
-                                            <a href="##">work</a>
-                                        </span>
-                                        <span>
-                                            <i class="bi bi-tags"></i>
-                                            <a href="##">tools</a>,
-                                            <a href="##"> Humer</a>,
-                                            <a href="##">House</a>
-                                        </span>
-                                        <span><i class="bi bi-chat"></i> <a href="##">6 comments</a></span>
+                                        <cfif MoviesById.movie_rating EQ 1>
+                                            <span><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></span>
+                                        <cfelseif MoviesById.movie_rating EQ 2> 
+                                            <span><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></span>
+                                        <cfelseif MoviesById.movie_rating EQ 3> 
+                                            <span><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></span>                                                                                                                        
+                                        <cfelseif MoviesById.movie_rating EQ 4> 
+                                            <span><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span>                                                                                                                        
+                                        <cfelseif MoviesById.movie_rating EQ 5> 
+                                            <span><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>                                                                                                                        
+                                        </cfif>                                                                                                                                                   
                                     </div>
                                     <div class="entry-content">
-                                        <p>Aliquam et metus pharetra, bibendum massa nec, fermentum odio. Nunc id leo ultrices, mollis ligula in, finibus tortor. Mauris eu dui ut lectus fermentum eleifend. Pellentesque faucibus sem ante, non malesuada odio varius
-                                            nec. Suspendisse potenti. Proin consectetur aliquam odio nec fringilla. Sed interdum at justo in efficitur. Vivamus gravida volutpat sodales. Fusce ornare sit amet ligula condimentum sagittis.</p>
+                                        <p>#MoviesById.movie_details#</p>
                                     </div>
                                 </div>
                             </article>
@@ -72,18 +71,24 @@
                                     <div class="single-blog-page">                                    
                                         <div class="left-blog">
                                             <h4>Theatre</h4>
-                                            <div class="recent-post">                                           
-                                                <div class="recent-single-post">
-                                                    <div class="post-img">
-                                                        <a href="##">
-                                                            <img src="assets/img/blog/1.jpg" alt="">
-                                                        </a>
+                                            <cfif TheatreShow.recordcount NEQ 0>
+                                                <cfloop query="#TheatreShow#">
+                                                    <div class="recent-post">                                           
+                                                        <div class="recent-single-post">
+                                                            <div class="post-img">
+                                                                <a href="##">
+                                                                    <img src="admin/uploads/MovieTheatres/#TheatreShow.theatre_image#" alt="">
+                                                                </a>
+                                                            </div>
+                                                            <div class="pst-content">
+                                                                <p><a href="##"> #TheatreShow.theatre_name#</a></p>
+                                                            </div>
+                                                        </div>                                                                                                                               
                                                     </div>
-                                                    <div class="pst-content">
-                                                        <p><a href="##"> Redug Lerse dolor sit amet consect adipis elit.</a></p>
-                                                    </div>
-                                                </div>                                                                                                                               
-                                            </div>
+                                                </cfloop>
+                                            <cfelse>
+                                                This Movie not showing any theatre
+                                            </cfif>                                            
                                         </div>                                    
                                     </div>
                                     <div class="clear"></div>
@@ -92,10 +97,10 @@
                         </div>
                     </div>
                 </div>
-            </div>        
+            </div>    
             <div class="holder">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/SMVjfP8rGQk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <div class="overlay trigger" src="https://www.youtube.com/embed/SMVjfP8rGQk" data-target="##videoModal" data-toggle="modal"></div>
+                <iframe width="560" height="315" src="#MoviesById.movie_youtubelink#" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="overlay trigger" src="#MoviesById.movie_youtubelink#" data-target="##videoModal" data-toggle="modal"></div>
             </div>
 
             <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModal" aria-hidden="true">

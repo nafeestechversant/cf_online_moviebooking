@@ -6,7 +6,6 @@
         <nav id="navbar" class="navbar">
             <ul class="adj-menubar">
                 <li><a class="nav-link scrollto" href="index.cfm">Home</a></li>
-
                 <li class="dropdown"><a href="movies.cfm"><span>Movies</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li><a href="#">Drop Down 1</a></li>
@@ -19,19 +18,17 @@
                 </li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
-            <ul class="login-menu">
-                <!-- Nav Item - Alerts -->
-                <li class="">
-                    <a class="" href="register.cfm" id="">
-
-                        <span class="">Sign Up</span>
+            <ul class="login-menu">               
+                <li class="">                 
+                    <a class="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="bi bi-person"></i>
+                        <span class="login-span">Sign Up</span>
                     </a>
-                </li>
-                <!-- Nav Item - User Information -->
+                </li>               
                 <li class="nav-item dropdown no-arrow">
-                    <a class="" href="login.cfm" id="">
-                        <i class="fas fa-fw fa-sign-in-alt"></i>
-                        <span class="">Login</span>
+                    <a class="" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span class="login-span">Login</span>
                     </a>
                 </li>
             </ul>
