@@ -186,7 +186,6 @@
 })()
 
 $(document).on("submit", "#form_addUser", function(event) {
-    alert("ffffff");
     event.preventDefault();
     $.ajax({
         url: "cfc/user.cfc?method=addUser&returnformat=json",
@@ -196,12 +195,36 @@ $(document).on("submit", "#form_addUser", function(event) {
         processData: false,
         contentType: false,
         success: function(response) {
-            if (response[1] == "error") {
-                $("#valid-err").append("<p>" + response[0] + "</p>");
-                //$("#valid-err").append("<p>" + response[1] + "</p>");
+            if (response.length != 0) {
+                $("#valid-err").empty();
+                for (i = 0; i < response.length; ++i) {
+                    $("#valid-err").append("<p class='red'>" + response[i] + "</p>");
+                }
             } else {
                 $('#exampleModal').modal('hide');
-                //location.reload();
+                location.reload();
+            }
+
+        },
+        error: function(xhr, desc, err) {
+
+        }
+    });
+
+});
+
+$(document).on("submit", "#form_login", function(event) {
+    event.preventDefault();
+    $.ajax({
+        url: "cfc/user.cfc?method=checkUserLogin&returnformat=json",
+        type: "POST",
+        dataType: 'json',
+        data: new FormData(this),
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            if (response == 1) {
+                location.reload();
             }
 
         },

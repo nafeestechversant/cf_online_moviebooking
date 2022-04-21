@@ -1,3 +1,4 @@
+<cfoutput>
 <footer>
     <div class="footer-area-bottom">
         <div class="container">
@@ -29,7 +30,7 @@
             <cfparam name="form.fld_userCnfPwd"  default=""  type="string">            
             <form class="row g-3" id="form_addUser" method="post">              
                 <div class="modal-body">
-                    <div  class="red" id="valid-err"></div>
+                    <div id="valid-err"></div>
                     <div class="col-md-12">
                         <label for="inputEmail4" class="form-label">Full Name</label>
                         <input type="text" name="fld_userName" id="fld_userName" class="form-control" id="inputEmail4">
@@ -71,7 +72,9 @@
             <cfparam name="form.fld_userPwd"  default=""  type="string">            
             <form class="row g-3" id="form_login" method="post" >              
                 <div class="modal-body">
-                    <div  class="red" id="valid-err"></div>                 
+                    <cfif isDefined('session.Errmsg') AND session.Errmsg NEQ "">
+                        <p  class="red">#session.Errmsg#</p>                                         
+                    </cfif>                 
                     <div class="col-md-12">
                         <label for="inputPassword4" class="form-label">Email Address</label>
                         <input class="form-control" name="fld_userEmail" id="fld_userEmail" type="email" id="formFile">
@@ -88,5 +91,6 @@
         </div>
     </div>
 </div>
+</cfoutput>
 <div id="preloader"></div>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
