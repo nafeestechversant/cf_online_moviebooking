@@ -28,6 +28,21 @@
 		<cfreturn qry.rs_getMoviesById />
 	</cffunction>
 
+	<cffunction name="getTheatres" access="public" output="false" returntype="query">		
+		<cfquery name="qry.rs_getTheatres">
+			SELECT theatre_id,theatre_name,theatre_image FROM mv_movie_theatres ORDER BY theatre_id DESC
+		</cfquery>		
+		<cfreturn qry.rs_getTheatres />
+	</cffunction>
+
+	<cffunction name="getTheatreById" access="public" output="false" returntype="query">	
+		<cfargument name="theatre_id" type="integer" required="true" />	
+		<cfquery name="qry.rs_getTheatreById">
+			SELECT theatre_name FROM mv_movie_theatres WHERE theatre_id = <cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" />
+		</cfquery>		
+		<cfreturn qry.rs_getTheatreById />
+	</cffunction>
+
 	<cffunction name="getTheatreShow" access="public" output="false" returntype="query">	
 		<cfargument name="movie_id" type="integer" required="true" />	
 		<cfquery name="qry.rs_getTheatreShow">
@@ -68,20 +83,21 @@
 			<cfset arrayAppend(errorMessage, 'Email Already exists')>
 		</cfif>			
 		<cfif NOT arrayIsEmpty(errorMessage)>
-			<cfset arrayAppend(errorMessage, 'error')>
+			
 		</cfif>
 				
-		<cfif arrayIsEmpty(errorMessage)>
-			<cfset arrayAppend(errorMessage, 'success')>
-			<cfquery name="tableElements" result="r">
+		<cfif arrayIsEmpty(errorMessage)>			
+			<cfquery name="tableElements" result="result">
 				INSERT INTO mv_users (user_fullname,user_phone,user_email,user_pwd)
 				VALUES (
 						<cfqueryparam value="#variables.fld_userName#" cfsqltype="cf_sql_varchar" />,
-						<cfqueryparam value="#variables.fld_userEmail#" cfsqltype="cf_sql_varchar" />,
 						<cfqueryparam value="#variables.fld_userMobile#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.fld_userEmail#" cfsqltype="cf_sql_varchar" />,						
 						<cfqueryparam value="#hash(variables.fld_userPwd,'SHA')#" cfsqltype="cf_sql_varchar" />																					
 					)
-			</cfquery>													
+			</cfquery>
+			<cfset variables.lastInsertId = result.generatedkey>
+			<cfset session.stLoggedInUser = {'userFullName' = variables.fld_userName, 'userID' = variables.lastInsertId} > 													
 		</cfif>		
  		<cfreturn variables.errorMessage />
 	</cffunction>
@@ -92,25 +108,82 @@
 		<cfset variables.fld_userPwd = form.fld_userPwd/>		
 		<cfif variables.fld_userEmail EQ ''>
 			<cfset session.Errmsg = 'Please Enter Email' />
-			<cflocation url = "../login.cfm" addtoken="false" />			
+			<cflocation url = "../index.cfm" addtoken="false" />			
 		</cfif>
 		<cfif variables.fld_userPwd EQ ''>
 			<cfset session.Errmsg = 'Please Enter Password' />
-			<cflocation url = "../login.cfm" addtoken="false" />				
+			<cflocation url = "../index.cfm" addtoken="false" />				
 		</cfif>
 		<cfif arrayIsEmpty(errorMessage)>
 			<cfquery name="qry.checkLogin">
 				SELECT * FROM mv_users 
-					WHERE user_email = <cfqueryparam value="#variables.fld_userEmail#" cfsqltype="cf_sql_varchar" /> AND user_pwd = <cfqueryparam value="#hash(variables.fld_userPwd)#" cfsqltype="cf_sql_varchar" />
+					WHERE user_email = <cfqueryparam value="#variables.fld_userEmail#" cfsqltype="cf_sql_varchar" /> AND user_pwd = <cfqueryparam value="#hash(variables.fld_userPwd,'SHA')#" cfsqltype="cf_sql_varchar" />
 			</cfquery>
 			<cfif qry.checkLogin.recordcount EQ 1>
 				<cfset session.stLoggedInUser = {'userFullName' = qry.checkLogin.user_fullname, 'userID' = qry.checkLogin.user_id} > 
-				<cfset structdelete(session,'Errmsg')>
-				<cflocation url = "../index.cfm" addtoken="false" />
+				<cfset structdelete(session,'Errmsg')>				
 			<cfelse>				
 				<cfset session.Errmsg = 'Invalid User Login' />			
 				<cflocation url = "../index.cfm" addtoken="false" />
 			</cfif>
-		</cfif>				
+		</cfif>	
+		<cfreturn qry.checkLogin.recordcount />		
 	</cffunction>
+
+	<cffunction name="getUsrBookHis" access="public" output="false" returntype="query">			
+		<cfquery name="qry.rs_getUsrBookHis">
+			SELECT mb.booked_on,ms.theatre_id,ms.movie_id,mb.show_id,ms.start_time FROM mv_booking mb JOIN mv_show_timing ms ON mb.show_id=ms.show_id WHERE  mb.user_id= <cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="cf_sql_integer" /> ORDER BY mb.created_time DESC
+		</cfquery>		
+		<cfreturn qry.rs_getUsrBookHis />
+	</cffunction>
+
+	<cffunction name="getUsrById" access="public" output="false" returntype="query">				
+		<cfquery name="qry.rs_getUsrById">
+			SELECT user_fullname,user_phone,user_email,user_address FROM mv_users WHERE user_id = <cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="cf_sql_integer" />
+		</cfquery>		
+		<cfreturn qry.rs_getUsrById />
+	</cffunction>
+
+	<cffunction name="editUser" access="remote" output="false">
+		<cfset variables.errorMessage= arrayNew(1) />
+		<cfset variables.fld_userName = form.fld_userName/>
+		<cfset variables.fld_userEmail = form.fld_userEmail/>
+		<cfset variables.fld_userMobile = form.fld_userMobile/>	
+		<cfset variables.fld_userPwd = form.fld_userPwd/>
+		<cfset variables.fld_userAddr = form.fld_userAddr/>
+		<cfset variables.fld_userCnfPwd = form.fld_userCnfPwd/>	
+		<cfif trim(variables.fld_userName) EQ ''>
+			<cfset arrayAppend(errorMessage, 'Please Enter Full Name')>
+		</cfif>	
+		<cfif trim(variables.fld_userEmail) EQ '' OR NOT isValid("eMail", variables.fld_userEmail)>
+			<cfset arrayAppend(errorMessage, 'Please Enter valid Email')>
+		</cfif>	
+		<cfif trim(variables.fld_userMobile) EQ ''>
+			<cfset arrayAppend(errorMessage, 'Please Enter Mobile')>
+		</cfif>		
+		<cfif  variables.fld_userCnfPwd NOT EQUAL '' AND variables.fld_userPwd NOT EQUAL variables.fld_userCnfPwd>
+			<cfset arrayAppend(errorMessage, 'Confirm Password Mismatch')>
+		</cfif>	
+		<cfquery name="qry.checkEmail">
+			SELECT user_email FROM mv_users WHERE user_email = <cfqueryparam value="#variables.fld_userEmail#" cfsqltype="cf_sql_varchar" />
+		</cfquery>
+				
+		<cfif NOT arrayIsEmpty(errorMessage)>
+			
+		</cfif>
+				
+		<cfif arrayIsEmpty(errorMessage)>			
+			<cfquery name="tableElements" result="result">
+				UPDATE mv_users SET 			
+				user_fullname = <cfqueryparam value="#variables.fld_userName#" cfsqltype="cf_sql_varchar" />,				
+				user_phone = <cfqueryparam value="#variables.fld_userMobile#" cfsqltype="cf_sql_varchar" />,
+				user_email = <cfqueryparam value="#variables.fld_userEmail#" cfsqltype="cf_sql_varchar" />,				
+				user_address = <cfqueryparam value="#variables.fld_userAddr#" cfsqltype="cf_sql_varchar" />				
+				WHERE user_id = #session.stLoggedInUser.userID#
+			</cfquery>	
+			<cflocation url = "../edit-profile.cfm" addtoken="false" />		
+		</cfif>		
+ 		<cfreturn variables.errorMessage />
+	</cffunction>
+
 </cfcomponent>

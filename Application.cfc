@@ -23,6 +23,9 @@
 		</cfif>
 		<cfif structKeyExists(URL,'logout')>
 			<cfset structdelete(session,'stLoggedInAdmin') />			
+		</cfif>
+		<cfif structKeyExists(URL,'Usrlogout')>
+			<cfset structdelete(session,'stLoggedInUser') />			
 		</cfif>			
 		<cfreturn true />
 	</cffunction>	 	
