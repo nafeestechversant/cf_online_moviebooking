@@ -1593,6 +1593,7 @@ div#preloader {
 .blog-meta {
     border-bottom: 1px dotted #fff;
     padding: 10px 10px;
+    text-align: center;
 }
 
 .comments-type>a,
@@ -1672,12 +1673,13 @@ div#preloader {
 }
 
 .left-blog h4 {
-    border-bottom: 1px solid #ddd;
+    /* border-bottom: 1px solid #ddd; */
     color: #444;
     font-size: 17px;
     font-weight: 500;
     margin-bottom: 0;
     padding: 15px 10px;
+    text-align: center;
     text-transform: uppercase;
 }
 
@@ -1741,7 +1743,18 @@ div#preloader {
 .pst-content {
     display: inline-block;
     float: left;
-    width: 65%;
+    width: 20%;
+}
+
+.pst-shwtime {
+    display: inline-block;
+    width: 50%;
+}
+
+.pst-shwtime li {
+    float: right;
+    margin-right: 35px;
+    border-bottom: none;
 }
 
 .pst-content p a:hover,
@@ -1761,6 +1774,7 @@ div#preloader {
 .pst-content p a {
     color: #444;
     font-size: 15px;
+    font-weight: bold;
 }
 
 .header-bottom h1,
@@ -1832,7 +1846,7 @@ div#preloader {
 }
 
 .post-information .entry-meta span i {
-    padding: 0 10px;
+    padding-right: 5px;
 }
 
 .entry-content>p {

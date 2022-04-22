@@ -234,3 +234,20 @@ $(document).on("submit", "#form_login", function(event) {
     });
 
 });
+
+$(".filterbyDate").click(function() {
+    var currDate = $(this).attr('data-currdate');
+    var movieId = $(this).attr('data-movieId');
+
+    $.ajax({
+        url: "cfc/user.cfc?method=filterTheatre",
+        type: "POST",
+        data: { currDate: currDate, movieId: movieId },
+        cache: false,
+        success: function(html) {
+            console.log(html);
+            //$("#results").append(html);
+        }
+    });
+
+});

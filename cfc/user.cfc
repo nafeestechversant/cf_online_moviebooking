@@ -15,7 +15,7 @@
 
 	<cffunction name="getMovies" access="public" output="false" returntype="query">		
 		<cfquery name="qry.rs_getMovies">
-			SELECT movie_id,movie_name,movie_poster,movie_lang FROM mv_movies ORDER BY movie_id DESC
+			SELECT movie_id,movie_name,movie_poster,movie_lang,movie_rating FROM mv_movies ORDER BY movie_id DESC
 		</cfquery>		
 		<cfreturn qry.rs_getMovies />
 	</cffunction>
@@ -38,7 +38,7 @@
 	<cffunction name="getTheatreById" access="public" output="false" returntype="query">	
 		<cfargument name="theatre_id" type="integer" required="true" />	
 		<cfquery name="qry.rs_getTheatreById">
-			SELECT theatre_name FROM mv_movie_theatres WHERE theatre_id = <cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" />
+			SELECT theatre_name,theatre_image FROM mv_movie_theatres WHERE theatre_id = <cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" />
 		</cfquery>		
 		<cfreturn qry.rs_getTheatreById />
 	</cffunction>
@@ -49,6 +49,32 @@
 			SELECT tr.theatre_id,tr.theatre_name,tr.theatre_image,st.show_id FROM mv_show_timing st JOIN mv_movie_theatres tr ON st.theatre_id=tr.theatre_id WHERE  st.movie_id= <cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" />
 		</cfquery>		
 		<cfreturn qry.rs_getTheatreShow />
+	</cffunction>
+
+	<cffunction name="getTheatresByDate" access="public" output="false" returntype="query">	
+		<cfargument name="movie_id" type="integer" required="true" />
+		<cfargument name="curr_date" type="string" required="true" />	
+		<cfquery name="qry.rs_getTheatresByDate">
+			SELECT DISTINCT `theatre_id` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.curr_date#" cfsqltype="cf_sql_date" />;
+		</cfquery>		
+		<cfreturn qry.rs_getTheatresByDate />
+	</cffunction>
+
+	<cffunction name="getTheatreShowTime" access="public" output="false" returntype="query">	
+		<cfargument name="theatre_id" type="integer" required="true" />	
+		<cfargument name="curr_date" type="string" required="true" />	
+		<cfquery name="qry.rs_getTheatresShowTime">
+			SELECT show_id,start_time FROM mv_show_timing WHERE theatre_id=<cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.curr_date#" cfsqltype="cf_sql_date" /> ORDER BY start_time DESC;
+		</cfquery>		
+		<cfreturn qry.rs_getTheatresShowTime />
+	</cffunction>
+
+	<cffunction name="getDateofShow" access="public" output="false" returntype="query">	
+		<cfargument name="movie_id" type="integer" required="true" />			
+		<cfquery name="qry.rs_getDateofShow">
+			SELECT DISTINCT `start_date` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" /> ORDER BY start_date ASC;
+		</cfquery>		
+		<cfreturn qry.rs_getDateofShow />
 	</cffunction>
 
 	<cffunction name="addUser" access="remote" output="false">
@@ -184,6 +210,17 @@
 			<cflocation url = "../edit-profile.cfm" addtoken="false" />		
 		</cfif>		
  		<cfreturn variables.errorMessage />
+	</cffunction>
+
+	<cffunction name="filterTheatre" access="remote" output="false" returntype="any">	
+		<cfargument name="movieId" type="integer" required="true" />
+		<cfargument name="currDate" type="string" required="true" />	
+		<cfquery name="qry.rs_getTheatresByDate" result="result">
+			SELECT DISTINCT `theatre_id` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movieId#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.currDate#" cfsqltype="cf_sql_date" />;
+		</cfquery>				
+		<cfdump var="#qry.rs_getTheatresByDate#" /> <!--- Shows object having "SQL" property --->
+		<cfoutput>SQL: #result.SQL#</cfoutput>
+	
 	</cffunction>
 
 </cfcomponent>

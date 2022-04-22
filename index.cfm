@@ -112,11 +112,7 @@
                                             <img src="admin/uploads/Movie/#ComingSoonMovies.movie_poster#" alt="">
                                         </a>
                                     </div>
-                                    <div class="blog-meta">
-                                        <span class="comments-type">
-                                            <i class="fa fa-comment-o"></i>
-                                            <a href="##">13 comments</a>
-                                        </span>
+                                    <div class="blog-meta">                                        
                                         <span class="date-type">
                                             <i class="fa fa-calendar"></i>2016-03-05 / 09:10:16
                                         </span>
