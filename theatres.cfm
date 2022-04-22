@@ -40,7 +40,8 @@
                                                                 </a>
                                                             </div>
                                                             <div class="pst-content">
-                                                                <p><a href="##"> #TheatreLists.theatre_name#</a></p>
+                                                                <p><a href="##">#TheatreLists.theatre_name#</a></p>
+                                                                <span>Location</span>
                                                             </div>
                                                         </div>                                                                                                                               
                                                     </div>

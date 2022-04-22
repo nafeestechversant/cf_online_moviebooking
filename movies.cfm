@@ -35,16 +35,7 @@
                                                 <img src="img/no-poster-available.jpg" width="" alt="">                                            
                                             </cfif>
                                         </a>
-                                    </div>
-                                    <div class="blog-meta">
-                                        <span class="comments-type">
-                                            <i class="bi bi-chat"></i>
-                                            <a href="##">11 comments</a>
-                                        </span>
-                                        <span class="date-type">
-                                            <i class="bi bi-calendar"></i>2016-03-05 / 09:10:16
-                                        </span>
-                                    </div>
+                                    </div>                                  
                                     <div class="blog-text">
                                         <h4>
                                             <a href="movie-details.cfm?movie=#MoviesLists.movie_id#">#MoviesLists.movie_name#</a>
@@ -52,6 +43,17 @@
                                         <p>
                                             #MoviesLists.movie_lang#
                                         </p>
+                                        <cfif MoviesLists.movie_rating EQ 1>
+                                            <p><span><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></span></p>
+                                        <cfelseif MoviesLists.movie_rating EQ 2> 
+                                            <p><span><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></span></p>
+                                        <cfelseif MoviesLists.movie_rating EQ 3> 
+                                            <p><span><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></span></p>                                                                                                                        
+                                        <cfelseif MoviesLists.movie_rating EQ 4> 
+                                            <p><span><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span></p>                                                                                                                        
+                                        <cfelseif MoviesLists.movie_rating EQ 5> 
+                                            <p><span><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span></p>                                                                                                                        
+                                        </cfif> 
                                     </div>
                                     <div class="all-center">
                                         <a href="##about" class="btn-get-started">Book Tickets</a>

@@ -5,9 +5,16 @@
         <cfinvoke component="#MovieList#" method="getMoviesById" returnvariable="MoviesById">
             <cfinvokeargument  name="movie_id" value="#variables.movie_id#" />
         </cfinvoke> 
-        <cfinvoke component="#MovieList#" method="getTheatreShow" returnvariable="TheatreShow">
+<!---         <cfinvoke component="#MovieList#" method="getTheatreShow" returnvariable="TheatreShow"> --->
+<!---             <cfinvokeargument  name="movie_id" value="#variables.movie_id#" /> --->
+<!---         </cfinvoke>  --->
+        <cfinvoke component="#MovieList#" method="getTheatresByDate" returnvariable="TheatreShow">
             <cfinvokeargument  name="movie_id" value="#variables.movie_id#" />
-        </cfinvoke>         
+            <cfinvokeargument  name="curr_date" value="#DateFormat(Now(),"yyyy-mm-dd")#" />
+        </cfinvoke>
+        <cfinvoke component="#MovieList#" method="getDateofShow" returnvariable="DateofShow">
+            <cfinvokeargument  name="movie_id" value="#variables.movie_id#" />            
+        </cfinvoke>           
     </cfif>
 </cfif>
 <!DOCTYPE html>
@@ -40,6 +47,9 @@
                                     <h2>#MoviesById.movie_name#</h2>
                                     <p>#MoviesById.movie_lang#</p>
                                     <div class="entry-meta">
+                                        <span><i class="bi bi-clock"></i> march 28, 2016 |  2 hrs 35 mins</span>
+                                    </div>
+                                    <div class="entry-meta">
                                         <cfif MoviesById.movie_rating EQ 1>
                                             <span><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></span>
                                         <cfelseif MoviesById.movie_rating EQ 2> 
@@ -71,17 +81,39 @@
                                     <div class="single-blog-page">                                    
                                         <div class="left-blog">
                                             <h4>Theatre</h4>
+                                            <ul class="nav nav-tabs">
+                                                <cfloop query="#DateofShow#">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link filterbyDate #IIF(DateofShow.start_date eq DateFormat(Now(),"yyyy-mm-dd"), de('active'), de(''))#" aria-current="page" data-currDate="#DateofShow.start_date#" data-movieId="#variables.movie_id#">#DateFormat(DateofShow.start_date,"dd")#<br>#DateFormat(DateofShow.start_date,"ddd")#</a>
+                                                    </li>
+                                                </cfloop>                                                                                             
+                                            </ul>
                                             <cfif TheatreShow.recordcount NEQ 0>
                                                 <cfloop query="#TheatreShow#">
+                                                    <cfinvoke component="#MovieList#" method="getTheatreById" returnvariable="TheatreById">
+                                                        <cfinvokeargument  name="theatre_id" value="#TheatreShow.theatre_id#" />
+                                                    </cfinvoke>
+                                                     <cfinvoke component="#MovieList#" method="getTheatreShowTime" returnvariable="TheatreShowTime">
+                                                        <cfinvokeargument  name="theatre_id" value="#TheatreShow.theatre_id#" />
+                                                        <cfinvokeargument  name="curr_date" value="#DateFormat(Now(),"yyyy-mm-dd")#" />
+                                                    </cfinvoke>  
                                                     <div class="recent-post">                                           
                                                         <div class="recent-single-post">
                                                             <div class="post-img">
                                                                 <a href="##">
-                                                                    <img src="admin/uploads/MovieTheatres/#TheatreShow.theatre_image#" alt="">
+                                                                    <img src="admin/uploads/MovieTheatres/#TheatreById.theatre_image#" alt="">
                                                                 </a>
                                                             </div>
                                                             <div class="pst-content">
-                                                                <p><a href="##"> #TheatreShow.theatre_name#</a></p>
+                                                                <p><a href="##"> #TheatreById.theatre_name#</a></p>
+                                                                <span>Location</span>
+                                                            </div>
+                                                            <div class="pst-shwtime">
+                                                                <ul>
+                                                                    <cfloop query="#TheatreShowTime#">
+                                                                        <li>#TheatreShowTime.start_time#</li> 
+                                                                    </cfloop>                                                                  
+                                                                </ul>                                                                
                                                             </div>
                                                         </div>                                                                                                                               
                                                     </div>
@@ -98,10 +130,10 @@
                     </div>
                 </div>
             </div>    
-            <div class="holder">
+            <!--<div class="holder">
                 <iframe width="560" height="315" src="#MoviesById.movie_youtubelink#" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 <div class="overlay trigger" src="#MoviesById.movie_youtubelink#" data-target="##videoModal" data-toggle="modal"></div>
-            </div>
+            </div>-->
 
             <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModal" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -118,6 +150,7 @@
         </main>
         <cfinclude template="footer.cfm">
     </cfoutput>
+    <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
 </body>
