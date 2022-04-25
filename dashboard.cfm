@@ -47,7 +47,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">##</th>
+                                                <th scope="col">BookingId</th>
                                                 <th scope="col">Movie</th>
                                                 <th scope="col">Theatre</th>
                                                 <th scope="col">Booked On</th>
