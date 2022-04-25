@@ -219,8 +219,23 @@
 			SELECT DISTINCT `theatre_id` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movieId#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.currDate#" cfsqltype="cf_sql_date" />;
 		</cfquery>				
 		<cfdump var="#qry.rs_getTheatresByDate#" /> <!--- Shows object having "SQL" property --->
-		<cfoutput>SQL: #result.SQL#</cfoutput>
-	
+		<cfoutput>SQL: #result.SQL#</cfoutput>	
+	</cffunction>
+
+	<cffunction name="getShowById" access="public" output="false" returntype="query">	
+		<cfargument name="shw_id" type="integer" required="true" />	
+		<cfquery name="qry.rs_getShowById">
+			SELECT start_time,online_booking,price_gold_full,price_gold_half,price_odc_full,price_odc_half,price_box FROM mv_show_timing WHERE show_id = <cfqueryparam value="#arguments.shw_id#" cfsqltype="cf_sql_integer" />
+		</cfquery>		
+		<cfreturn qry.rs_getShowById />
+	</cffunction>
+
+	<cffunction name="getBookedShowById" access="public" output="false" returntype="query">	
+		<cfargument name="shw_id" type="integer" required="true" />	
+		<cfquery name="qry.rs_getBookedShowById">
+			SELECT booked_seat FROM mv_booking WHERE show_id = <cfqueryparam value="#arguments.shw_id#" cfsqltype="cf_sql_integer" />
+		</cfquery>		
+		<cfreturn qry.rs_getBookedShowById />
 	</cffunction>
 
 </cfcomponent>

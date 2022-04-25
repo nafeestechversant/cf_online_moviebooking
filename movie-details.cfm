@@ -111,7 +111,7 @@
                                                             <div class="pst-shwtime">
                                                                 <ul>
                                                                     <cfloop query="#TheatreShowTime#">
-                                                                        <li>#TheatreShowTime.start_time#</li> 
+                                                                        <li><a href="movieticket_booking.cfm?Req_date=#URLEncodedFormat(Encrypt(DateFormat(Now(),"yyyy-mm-dd"), "abc!@"))#&shw_id=#URLEncodedFormat(Encrypt(TheatreShowTime.show_id, "abc!@"))#&mov_id=#URLEncodedFormat(Encrypt(variables.movie_id, "abc!@"))#">#TheatreShowTime.start_time#</a></li> 
                                                                     </cfloop>                                                                  
                                                                 </ul>                                                                
                                                             </div>
