@@ -56,7 +56,7 @@
                                         </cfif> 
                                     </div>
                                     <div class="all-center">
-                                        <a href="##about" class="btn-get-started">Book Tickets</a>
+                                        <a href="movie-details.cfm?movie=#MoviesLists.movie_id#" class="btn-get-started">Book Tickets</a>
                                     </div>
                                 </div>
                             </div> 

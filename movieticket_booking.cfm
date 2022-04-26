@@ -65,15 +65,14 @@
                             <div class="clear"></div>
                             <ul id="selected-seats" class="scrollbar scrollbar1"></ul>
 
-
-                            <button class="checkout-button">Book Now</button>
+                            <input type="button" value="Book Now" class="checkout-button" />                            
                             <div id="legend"></div>
                         </div>
                         <div style="clear:both"></div>
                     </div>
 
                     <script type="text/javascript">
-                        var price = 10; //price
+                        
                         $(document).ready(function() {
                             var $cart = $('##selected-seats'), //Sitting Area
                                 $counter = $('##counter'), //Votes
@@ -81,17 +80,32 @@
 
                             var sc = $('##seat-map').seatCharts({
                                 map: [ //Seating chart
-                                    'aaaaaaaaaa',
-                                    'aaaaaaaaaa',
+                                    'oooooooooo',
+                                    'oooooooooo',
                                     '__________',
-                                    'aaaaaaaa__',
-                                    'aaaaaaaaaa',
-                                    'aaaaaaaaaa',
-                                    'aaaaaaaaaa',
-                                    'aaaaaaaaaa',
-                                    'aaaaaaaaaa',
-                                    '__aaaaaa__'
+                                    'gggggggg__',
+                                    'gggggggggg',
+                                    'gggggggggg',
+                                    'gggggggggg',
+                                    'bbbbbbbbbb',
+                                    'bbbbbbbbbb',
+                                    '__bbbbbb__'
                                 ],
+                               seats: {
+                                        o: {
+                                            price   : #ShowById.price_odc_full#,
+                                            classes : 'odc-seat' //your custom CSS class
+                                        },
+                                        g: {
+                                            price   : #ShowById.price_gold_full#,
+                                            classes : 'gold-seat' //your custom CSS class
+                                        },
+                                        b: {
+                                            price   : #ShowById.price_box#,
+                                            classes : 'box-seat' //your custom CSS class
+                                        }
+                                    
+                                },
                                 naming: {
                                     top: false,
                                     getLabel: function(character, row, column) {
@@ -101,27 +115,29 @@
                                 legend: { //Definition legend
                                     node: $('##legend'),
                                     items: [
-                                        ['a', 'available', 'Available'],
+                                        ['o', 'odc_available', 'Odc'], 
+                                        ['g', 'gold_available', 'Gold'],
+                                        ['b', 'box_available', 'Box'],                                           
                                         ['a', 'unavailable', 'Sold'],
                                         ['a', 'selected', 'Selected']
                                     ]
                                 },
                                 click: function() { //Click event
                                     if (this.status() == 'available') { //optional seat
-                                        $('<li>Row' + (this.settings.row + 1) + ' Seat' + this.settings.label + '</li>')
+                                        $('<li>Row' + (this.settings.row + 1) + ' Seat' + this.settings.label + '<b> Rs : '+this.data().price+'</b> <a href="##" class="cancel-cart-item">[cancel]</a></li>')
                                             .attr('id', 'cart-item-' + this.settings.id)
                                             .data('seatId', this.settings.id)
                                             .appendTo($cart);
 
                                         $counter.text(sc.find('selected').length + 1);
-                                        $total.text(recalculateTotal(sc) + price);
+                                        $total.text(recalculateTotal(sc) + this.data().price);
 
                                         return 'selected';
                                     } else if (this.status() == 'selected') { //Checked
                                         //Update Number
                                         $counter.text(sc.find('selected').length - 1);
                                         //update totalnum
-                                        $total.text(recalculateTotal(sc) - price);
+                                        $total.text(recalculateTotal(sc) - this.data().price);
 
                                         //Delete reservation
                                         $('##cart-item-' + this.settings.id).remove();
@@ -134,15 +150,43 @@
                                     }
                                 }
                             });
+
+                            
+
+                            $('##selected-seats').on('click','.cancel-cart-item',function () {     
+                            sc.get($(this).parents('li:first').data('seatId')).click();
+                            });
+
+
                             //sold seat
                             sc.get(['1_2', '4_4', '4_5', '6_6', '6_7', '8_5', '8_6', '8_7', '8_8', '10_1', '10_2']).status('unavailable');
 
+                        });
+
+                        $(':button[value="Book Now"]').on('click', function(e) {
+                        e.preventDefault();
+                        
+                        if ($('##selected-seats li').length > 0) {
+                            var sc = $('##seat-map').seatCharts({
+
+                            });
+                             console.log(sc.status());
+                            if (sc.status() == 'selected') {
+                               
+                            }
+
+                            
+
+
+                        }   else {
+                                alert('No selected seat to Book Ticket!')
+                            }
                         });
                         //sum total money
                         function recalculateTotal(sc) {
                             var total = 0;
                             sc.find('selected').each(function() {
-                                total += price;
+                                total += this.data().price;
                             });
 
                             return total;
