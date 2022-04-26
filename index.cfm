@@ -83,7 +83,7 @@
                                     <div class="team-content text-center">
                                         <h4><a href="movie-details.cfm?movie=#MoviesLists.movie_id#">#MoviesLists.movie_name#</a></h4>
                                         <p>#MoviesLists.movie_lang#</p>
-                                        <a href="##about" class="btn-get-started">Book Tickets</a>
+                                        <a href="movie-details.cfm?movie=#MoviesLists.movie_id#" class="btn-get-started">Book Tickets</a>
                                     </div>
                                 </div>
                             </div>

@@ -374,6 +374,45 @@ div.seatCharts-row {
     height: 35px;
 }
 
+div.seatCharts-seat.gold-seat.available {
+    background-color: #D88A04 !important;
+}
+
+div.seatCharts-seat.gold-seat.unavailable {
+    background-color: #D00000;
+    cursor: not-allowed;
+}
+
+div.seatCharts-seat.gold_available {
+    background-color: #D88A04;
+}
+
+div.seatCharts-seat.box-seat.available {
+    background-color: #6699ff !important;
+}
+
+div.seatCharts-seat.box-seat.unavailable {
+    background-color: #D00000;
+    cursor: not-allowed;
+}
+
+div.seatCharts-seat.box_available {
+    background-color: #6699ff;
+}
+
+div.seatCharts-seat.odc-seat.available {
+    background-color: #cc66ff !important;
+}
+
+div.seatCharts-seat.odc-seat.unavailable {
+    background-color: #D00000;
+    cursor: not-allowed;
+}
+
+div.seatCharts-seat.odc_available {
+    background-color: #cc66ff;
+}
+
 div.seatCharts-seat.available {
     background-color: #949494;
 }
@@ -449,7 +488,7 @@ span.seatCharts-legendDescription {
     max-height: 120px;
     overflow-y: auto;
     overflow-x: none;
-    width: 210px;
+    width: 65%;
 }
 
 #selected-seats li {
