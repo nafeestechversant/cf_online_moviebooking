@@ -230,12 +230,47 @@
 		<cfreturn qry.rs_getShowById />
 	</cffunction>
 
-	<cffunction name="getBookedShowById" access="public" output="false" returntype="query">	
+	<cffunction name="getBookedShowById" access="public" returntype="any">	
 		<cfargument name="shw_id" type="integer" required="true" />	
 		<cfquery name="qry.rs_getBookedShowById">
 			SELECT booked_seat FROM mv_booking WHERE show_id = <cfqueryparam value="#arguments.shw_id#" cfsqltype="cf_sql_integer" />
-		</cfquery>		
-		<cfreturn qry.rs_getBookedShowById />
+		</cfquery>
+		<cfset variables.rec_cont = qry.rs_getBookedShowById.recordcount />			
+		<cfset variables.bked_seat = '' />
+		<cfloop query = "qry.rs_getBookedShowById"> 		
+			<cfset bked_seat = listAppend(bked_seat, booked_seat) />						
+		</cfloop>
+		<cfreturn variables.bked_seat />	
+	</cffunction>
+
+	<cffunction name="addBooking" access="remote" >	
+		<cfargument name="req_date" type="date" required="true" />	
+		<cfargument name="shw_id" type="integer" required="true" />
+		<cfargument name="mov_id" type="integer" required="true" />
+		<cfargument name="booked_seats" type="string" required="true" />
+		<cfargument name="total_price" type="any" required="true" />
+
+		<cfquery name="qry.rs_addBooking" result="result">
+				INSERT INTO mv_booking (user_id,movie_id,show_id,booked_on,booked_seat,total_price,category_name)
+				VALUES (
+						<cfqueryparam value="1" cfsqltype="cf_sql_integer" />,
+						<cfqueryparam value="#arguments.mov_id#" cfsqltype="cf_sql_integer" />,
+						<cfqueryparam value="#arguments.shw_id#" cfsqltype="cf_sql_integer" />,
+						<cfqueryparam value="#arguments.req_date#" cfsqltype="cf_sql_date" />,																		
+						<cfqueryparam value="#arguments.booked_seats#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#arguments.total_price#" cfsqltype="cf_sql_decimal" />,
+						<cfqueryparam value="Gold" cfsqltype="cf_sql_varchar" />																		
+					)
+		</cfquery>						
+	</cffunction>
+
+	<cffunction name="checkLoginOrNot" access="remote" returntype="boolean">				
+		<cfif structKeyExists(session,'stLoggedInUser')> 
+			<cfset variables.return_value = true /> 
+		<cfelse>
+			<cfset variables.return_value = false />
+		</cfif>	
+		<cfreturn variables.return_value />
 	</cffunction>
 
 </cfcomponent>

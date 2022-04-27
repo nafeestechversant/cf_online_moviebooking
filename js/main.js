@@ -251,3 +251,60 @@ $(".filterbyDate").click(function() {
     });
 
 });
+
+$(':button[value="Book Now"]').on('click', function(e) {
+    e.preventDefault();
+    if ($('#selected-seats li').length > 0) {
+
+        var LoginStatus = checkUserLoginOrNot();
+        alert(LoginStatus);
+
+        var sc = $('#seat-map').seatCharts({
+
+        });
+        var total = 0;
+        var ids = '';
+        sc.find('selected').each(function() {
+            total += this.data().price;
+            ids += '"' + this.settings.id + '"' + ', ';
+
+        });
+
+        var req_date = $('#req_date').val();
+        var shw_id = $('#shw_id').val();
+        var mov_id = $('#mov_id').val();
+
+        var index = ids.lastIndexOf(",");
+        ids = ids.substring(0, index) + ids.substring(index + 1);
+        //var apnd_ids = '[' + ids + ']'
+
+        $.ajax({
+            type: "POST",
+            url: "cfc/user.cfc?method=addBooking",
+            data: { req_date: req_date, shw_id: shw_id, mov_id: mov_id, booked_seats: ids, total_price: total },
+            dataType: "json",
+            cache: false,
+            success: function(data) {
+
+            }
+        });
+
+    } else {
+        alert('No selected seat to Book Ticket!')
+    }
+});
+
+function checkUserLoginOrNot() {
+    $.ajax({
+        type: "POST",
+        url: "cfc/user.cfc?method=checkLoginOrNot&returnformat=json",
+        cache: false,
+        success: function(response) {
+            if (response == "false") {
+                $('#loginModal').modal('show');
+            }
+
+            return response;
+        }
+    });
+}
