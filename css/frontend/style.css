@@ -2331,6 +2331,31 @@ span.email-notes {
     margin-bottom: 15px;
 }
 
+.order_sum {
+    margin-top: 10%;
+}
+
+.movie-title h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.summary h3 {
+    font-size: 16px;
+}
+
+.order_title {
+    margin-bottom: 35px;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.cnce-btn {
+    width: 26.5%;
+}
+
 
 /*--------------------------------------------------------------
 # Responsive

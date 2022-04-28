@@ -15,7 +15,10 @@
         </cfinvoke>
         <cfinvoke component="#MovieBooking#" method="getBookedShowById" returnvariable="BookedShowById">
             <cfinvokeargument  name="shw_id" value="#variables.shw_id#" />
-        </cfinvoke>       
+        </cfinvoke>
+        <cfinvoke component="#MovieBooking#" method="getTheatreById" returnvariable="TheatreName">
+            <cfinvokeargument  name="theatre_id" value="#ShowById.theatre_id#" />
+        </cfinvoke>         
     </cfif> 
 </cfif>
 <cfif structKeyExists(URL,'Req_date')>
@@ -42,7 +45,7 @@
         <cfinclude template="header.cfm"> 
             <main id="main">               
                 <div class="main">
-                    <h2>Multiplex Theatre Showing Screen 1</h2>
+                    <h2>#TheatreName.theatre_name#</h2>
                     <div class="demo">
                         <div id="seat-map">
                             <div class="front">SCREEN</div>
