@@ -225,17 +225,71 @@
 	<cffunction name="getShowById" access="public" output="false" returntype="query">	
 		<cfargument name="shw_id" type="integer" required="true" />	
 		<cfquery name="qry.rs_getShowById">
-			SELECT start_time,online_booking,price_gold_full,price_gold_half,price_odc_full,price_odc_half,price_box FROM mv_show_timing WHERE show_id = <cfqueryparam value="#arguments.shw_id#" cfsqltype="cf_sql_integer" />
+			SELECT start_time,online_booking,price_gold_full,price_gold_half,price_odc_full,price_odc_half,price_box,theatre_id FROM mv_show_timing WHERE show_id = <cfqueryparam value="#arguments.shw_id#" cfsqltype="cf_sql_integer" />
 		</cfquery>		
 		<cfreturn qry.rs_getShowById />
 	</cffunction>
 
-	<cffunction name="getBookedShowById" access="public" output="false" returntype="query">	
+	<cffunction name="getBookedShowById" access="public" returntype="any">	
 		<cfargument name="shw_id" type="integer" required="true" />	
 		<cfquery name="qry.rs_getBookedShowById">
 			SELECT booked_seat FROM mv_booking WHERE show_id = <cfqueryparam value="#arguments.shw_id#" cfsqltype="cf_sql_integer" />
-		</cfquery>		
-		<cfreturn qry.rs_getBookedShowById />
+		</cfquery>
+		<cfset variables.rec_cont = qry.rs_getBookedShowById.recordcount />			
+		<cfset variables.bked_seat = '' />
+		<cfloop query = "qry.rs_getBookedShowById"> 		
+			<cfset bked_seat = listAppend(bked_seat, booked_seat) />						
+		</cfloop>
+		<cfreturn variables.bked_seat />	
+	</cffunction>
+
+	<cffunction name="addBooking" access="remote" output="false">
+		<cfif structKeyExists(session,'BookingDetails')> 	
+			<cfquery name="qry.rs_addBooking" result="result">
+					INSERT INTO mv_booking (user_id,movie_id,show_id,booked_on,booked_seat,total_price,category_name)
+					VALUES (
+							<cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="cf_sql_integer" />,
+							<cfqueryparam value="#session.BookingDetails.mov_id#" cfsqltype="cf_sql_integer" />,
+							<cfqueryparam value="#session.BookingDetails.shw_id#" cfsqltype="cf_sql_integer" />,
+							<cfqueryparam value="#session.BookingDetails.req_date#" cfsqltype="cf_sql_date" />,																		
+							<cfqueryparam value="#session.BookingDetails.booked_seats#" cfsqltype="cf_sql_varchar" />,
+							<cfqueryparam value="#session.BookingDetails.total_price#" cfsqltype="cf_sql_decimal" />,
+							<cfqueryparam value="Gold" cfsqltype="cf_sql_varchar" />																		
+						)
+			</cfquery>			
+			<cfset structdelete(session,'BookingDetails') />									
+		</cfif>	
+<!--- 		<cflocation url = "../dashboard.cfm" addtoken="false" /> --->
+		<cfreturn result.RECORDCOUNT />						
+	</cffunction>
+
+	<cffunction name="checkLoginOrNot" access="remote" returntype="boolean">				
+		<cfif structKeyExists(session,'stLoggedInUser')> 
+			<cfset variables.return_value = true /> 
+		<cfelse>
+			<cfset variables.return_value = false />
+		</cfif>	
+		<cfreturn variables.return_value />
+	</cffunction>
+
+	<cffunction name="addBookingSession" access="remote" returntype="boolean">
+		<cfargument name="req_date" type="date" required="true" />	
+		<cfargument name="shw_id" type="integer" required="true" />
+		<cfargument name="mov_id" type="integer" required="true" />
+		<cfargument name="booked_seats" type="string" required="true" />
+		<cfargument name="total_price" type="any" required="true" />
+		<cfargument name="tick_count" type="any" required="true" />	
+		<cfset session.BookingDetails = {'req_date' = arguments.req_date, 'shw_id' = arguments.shw_id, 'mov_id' = arguments.mov_id, 'booked_seats' = arguments.booked_seats, 'total_price' = arguments.total_price, 'tick_count' = arguments.tick_count} > 			
+		<cfset variables.return_value = true /> 
+		<cfreturn variables.return_value />
+	</cffunction>
+
+	<cffunction name="cancelBooking" access="remote" >				
+		<cfif structKeyExists(session,'BookingDetails')> 
+			<cfset variables.mov_id = session.BookingDetails.mov_id /> 
+			<cfset structdelete(session,'BookingDetails') /> 		
+		</cfif>	
+		<cfreturn variables.mov_id />
 	</cffunction>
 
 </cfcomponent>

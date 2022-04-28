@@ -16,7 +16,9 @@
         <cfinvoke component="#MovieBooking#" method="getBookedShowById" returnvariable="BookedShowById">
             <cfinvokeargument  name="shw_id" value="#variables.shw_id#" />
         </cfinvoke>
-        <cfoutput>#BookedShowById.booked_seat#</cfoutput>
+        <cfinvoke component="#MovieBooking#" method="getTheatreById" returnvariable="TheatreName">
+            <cfinvokeargument  name="theatre_id" value="#ShowById.theatre_id#" />
+        </cfinvoke>         
     </cfif> 
 </cfif>
 <cfif structKeyExists(URL,'Req_date')>
@@ -43,7 +45,7 @@
         <cfinclude template="header.cfm"> 
             <main id="main">               
                 <div class="main">
-                    <h2>Multiplex Theatre Showing Screen 1</h2>
+                    <h2>#TheatreName.theatre_name#</h2>
                     <div class="demo">
                         <div id="seat-map">
                             <div class="front">SCREEN</div>
@@ -64,7 +66,9 @@
                             </ul>
                             <div class="clear"></div>
                             <ul id="selected-seats" class="scrollbar scrollbar1"></ul>
-
+                            <input type="hidden"  id="req_date" value="#variables.Req_date#">
+                            <input type="hidden"  id="shw_id" value="#variables.shw_id#">
+                            <input type="hidden"  id="mov_id" value="#variables.movie_id#">
                             <input type="button" value="Book Now" class="checkout-button" />                            
                             <div id="legend"></div>
                         </div>
@@ -159,29 +163,12 @@
 
 
                             //sold seat
-                            sc.get(['1_2', '4_4', '4_5', '6_6', '6_7', '8_5', '8_6', '8_7', '8_8', '10_1', '10_2']).status('unavailable');
+                            //sc.get(['1_2', '4_4', '4_5', '6_6', '6_7', '8_5', '8_6', '8_7', '8_8', '10_1', '10_2']).status('unavailable');
+                             sc.get([#BookedShowById#]).status('unavailable');
 
                         });
 
-                        $(':button[value="Book Now"]').on('click', function(e) {
-                        e.preventDefault();
                         
-                        if ($('##selected-seats li').length > 0) {
-                            var sc = $('##seat-map').seatCharts({
-
-                            });
-                             console.log(sc.status());
-                            if (sc.status() == 'selected') {
-                               
-                            }
-
-                            
-
-
-                        }   else {
-                                alert('No selected seat to Book Ticket!')
-                            }
-                        });
                         //sum total money
                         function recalculateTotal(sc) {
                             var total = 0;
@@ -200,7 +187,7 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/jquery.seat-charts.js"></script>
-    <script src="js/jquery.nicescroll.js"></script>
+<!---     <script src="js/jquery.nicescroll.js"></script> --->
     <script src="js/seat-scripts.js"></script>
 </body>
 </html>

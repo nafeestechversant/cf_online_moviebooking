@@ -251,3 +251,141 @@ $(".filterbyDate").click(function() {
     });
 
 });
+
+$(':button[value="Book Now"]').on('click', function(e) {
+    e.preventDefault();
+
+    checkUserLoginOrNot();
+
+
+
+    // if ($('#selected-seats li').length > 0) {
+
+
+    // alert(LoginStatus);
+
+    // var sc = $('#seat-map').seatCharts({
+
+    // });
+    // var total = 0;
+    // var ids = '';
+    // sc.find('selected').each(function() {
+    //     total += this.data().price;
+    //     ids += '"' + this.settings.id + '"' + ', ';
+
+    // });
+
+    // var req_date = $('#req_date').val();
+    // var shw_id = $('#shw_id').val();
+    // var mov_id = $('#mov_id').val();
+
+    // var index = ids.lastIndexOf(",");
+    // ids = ids.substring(0, index) + ids.substring(index + 1);
+    // //var apnd_ids = '[' + ids + ']'
+
+    // $.ajax({
+    //     type: "POST",
+    //     url: "cfc/user.cfc?method=addBooking",
+    //     data: { req_date: req_date, shw_id: shw_id, mov_id: mov_id, booked_seats: ids, total_price: total },
+    //     dataType: "json",
+    //     cache: false,
+    //     success: function(data) {
+
+    //     }
+    // });
+
+    // } else {
+    //     alert('No selected seat to Book Ticket!')
+    // }
+});
+
+$('#confirm_book').on('click', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "cfc/user.cfc?method=addBooking&returnformat=json",
+        cache: false,
+        success: function(data) {
+            if (data > 0) {
+                window.location.href = "dashboard.cfm";
+            }
+
+        }
+    });
+
+});
+
+$('.cnce-btn').on('click', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "cfc/user.cfc?method=cancelBooking&returnformat=json",
+        cache: false,
+        success: function(data) {
+            if (data > 0) {
+                window.location.href = "movie-details.cfm?movie=" + data;
+            }
+
+        }
+    });
+});
+
+function checkUserLoginOrNot() {
+    $.ajax({
+        type: "POST",
+        url: "cfc/user.cfc?method=checkLoginOrNot&returnformat=json",
+        cache: false,
+        success: function(response) {
+            if (response == "false") {
+                $('#loginModal').modal('show');
+            } else {
+                addBookingSession();
+            }
+
+
+        }
+    });
+}
+
+function addBookingSession() {
+
+    if ($('#selected-seats li').length > 0) {
+
+        var sc = $('#seat-map').seatCharts({});
+
+        var total = 0;
+        var ids = '';
+        sc.find('selected').each(function() {
+            total += this.data().price;
+            ids += '"' + this.settings.id + '"' + ', ';
+
+        });
+
+        var req_date = $('#req_date').val();
+        var shw_id = $('#shw_id').val();
+        var mov_id = $('#mov_id').val();
+        var tick_count = $('#counter').text();
+
+        var index = ids.lastIndexOf(",");
+        ids = ids.substring(0, index) + ids.substring(index + 1);
+
+
+        $.ajax({
+            type: "POST",
+            url: "cfc/user.cfc?method=addBookingSession&returnformat=json",
+            data: { req_date: req_date, shw_id: shw_id, mov_id: mov_id, booked_seats: ids, total_price: total, tick_count: tick_count },
+            dataType: "json",
+            cache: false,
+            success: function(response) {
+                console.log(response);
+                if (response == true) {
+                    window.location.href = "order_summary.cfm";
+                }
+            }
+        });
+
+    } else {
+        alert('No selected seat to Book Ticket!')
+    }
+
+}
