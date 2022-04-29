@@ -2306,9 +2306,14 @@ span.email-notes {
 }
 
 .cus-modal-footer {
-    text-align: center;
+    /* text-align: center; */
     display: block;
     border-top: none;
+    margin-left: 33%;
+}
+
+.register-btn {
+    margin-left: 25%;
 }
 
 .user-menu {

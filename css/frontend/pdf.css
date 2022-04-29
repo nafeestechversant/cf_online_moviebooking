@@ -1,0 +1,136 @@
+body {
+    background-color: Thistle;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-weight: 600;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.ticket {
+    width: 400px;
+    height: 500px;
+    background-color: white;
+    margin: 25px auto;
+    position: relative;
+    border: 1px solid;
+}
+
+.holes-top {
+    height: 50px;
+    width: 50px;
+    background-color: Thistle;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    margin-left: (50 / -2) + px;
+    top: (50 / -2) + px;
+    &:before,
+    &:after {
+        content: '';
+        height: 50px;
+        width: 50px;
+        background-color: Thistle;
+        position: absolute;
+        border-radius: 50%;
+    }
+    &:before {
+        left: (400/ -2) + px;
+    }
+    &:after {
+        left: (400 / 2) + px;
+    }
+}
+
+.holes-lower {
+    position: relative;
+    margin: 25px;
+    border: 1px dashed #aaa;
+    &:before,
+    &:after {
+        content: '';
+        height: 50px;
+        width: 50px;
+        background-color: Thistle;
+        position: absolute;
+        border-radius: 50%;
+    }
+    &:before {
+        top: -25px;
+        left: (50 / -1) + px;
+    }
+    &:after {
+        top: -25px;
+        left: (400 - 50) + px;
+    }
+}
+
+.title {
+    padding: 10px 25px 10px;
+    text-align: center;
+}
+
+.cinema {
+    color: #aaa;
+    font-size: 22px;
+}
+
+.movie-title {
+    font-size: 50px;
+}
+
+.info {
+    padding: 15px 25px;
+}
+
+table {
+    width: 100%;
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: center;
+    tr {
+        margin-bottom: 10px;
+    }
+    th {
+        text-align: left;
+        &:nth-of-type(1) {
+            width: 38%;
+        }
+        &:nth-of-type(2) {
+            width: 40%;
+        }
+        &:nth-of-type(3) {
+            width: 15%;
+        }
+    }
+    td {
+        width: 33%;
+        font-size: 32px;
+    }
+}
+
+.bigger {
+    font-size: 48px;
+    text-align: center;
+}
+
+.serial {
+    padding: 25px;
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+    }
+    td {
+        width: 3px;
+        height: 50px;
+    }
+}
+
+.numbers {
+    td {
+        font-size: 16px;
+        text-align: center;
+    }
+}

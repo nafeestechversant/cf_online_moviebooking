@@ -26,7 +26,11 @@
 		</cfif>
 		<cfif structKeyExists(URL,'Usrlogout')>
 			<cfset structdelete(session,'stLoggedInUser') />			
-		</cfif>			
+		</cfif>
+<!--- 		<cfif NOT structKeyExists(session,'BookingDetails')> --->
+<!--- 		<cfif variables.BookSess == "NO"> --->
+<!--- 			<cflocation url = "index.cfm" addtoken="false" />			 --->
+<!--- 		</cfif>				 --->
 		<cfreturn true />
 	</cffunction>	 	
 </cfcomponent>

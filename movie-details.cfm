@@ -13,7 +13,8 @@
             <cfinvokeargument  name="curr_date" value="#DateFormat(Now(),"yyyy-mm-dd")#" />
         </cfinvoke>
         <cfinvoke component="#MovieList#" method="getDateofShow" returnvariable="DateofShow">
-            <cfinvokeargument  name="movie_id" value="#variables.movie_id#" />            
+            <cfinvokeargument  name="movie_id" value="#variables.movie_id#" />
+            <cfinvokeargument  name="curr_date" value="#DateFormat(Now(),"yyyy-mm-dd")#" />            
         </cfinvoke>           
     </cfif>
 </cfif>
@@ -88,39 +89,41 @@
                                                     </li>
                                                 </cfloop>                                                                                             
                                             </ul>
-                                            <cfif TheatreShow.recordcount NEQ 0>
-                                                <cfloop query="#TheatreShow#">
-                                                    <cfinvoke component="#MovieList#" method="getTheatreById" returnvariable="TheatreById">
-                                                        <cfinvokeargument  name="theatre_id" value="#TheatreShow.theatre_id#" />
-                                                    </cfinvoke>
-                                                     <cfinvoke component="#MovieList#" method="getTheatreShowTime" returnvariable="TheatreShowTime">
-                                                        <cfinvokeargument  name="theatre_id" value="#TheatreShow.theatre_id#" />
-                                                        <cfinvokeargument  name="curr_date" value="#DateFormat(Now(),"yyyy-mm-dd")#" />
-                                                    </cfinvoke>  
-                                                    <div class="recent-post">                                           
-                                                        <div class="recent-single-post">
-                                                            <div class="post-img">
-                                                                <a href="##">
-                                                                    <img src="admin/uploads/MovieTheatres/#TheatreById.theatre_image#" alt="">
-                                                                </a>
-                                                            </div>
-                                                            <div class="pst-content">
-                                                                <p><a href="##"> #TheatreById.theatre_name#</a></p>
-                                                                <span>Location</span>
-                                                            </div>
-                                                            <div class="pst-shwtime">
-                                                                <ul>
-                                                                    <cfloop query="#TheatreShowTime#">
-                                                                        <li><a href="movieticket_booking.cfm?Req_date=#URLEncodedFormat(Encrypt(DateFormat(Now(),"yyyy-mm-dd"), "abc!@"))#&shw_id=#URLEncodedFormat(Encrypt(TheatreShowTime.show_id, "abc!@"))#&mov_id=#URLEncodedFormat(Encrypt(variables.movie_id, "abc!@"))#">#TheatreShowTime.start_time#</a></li> 
-                                                                    </cfloop>                                                                  
-                                                                </ul>                                                                
-                                                            </div>
-                                                        </div>                                                                                                                               
-                                                    </div>
-                                                </cfloop>
-                                            <cfelse>
-                                                This Movie not showing any theatre
-                                            </cfif>                                            
+                                            <div id="results">
+                                                <cfif TheatreShow.recordcount NEQ 0>
+                                                    <cfloop query="#TheatreShow#">
+                                                        <cfinvoke component="#MovieList#" method="getTheatreById" returnvariable="TheatreById">
+                                                            <cfinvokeargument  name="theatre_id" value="#TheatreShow.theatre_id#" />
+                                                        </cfinvoke>
+                                                        <cfinvoke component="#MovieList#" method="getTheatreShowTime" returnvariable="TheatreShowTime">
+                                                            <cfinvokeargument  name="theatre_id" value="#TheatreShow.theatre_id#" />
+                                                            <cfinvokeargument  name="curr_date" value="#DateFormat(Now(),"yyyy-mm-dd")#" />
+                                                        </cfinvoke>  
+                                                        <div class="recent-post">                                           
+                                                            <div class="recent-single-post">
+                                                                <div class="post-img">
+                                                                    <a href="##">
+                                                                        <img src="admin/uploads/MovieTheatres/#TheatreById.theatre_image#" alt="">
+                                                                    </a>
+                                                                </div>
+                                                                <div class="pst-content">
+                                                                    <p><a href="##"> #TheatreById.theatre_name#</a></p>
+                                                                    <span>Location</span>
+                                                                </div>
+                                                                <div class="pst-shwtime">
+                                                                    <ul>
+                                                                        <cfloop query="#TheatreShowTime#">
+                                                                            <li><a href="movieticket_booking.cfm?Req_date=#URLEncodedFormat(Encrypt(DateFormat(Now(),"yyyy-mm-dd"), "abc!@"))#&shw_id=#URLEncodedFormat(Encrypt(TheatreShowTime.show_id, "abc!@"))#&mov_id=#URLEncodedFormat(Encrypt(variables.movie_id, "abc!@"))#">#TheatreShowTime.start_time#</a></li> 
+                                                                        </cfloop>                                                                  
+                                                                    </ul>                                                                
+                                                                </div>
+                                                            </div>                                                                                                                               
+                                                        </div>
+                                                    </cfloop>
+                                                <cfelse>
+                                                    This Movie not showing any theatre
+                                                </cfif> 
+                                            </div>                                           
                                         </div>                                    
                                     </div>
                                     <div class="clear"></div>

@@ -52,8 +52,11 @@
                         <input class="form-control" name="fld_userCnfPwd" id="fld_userCnfPwd" type="password" id="formFile">
                     </div>                                           
                 </div>
-                <div class="modal-footer cus-modal-footer">                    
+                <div class="modal-footer cus-modal-footer register-btn">                    
                     <input type="submit" class="btn-get-started" value ="Create Account">
+                    <a class="" data-bs-toggle="modal" data-bs-target="##loginModal">                                
+                        <span class="login-span">Login</span>
+                    </a>
                 </div>
             </form>
         </div>
@@ -85,8 +88,12 @@
                     </div>                                                            
                 </div>
                 <div class="modal-footer cus-modal-footer">                    
-                    <input type="submit" class="btn-get-started" value ="Create Account">
+                    <input type="submit" class="btn-get-started" value ="Login"> 
+                    <a class="" data-bs-toggle="modal" data-bs-target="##exampleModal">                               
+                        <span class="login-span">Create Account</span>
+                    </a>                 
                 </div>
+                
             </form>
         </div>
     </div>
