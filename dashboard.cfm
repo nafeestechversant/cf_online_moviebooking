@@ -70,7 +70,7 @@
                                                     <td>#TheatreById.theatre_name#</td>
                                                     <td>#BookingHistory.booked_on#</td>
                                                     <td>#BookingHistory.start_time#</td>
-                                                    <td>Download Ticket</td>
+                                                    <td><a href="ticket_pdf.cfm?tic_id=#URLEncodedFormat(Encrypt(BookingHistory.booking_id, "abc!@"))#">Download Ticket</a></td>
                                                 </tr>
                                                 <cfset variables.sno ++ >
                                             </cfloop>                                                                                        

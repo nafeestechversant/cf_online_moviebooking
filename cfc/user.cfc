@@ -64,15 +64,16 @@
 		<cfargument name="theatre_id" type="integer" required="true" />	
 		<cfargument name="curr_date" type="string" required="true" />	
 		<cfquery name="qry.rs_getTheatresShowTime">
-			SELECT show_id,start_time FROM mv_show_timing WHERE theatre_id=<cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.curr_date#" cfsqltype="cf_sql_date" /> ORDER BY start_time DESC;
+			SELECT show_id,start_time,movie_id FROM mv_show_timing WHERE theatre_id=<cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.curr_date#" cfsqltype="cf_sql_date" /> ORDER BY start_time DESC;
 		</cfquery>		
 		<cfreturn qry.rs_getTheatresShowTime />
 	</cffunction>
 
 	<cffunction name="getDateofShow" access="public" output="false" returntype="query">	
-		<cfargument name="movie_id" type="integer" required="true" />			
+		<cfargument name="movie_id" type="integer" required="true" />
+		<cfargument name="curr_date" type="string" required="true" />			
 		<cfquery name="qry.rs_getDateofShow">
-			SELECT DISTINCT `start_date` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" /> ORDER BY start_date ASC;
+			SELECT DISTINCT `start_date` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" /> AND start_date >= <cfqueryparam value="#arguments.curr_date#" cfsqltype="cf_sql_date" /> ORDER BY start_date ASC;
 		</cfquery>		
 		<cfreturn qry.rs_getDateofShow />
 	</cffunction>
@@ -158,7 +159,7 @@
 
 	<cffunction name="getUsrBookHis" access="public" output="false" returntype="query">			
 		<cfquery name="qry.rs_getUsrBookHis">
-			SELECT mb.booked_on,ms.theatre_id,ms.movie_id,mb.show_id,ms.start_time FROM mv_booking mb JOIN mv_show_timing ms ON mb.show_id=ms.show_id WHERE  mb.user_id= <cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="cf_sql_integer" /> ORDER BY mb.created_time DESC
+			SELECT mb.booked_on,mb.booking_id,ms.theatre_id,ms.movie_id,mb.show_id,ms.start_time FROM mv_booking mb JOIN mv_show_timing ms ON mb.show_id=ms.show_id WHERE  mb.user_id= <cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="cf_sql_integer" /> ORDER BY mb.created_time DESC
 		</cfquery>		
 		<cfreturn qry.rs_getUsrBookHis />
 	</cffunction>
@@ -212,14 +213,43 @@
  		<cfreturn variables.errorMessage />
 	</cffunction>
 
-	<cffunction name="filterTheatre" access="remote" output="false" returntype="any">	
+	<cffunction name="filterTheatre" access="remote" output="false" returnFormat = "plain" returntype="string">	
 		<cfargument name="movieId" type="integer" required="true" />
 		<cfargument name="currDate" type="string" required="true" />	
 		<cfquery name="qry.rs_getTheatresByDate" result="result">
 			SELECT DISTINCT `theatre_id` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movieId#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.currDate#" cfsqltype="cf_sql_date" />;
-		</cfquery>				
-		<cfdump var="#qry.rs_getTheatresByDate#" /> <!--- Shows object having "SQL" property --->
-		<cfoutput>SQL: #result.SQL#</cfoutput>	
+		</cfquery>	
+
+		<cfset variables.html = "">		
+		<cfsavecontent variable="variables.html">
+			<cfoutput>				
+				<cfloop query="qry.rs_getTheatresByDate">
+				 <cfset variables.TheatreById = this.getTheatreById(qry.rs_getTheatresByDate.theatre_id) />
+				 <cfset variables.TheatreShowTime = this.getTheatreShowTime(qry.rs_getTheatresByDate.theatre_id,arguments.currDate) />
+					<div class="recent-post">                                           
+						<div class="recent-single-post">
+							<div class="post-img">
+								<a href="##">
+									<img src="admin/uploads/MovieTheatres/#TheatreById.theatre_image#" alt="">
+								</a>
+							</div>
+							<div class="pst-content">
+								<p><a href="##"> #TheatreById.theatre_name#</a></p>
+								<span>Location</span>
+							</div>
+							<div class="pst-shwtime">
+								<ul>
+									<cfloop query="#TheatreShowTime#">									
+										<li><a href="movieticket_booking.cfm?Req_date=#URLEncodedFormat(Encrypt(arguments.currDate, "abc!@"))#&shw_id=#URLEncodedFormat(Encrypt(TheatreShowTime.show_id, "abc!@"))#&mov_id=#URLEncodedFormat(Encrypt(TheatreShowTime.movie_id, "abc!@"))#">#TheatreShowTime.start_time#</a></li>									
+									</cfloop>
+								</ul>                                                                
+							</div>
+						</div>                                                                                                                               
+					</div>
+				</cfloop>
+			</cfoutput>
+		</cfsavecontent>
+		<cfreturn variables.html>		
 	</cffunction>
 
 	<cffunction name="getShowById" access="public" output="false" returntype="query">	
@@ -290,6 +320,14 @@
 			<cfset structdelete(session,'BookingDetails') /> 		
 		</cfif>	
 		<cfreturn variables.mov_id />
+	</cffunction>
+
+	<cffunction name="getTicket" access="public" returntype="any">	
+		<cfargument name="tic_id" type="integer" required="true" />	
+		<cfquery name="qry.rs_getTicketById">
+			SELECT movie_id,show_id,booked_on,booked_seat,total_price FROM mv_booking WHERE booking_id = <cfqueryparam value="#arguments.tic_id#" cfsqltype="cf_sql_integer" />
+		</cfquery>		
+		<cfreturn qry.rs_getTicketById />	
 	</cffunction>
 
 </cfcomponent>
