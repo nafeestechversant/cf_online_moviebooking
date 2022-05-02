@@ -23,35 +23,21 @@
             <div class="hero-container">
                 <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
                     <ol id="hero-carousel-indicators" class="carousel-indicators"></ol>
-                    <div class="carousel-inner" role="listbox">
-                        <div class="carousel-item active" style="background-image: url(img/hero-carousel/1.jpg)">
-                            <div class="carousel-container">
-                                <div class="container">
-                                    <h2 class="animate__animated animate__fadeInDown">The Best Business Information </h2>
-                                    <p class="animate__animated animate__fadeInUp">We're In The Business Of Helping You Start Your Business</p>
-                                    <a href="##about" class="btn-get-started scrollto animate__animated animate__fadeInUp">Book Tickets</a>
+                    <cfset variables.sno = 1 >
+                    <cfloop query="#MoviesLists#"> 
+<!---                         <div class="carousel-inner" role="listbox"> --->
+                            <div class="carousel-item #IIF(variables.sno eq 1, de('active'), de(''))#" style="background-image: url(img/hero-carousel/1.jpg)">
+                                <div class="carousel-container">
+                                    <div class="container">
+                                        <h2 class="animate__animated animate__fadeInDown">#MoviesLists.movie_name# </h2>
+                                        <p class="animate__animated animate__fadeInUp">#MoviesLists.movie_details#</p>
+                                        <a href="movie-details.cfm?movie=#MoviesLists.movie_id#" class="btn-get-started scrollto animate__animated animate__fadeInUp">Book Tickets</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item" style="background-image: url(img/hero-carousel/2.jpg)">
-                            <div class="carousel-container">
-                                <div class="container">
-                                    <h2 class="animate__animated animate__fadeInDown">At vero eos et accusamus</h2>
-                                    <p class="animate__animated animate__fadeInUp">Helping Business Security & Peace of Mind for Your Family</p>
-                                    <a href="##about" class="btn-get-started scrollto animate__animated animate__fadeInUp">Book Tickets</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item" style="background-image: url(img/hero-carousel/3.jpg)">
-                            <div class="carousel-container">
-                                <div class="container">
-                                    <h2 class="animate__animated animate__fadeInDown">Temporibus autem quibusdam</h2>
-                                    <p class="animate__animated animate__fadeInUp">Beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem</p>
-                                    <a href="##about" class="btn-get-started scrollto animate__animated animate__fadeInUp">Book Tickets</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            </div> 
+                            <cfset variables.sno ++ >                      
+<!---                         </div> --->
+                    </cfloop> 
                     <a class="carousel-control-prev" href="##heroCarousel" role="button" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
                     </a>
@@ -105,28 +91,28 @@
                         </div>
                         <div class="row">
                             <cfloop query="#ComingSoonMovies#">
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                <div class="single-blog">
-                                    <div class="single-blog-img">
-                                        <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#">
-                                            <img src="admin/uploads/Movie/#ComingSoonMovies.movie_poster#" alt="">
-                                        </a>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <div class="single-blog">
+                                        <div class="single-blog-img">
+                                            <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#">
+                                                <img src="admin/uploads/Movie/#ComingSoonMovies.movie_poster#" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="blog-meta">                                        
+                                            <span class="date-type">
+                                                <i class="fa fa-calendar"></i>2016-03-05 / 09:10:16
+                                            </span>
+                                        </div>
+                                        <div class="blog-text">
+                                            <h4>
+                                                <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#">#ComingSoonMovies.movie_name#</a>
+                                            </h4>
+                                        </div>
+                                        <div class="blog-morebtn">
+                                            <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#" class="ready-btn">More Info</a>
+                                        </div>
                                     </div>
-                                    <div class="blog-meta">                                        
-                                        <span class="date-type">
-                                            <i class="fa fa-calendar"></i>2016-03-05 / 09:10:16
-                                        </span>
-                                    </div>
-                                    <div class="blog-text">
-                                        <h4>
-                                            <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#">#ComingSoonMovies.movie_name#</a>
-                                        </h4>
-                                    </div>
-                                    <div class="blog-morebtn">
-                                        <a href="movie-details.cfm?movie=#ComingSoonMovies.movie_id#" class="ready-btn">More Info</a>
-                                    </div>
-                                </div>
-                            </div> 
+                                </div> 
                             </cfloop>                                                
                         </div>
                     </div>
@@ -136,6 +122,7 @@
         <cfinclude template="footer.cfm">
     </cfoutput>
     <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.validate.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
     <script>

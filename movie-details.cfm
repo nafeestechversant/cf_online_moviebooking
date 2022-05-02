@@ -29,6 +29,12 @@
     <link href="css/frontend/bootstrap.min.css" rel="stylesheet">
     <link href="css/frontend/bootstrap-icons.css" rel="stylesheet">    
     <link href="css/frontend/style.css" rel="stylesheet">
+
+<!--- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> --->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<!--- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> --->
+
 </head>
 <body>
     <cfoutput>
@@ -40,6 +46,8 @@
                         <div class="col-lg-5 col-md-5">
                             <div class="post-thumbnail">
                                 <img src="admin/uploads/Movie/#MoviesById.movie_poster#" alt="" />
+                                <span class="tn-play-icon"><img src="img/movie-video-play-icon.png"></span>
+                                <div class="overlay trigger" src="#MoviesById.movie_youtubelink#" data-bs-target="##videoModal" data-bs-toggle="modal"></div>
                             </div>
                         </div>
                         <div class="col-md-7 col-sm-7 col-xs-12">                        
@@ -73,7 +81,7 @@
                     </div>
                 </div>
             </div>       
-            <div class="blog-page">
+            <div class="blog-page detial-padd">
                 <div class="container">
                     <div class="row">                   
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -103,7 +111,7 @@
                                                             <div class="recent-single-post">
                                                                 <div class="post-img">
                                                                     <a href="##">
-                                                                        <img src="admin/uploads/MovieTheatres/#TheatreById.theatre_image#" alt="">
+                                                                        <img src="admin/uploads/MovieTheatres/#TheatreById.theatre_image#" alt="">                                                                        
                                                                     </a>
                                                                 </div>
                                                                 <div class="pst-content">
@@ -132,20 +140,15 @@
                         </div>
                     </div>
                 </div>
-            </div>    
-            <!--<div class="holder">
-                <iframe width="560" height="315" src="#MoviesById.movie_youtubelink#" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <div class="overlay trigger" src="#MoviesById.movie_youtubelink#" data-target="##videoModal" data-toggle="modal"></div>
-            </div>-->
-
+            </div>            
             <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModal" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <button type="button" class="close btn-round btn-primary" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                    <div class="modal-content adj_trailer">
+<!---                         <button type="button" class="close btn-round btn-primary" data-bs-dismiss="modal" aria-label="Close"> --->
+<!---                             <span aria-hidden="true">&times;</span> --->
+<!---                         </button> --->
                         <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="" allowfullscreen></iframe>
+                            <iframe class="embed-responsive-item" width="900" height="500" src="#MoviesById.movie_youtubelink#" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>

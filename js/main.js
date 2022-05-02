@@ -284,6 +284,46 @@ $('.cnce-btn').on('click', function(e) {
     });
 });
 
+$("document").ready(function() {
+    autoPlayYouTubeModal();
+    $(".filterbyDate").trigger('click');
+
+    $("#form_login").validate({
+        rules: {
+            fld_userEmail: {
+                required: true
+            },
+            fld_userPwd: {
+                required: true,
+            }
+        }
+    });
+    $("#form_addUser").validate({
+        rules: {
+            fld_userName: {
+                required: true
+            },
+            fld_userMobile: {
+                required: true
+            },
+            fld_userPwd: {
+                required: true,
+                minlength: 5
+            },
+            fld_userCnfPwd: {
+                required: true,
+                minlength: 5,
+                equalTo: "#fld_userPwd"
+            },
+            fld_userEmail: {
+                required: true,
+                email: true
+            }
+        }
+    });
+
+});
+
 function checkUserLoginOrNot() {
     $.ajax({
         type: "POST",
@@ -338,4 +378,18 @@ function addBookingSession() {
         alert('No selected seat to Book Ticket!')
     }
 
+}
+
+function autoPlayYouTubeModal() {
+    var trigger = $('.trigger');
+    trigger.click(function(e) {
+        e.preventDefault();
+        var theModal = $(this).data("target");
+        var videoSRC = $(this).attr("src");
+        var videoSRCauto = videoSRC + "?autoplay=1";
+        $(theModal + ' iframe').attr('src', videoSRCauto);
+        $(theModal).on('hidden.bs.modal', function(e) {
+            $(theModal + ' iframe').attr('src', '');
+        });
+    });
 }

@@ -1,7 +1,7 @@
 <cfcomponent>
     <cffunction name="getHomeMovies" access="public" output="false" returntype="query">		
 		<cfquery name="qry.rs_getHomeMovies">
-			SELECT movie_id,movie_name,movie_poster,movie_lang FROM mv_movies WHERE active_homepage = <cfqueryparam value="1" cfsqltype="cf_sql_integer" /> ORDER BY updated_time DESC
+			SELECT movie_id,movie_name,movie_poster,movie_lang,movie_details FROM mv_movies WHERE active_homepage = <cfqueryparam value="1" cfsqltype="cf_sql_integer" /> ORDER BY updated_time DESC
 		</cfquery>		
 		<cfreturn qry.rs_getHomeMovies />
 	</cffunction>
@@ -222,31 +222,35 @@
 
 		<cfset variables.html = "">		
 		<cfsavecontent variable="variables.html">
-			<cfoutput>				
-				<cfloop query="qry.rs_getTheatresByDate">
-				 <cfset variables.TheatreById = this.getTheatreById(qry.rs_getTheatresByDate.theatre_id) />
-				 <cfset variables.TheatreShowTime = this.getTheatreShowTime(qry.rs_getTheatresByDate.theatre_id,arguments.currDate) />
-					<div class="recent-post">                                           
-						<div class="recent-single-post">
-							<div class="post-img">
-								<a href="##">
-									<img src="admin/uploads/MovieTheatres/#TheatreById.theatre_image#" alt="">
-								</a>
+			<cfoutput>
+				<cfif qry.rs_getTheatresByDate.recordcount NEQ 0>				
+					<cfloop query="qry.rs_getTheatresByDate">
+						<cfset variables.TheatreById = this.getTheatreById(qry.rs_getTheatresByDate.theatre_id) />
+						<cfset variables.TheatreShowTime = this.getTheatreShowTime(qry.rs_getTheatresByDate.theatre_id,arguments.currDate) />
+							<div class="recent-post">                                           
+								<div class="recent-single-post">
+									<div class="post-img">
+										<a href="##">
+											<img src="admin/uploads/MovieTheatres/#TheatreById.theatre_image#" alt="">
+										</a>
+									</div>
+									<div class="pst-content">
+										<p><a href="##"> #TheatreById.theatre_name#</a></p>
+										<span>Location</span>
+									</div>
+									<div class="pst-shwtime">
+										<ul>
+											<cfloop query="#TheatreShowTime#">									
+												<li><a href="movieticket_booking.cfm?Req_date=#URLEncodedFormat(Encrypt(arguments.currDate, "abc!@"))#&shw_id=#URLEncodedFormat(Encrypt(TheatreShowTime.show_id, "abc!@"))#&mov_id=#URLEncodedFormat(Encrypt(TheatreShowTime.movie_id, "abc!@"))#">#TheatreShowTime.start_time#</a></li>									
+											</cfloop>
+										</ul>                                                                
+									</div>
+								</div>                                                                                                                               
 							</div>
-							<div class="pst-content">
-								<p><a href="##"> #TheatreById.theatre_name#</a></p>
-								<span>Location</span>
-							</div>
-							<div class="pst-shwtime">
-								<ul>
-									<cfloop query="#TheatreShowTime#">									
-										<li><a href="movieticket_booking.cfm?Req_date=#URLEncodedFormat(Encrypt(arguments.currDate, "abc!@"))#&shw_id=#URLEncodedFormat(Encrypt(TheatreShowTime.show_id, "abc!@"))#&mov_id=#URLEncodedFormat(Encrypt(TheatreShowTime.movie_id, "abc!@"))#">#TheatreShowTime.start_time#</a></li>									
-									</cfloop>
-								</ul>                                                                
-							</div>
-						</div>                                                                                                                               
-					</div>
-				</cfloop>
+					</cfloop>
+				<cfelse>
+					This Movie not showing any theatre
+				</cfif>
 			</cfoutput>
 		</cfsavecontent>
 		<cfreturn variables.html>		
