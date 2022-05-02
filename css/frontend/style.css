@@ -2361,6 +2361,35 @@ span.email-notes {
     width: 26.5%;
 }
 
+.detial-padd {
+    padding-bottom: 71px;
+}
+
+.holder {
+    width: 560;
+    height: 315px;
+    position: relative;
+}
+
+.frame {
+    width: 100%;
+    height: 100%;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 560%;
+    height: 315px;
+    cursor: pointer;
+}
+
+.adj_trailer {
+    background-color: unset;
+    border: none
+}
+
 
 /*--------------------------------------------------------------
 # Responsive
