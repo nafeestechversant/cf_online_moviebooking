@@ -389,10 +389,13 @@ div#preloader {
     background: #fff;
     box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
     transition: 0.3s;
+    width: 500%;
+    height: 400%;
 }
 
 .navbar .dropdown ul li {
     min-width: 200px;
+    float: left;
 }
 
 .navbar .dropdown ul a {
@@ -2388,6 +2391,15 @@ span.email-notes {
 .adj_trailer {
     background-color: unset;
     border: none
+}
+
+.error {
+    color: red;
+}
+
+.user-menu {
+    width: 150% !important;
+    height: 260% !important;
 }
 
 
