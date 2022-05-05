@@ -1,4 +1,5 @@
 <cfobject name="TheatreList" component="cfc/user">
+<cfinvoke component="#TheatreList#" method="getHomeMovies" returnvariable="MoviesLists"></cfinvoke>
 <cfinvoke component="#TheatreList#" method="getTheatres" returnvariable="TheatreLists"></cfinvoke>
 <!DOCTYPE html>
 <html lang="en">

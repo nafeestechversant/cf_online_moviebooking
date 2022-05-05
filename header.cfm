@@ -1,3 +1,4 @@
+<cfinvoke component="cfc/user" method="getMovies" returnvariable="MoviesMenu"></cfinvoke>
 <cfoutput>
     <header id="header" class="fixed-top d-flex align-items-center">
         <div class="container d-flex justify-content-between">
@@ -9,13 +10,17 @@
                     <li><a class="nav-link scrollto" href="index.cfm">Home</a></li>
                     <li class="dropdown"><a href="movies.cfm"><span>Movies</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="##">Drop Down 1</a></li>
+                            <cfloop query="#MoviesMenu#"> 
+                                <li><a href="movie-details.cfm?movie=#MoviesMenu.movie_id#">#MoviesMenu.movie_name#</a></li>
+                            </cfloop>
                         </ul>
                     </li>
-                    <li class="dropdown"><a href="theatres.cfm"><span>Theatres</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="##">Drop Down 1</a></li>
-                        </ul>
+                    <li class="dropdown"><a href="theatres.cfm"><span>Theatres</span> 
+<!---                     <i class="bi bi-chevron-down"></i> --->
+                    </a>
+<!---                         <ul> --->
+<!---                             <li><a href="##">Drop Down 1</a></li> --->
+<!---                         </ul> --->
                     </li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>

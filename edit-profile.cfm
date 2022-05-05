@@ -47,7 +47,7 @@
                                 <cfparam name="form.fld_userAddr"  default=""  type="string">
                                 <cfparam name="form.fld_userPwd"  default=""  type="string">
                                 <cfparam name="form.fld_userCnfPwd"  default=""  type="string">  
-                                <form method="post" action="cfc/user.cfc?method=editUser">
+                                <form method="post" id="form_editUser" action="cfc/user.cfc?method=editUser">
                                     <div class="row mr-bot">
                                         <div class="col">
                                             <label for="inputEmail4">Full Name</label>
@@ -88,8 +88,8 @@
         </main>
         <cfinclude template="footer.cfm">
     </cfoutput>
-    
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.validate.js"></script>       
     <script src="js/main.js"></script>
 
 </body>
