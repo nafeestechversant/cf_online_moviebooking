@@ -5,11 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
     <title>Movie Booking - Dashboard</title>
     <meta content="" name="description">
-    <meta content="" name="keywords">
-  
+    <meta content="" name="keywords">  
     <link href="css/frontend/bootstrap.min.css" rel="stylesheet">  
     <link href="css/frontend/bootstrap-icons.css" rel="stylesheet">
     <link href="css/frontend/style.css" rel="stylesheet">
@@ -91,6 +89,5 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.validate.js"></script>       
     <script src="js/main.js"></script>
-
 </body>
 </html>

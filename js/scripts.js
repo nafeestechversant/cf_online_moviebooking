@@ -193,9 +193,11 @@ $(document).ready(function() {
                 $('#movie_details').val(data[0].MOVIE_DETAILS);
                 $('#movie_id').val(movie_id);
                 if (data[0].COMING_SOON == '1') {
-                    $('#movie_cmngsoon').prop('checked', true);
+                    $('#movie_cmngsoonckb').prop('checked', true);
+                    $('#movie_cmngsoon').val(1);
                 } else {
-                    $('#movie_cmngsoon').prop('checked', false);
+                    $('#movie_cmngsoonckb').prop('checked', false);
+                    $('#movie_cmngsoon').val(0);
                 }
                 if (data[0].MOVIE_POSTER != '') {
                     $('#show-mov-img').attr('src', 'uploads/Movie/' + data[0].MOVIE_POSTER);

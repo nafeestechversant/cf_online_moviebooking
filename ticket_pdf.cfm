@@ -16,8 +16,6 @@
         </cfinvoke>
    </cfif> 
 </cfif>
-
-
 <link href="css/frontend/pdf.css" rel="stylesheet">
 <cfheader name="Content-Disposition" value="attachment; filename=myDoc.pdf">
     <cfcontent type="application/pdf">
@@ -28,7 +26,7 @@
                     <p class="cinema">#MoviesById.movie_name#</p>
                 </div>
                 <div class="info">
-                    <table>
+                    <table border="2">
                         <tr>
                             <th>Theatre</th>
                             <th>Row</th>
@@ -36,11 +34,11 @@
                         </tr>
                         <tr>
                             <td class="bigger">#TheatreName.theatre_name#</td>
-                            <td class="bigger">#getTicketLists.booked_seat#</td>
+                            <td class="bigger" colspan="2">#getTicketLists.booked_seat#</td>
 <!---                             <td class="bigger">24</td> --->
                         </tr>
                     </table>
-                    <table>
+                    <table border="2">
                         <tr>
                             <th>PRICE</th>
                             <th>DATE</th>

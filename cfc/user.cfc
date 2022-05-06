@@ -293,7 +293,6 @@
 			</cfquery>			
 			<cfset structdelete(session,'BookingDetails') />									
 		</cfif>	
-<!--- 		<cflocation url = "../dashboard.cfm" addtoken="false" /> --->
 		<cfreturn result.RECORDCOUNT />						
 	</cffunction>
 

@@ -37,8 +37,7 @@
     <link href="css/frontend/bootstrap.min.css" rel="stylesheet">
     <link href="css/frontend/style.css" rel="stylesheet">   
     <link href="css/frontend/seat-style.css" rel="stylesheet" type="text/css" media="all" />
-    <script src="js/jquery-1.11.0.min.js"></script>
-  
+    <script src="js/jquery-1.11.0.min.js"></script>  
 </head>
 <body>
     <cfoutput>
@@ -75,8 +74,7 @@
                         <div style="clear:both"></div>
                     </div>
 
-                    <script type="text/javascript">
-                        
+                    <script type="text/javascript">                        
                         $(document).ready(function() {
                             var $cart = $('##selected-seats'), //Sitting Area
                                 $counter = $('##counter'), //Votes
@@ -154,28 +152,22 @@
                                     }
                                 }
                             });
-
                             
-
                             $('##selected-seats').on('click','.cancel-cart-item',function () {     
-                            sc.get($(this).parents('li:first').data('seatId')).click();
+                                sc.get($(this).parents('li:first').data('seatId')).click();
                             });
 
-
-                            //sold seat
-                            //sc.get(['1_2', '4_4', '4_5', '6_6', '6_7', '8_5', '8_6', '8_7', '8_8', '10_1', '10_2']).status('unavailable');
+                            //sold seat                            
                              sc.get([#BookedShowById#]).status('unavailable');
 
                         });
 
-                        
                         //sum total money
                         function recalculateTotal(sc) {
                             var total = 0;
                             sc.find('selected').each(function() {
                                 total += this.data().price;
                             });
-
                             return total;
                         }
                     </script>
@@ -187,7 +179,6 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/jquery.seat-charts.js"></script>
-<!---     <script src="js/jquery.nicescroll.js"></script> --->
     <script src="js/seat-scripts.js"></script>
 </body>
 </html>
