@@ -15,13 +15,7 @@
                             </cfloop>
                         </ul>
                     </li>
-                    <li class="dropdown"><a href="theatres.cfm"><span>Theatres</span> 
-<!---                     <i class="bi bi-chevron-down"></i> --->
-                    </a>
-<!---                         <ul> --->
-<!---                             <li><a href="##">Drop Down 1</a></li> --->
-<!---                         </ul> --->
-                    </li>
+                    <li class="dropdown"><a href="theatres.cfm"><span>Theatres</span></a></li>                                       
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
                 <cfif structKeyExists(session,'stLoggedInUser')>               

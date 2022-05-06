@@ -134,8 +134,8 @@
 				movie_youtubelink = <cfqueryparam value="#variables.movie_youtubelink#" cfsqltype="cf_sql_varchar" />,
 				movie_rating = <cfqueryparam value="#variables.movie_rating#" cfsqltype="cf_sql_integer" />,
 				movie_details = <cfqueryparam value="#variables.movie_details#" cfsqltype="cf_sql_varchar" />,
-				movie_language = <cfqueryparam value="#variables.movie_language#" cfsqltype="cf_sql_varchar" />,
-				movie_cmngsoon = <cfqueryparam value="#variables.movie_cmngsoon#" cfsqltype="cf_sql_integer" />
+				movie_lang = <cfqueryparam value="#variables.movie_language#" cfsqltype="cf_sql_varchar" />,
+				coming_soon = <cfqueryparam value="#variables.movie_cmngsoon#" cfsqltype="cf_sql_integer" />
 				WHERE movie_id = #variables.movie_id# AND created_by = #session.stLoggedInAdmin.adminID#			
 			</cfquery>						
 		</cfif>

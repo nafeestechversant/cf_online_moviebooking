@@ -12,7 +12,8 @@
     <link href="../css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body class="sb-nav-fixed">
-    <cfoutput>    
+    <cfoutput>
+        #GetFileFromPath(CGI.CF_TEMPLATE_PATH)#    
         <cfinclude template="header.cfm">
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">

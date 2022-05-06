@@ -39,23 +39,22 @@
                             <h3>#MoviesById.movie_name#</h3>
                             <p>#MoviesById.movie_lang#</p>
                         </div>
-                            <table class="table">
-                                
+                            <table class="table">                                
                                 <tbody>
                                     <tr>
-                                    <th scope="row" class="border-right ">Date</th>
+                                        <th scope="row" class="border-right ">Date</th>
                                         <td class="border-right ">#session.BookingDetails.req_date#</td>                                  
                                     </tr>
-                                     <tr>
-                                    <th scope="row" class="border-right ">Time</th>
+                                    <tr>
+                                        <th scope="row" class="border-right ">Time</th>
                                         <td class="border-right ">#ShowById.start_time#</td>                                  
                                     </tr>  
                                     <tr>
-                                    <th scope="row">Theatre</th>
+                                        <th scope="row">Theatre</th>
                                         <td class="border-right ">#TheatreName.theatre_name#</td>                                  
                                     </tr> 
                                     <tr>
-                                    <th scope="row">Seat</th>
+                                        <th scope="row">Seat</th>
                                         <td class="border-right ">#session.BookingDetails.booked_seats#</td>                                  
                                     </tr>                                                                       
                                 </tbody>
@@ -65,13 +64,11 @@
                         <div class="summary">
                             <h3>Order Summary</h3>
                         </div>                          
-                            <ul class="book-left">
-                        
+                            <ul class="book-left">                        
                                 <li>Tickets</li>
                                 <li>Total</li>                                
                             </ul>
-                            <ul class="book-right">
-                           
+                            <ul class="book-right">                           
                                 <li>: <span id="counter">#session.BookingDetails.tick_count#</span></li>
                                 <li>: <b><i>Rs </i><span id="total">#session.BookingDetails.total_price#</span></b></li>
                             </ul>
@@ -79,9 +76,7 @@
                             <div class="">
                                 <input type="submit" value="Confirm Book" id="confirm_book" class="checkout-button" /> 
                                 <input type="button" value="Cancel" class="checkout-button cnce-btn" />    
-                            </div>                                                   
-                            
-                                                                                                                                       
+                            </div>                                                                                                                                                                                                                      
                         </div>
                     </div>
                 </div>                                                                                                                                                           
@@ -91,3 +86,4 @@
     <script src="js/jquery.min.js"></script>    
     <script src="js/main.js"></script>
 </body>
+</html>
