@@ -49,7 +49,7 @@
                                                 <th scope="col">Theatre</th>
                                                 <th scope="col">Booked On</th>
                                                 <th scope="col">Show Time</th>
-                                                <th scope="col">Action</th>
+                                                <th scope="col" colspan="2">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -61,13 +61,18 @@
                                                  <cfinvoke component="#MovieList#" method="getTheatreById" returnvariable="TheatreById">
                                                     <cfinvokeargument  name="theatre_id" value="#BookingHistory.theatre_id#" />
                                                 </cfinvoke> 
+                                                 <cfinvoke component="#MovieList#" method="getUsrById" returnvariable="UsrById">                                                   
+                                                </cfinvoke> 
                                                 <tr>
-                                                    <th scope="row">#sno#</th>
+                                                    <th scope="row">BKTID00#BookingHistory.booking_id#</th>
                                                     <td>#MoviesById.movie_name#</td>
                                                     <td>#TheatreById.theatre_name#</td>
                                                     <td>#BookingHistory.booked_on#</td>
                                                     <td>#BookingHistory.start_time#</td>
                                                     <td><a href="ticket_pdf.cfm?tic_id=#URLEncodedFormat(Encrypt(BookingHistory.booking_id, "abc!@"))#">Download Ticket</a></td>
+                                                    <cfset variables.text = 'Booking Id: BKTID00#BookingHistory.booking_id# Movie: #MoviesById.movie_name# Theatre: #TheatreById.theatre_name# DateTime: #BookingHistory.booked_on# #BookingHistory.start_time#' />	                                                    
+                                                    <td><a href="https://wa.me/#UsrById.user_phone#?text=#EncodeForURL(variables.text)#" target="_blank"><i class="bi bi-whatsapp whatsappicon"></i></a></td>
+
                                                 </tr>
                                                 <cfset variables.sno ++ >
                                             </cfloop>                                                                                        
