@@ -1639,6 +1639,12 @@ div#preloader {
     color: #fff;
 }
 
+.whatsappicon {
+    font-size: 24px;
+    color: #25D366;
+    cursor: pointer;
+}
+
 
 /*--------------------------------------------------------------
 # Blog page
