@@ -39,6 +39,11 @@
                         </div>
                         <div class="col-md-9 col-sm-9 col-xs-12">                                                          
                                 <h4>Edit Profile</h4>
+                                <cfif isDefined('errorMessage') AND NOT arrayIsEmpty(errorMessage)>            
+                                    <cfloop array="#errorMessage#" index="message">
+                                        <p  class="red">#message#</p>
+                                    </cfloop>
+                                </cfif> 
                                 <cfparam name="form.fld_userName"  default=""  type="string">
                                 <cfparam name="form.fld_userEmail"  default=""  type="string"> 
                                 <cfparam name="form.fld_userMobile"  default=""  type="string">

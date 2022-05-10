@@ -223,7 +223,12 @@ $(document).on("submit", "#form_login", function(event) {
         processData: false,
         contentType: false,
         success: function(response) {
-            if (response == 1) {
+            if (response.length != 0) {
+                $("#valid-loginerr").empty();
+                for (i = 0; i < response.length; ++i) {
+                    $("#valid-loginerr").append("<p class='red'>" + response[i] + "</p>");
+                }
+            } else {
                 location.reload();
             }
 
@@ -298,19 +303,19 @@ $("document").ready(function() {
             }
         }
     });
-    $("#form_editUser").validate({
-        rules: {
-            fld_userName: {
-                required: true
-            },
-            fld_userEmail: {
-                required: true,
-            },
-            fld_userMobile: {
-                required: true,
-            }
-        }
-    });
+    // $("#form_editUser").validate({
+    //     rules: {
+    //         fld_userName: {
+    //             required: true
+    //         },
+    //         fld_userEmail: {
+    //             required: true,
+    //         },
+    //         fld_userMobile: {
+    //             required: true,
+    //         }
+    //     }
+    // });
     $("#form_addUser").validate({
         rules: {
             fld_userName: {

@@ -30,6 +30,12 @@
 		<cfreturn true />
 	</cffunction>
 
+	<cffunction name="onSessionStart" access="public" output="false" returntype="void">
+     	<cflock timeout=20 scope="Session" type="Exclusive">      
+			<cfset session.stLoggedInUser = {'Usrloggedin'=false,'userFullName' = '','userID' = 0} />   
+     	</cflock> 
+	</cffunction>
+
 	<cffunction name="onError"> 
 		<cfargument name="Exception" required=true/> 
 		<cfargument type="String" name="EventName" required=true/> 				 		
