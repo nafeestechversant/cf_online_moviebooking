@@ -1,3 +1,4 @@
+<!--- <cfdump  var="#session.Errmsg#"> --->
 <cfoutput>
     <footer>
         <div class="footer-area-bottom">
@@ -77,7 +78,8 @@
                     <div class="modal-body">
                         <cfif isDefined('session.Errmsg') AND session.Errmsg NEQ "">
                             <p  class="red">#session.Errmsg#</p>                                         
-                        </cfif>                 
+                        </cfif>
+                        <div id="valid-loginerr"></div>                 
                         <div class="col-md-12">
                             <label for="inputPassword4" class="form-label">Email Address</label>
                             <input class="form-control" name="fld_userEmail" id="fld_userEmail" type="email" id="formFile">

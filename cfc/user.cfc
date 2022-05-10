@@ -124,7 +124,7 @@
 					)
 			</cfquery>
 			<cfset variables.lastInsertId = result.generatedkey>
-			<cfset session.stLoggedInUser = {'userFullName' = variables.fld_userName, 'userID' = variables.lastInsertId} > 													
+			<cfset session.stLoggedInUser = {'Usrloggedin'=true,'userFullName' = variables.fld_userName, 'userID' = variables.lastInsertId} > 													
 		</cfif>		
  		<cfreturn variables.errorMessage />
 	</cffunction>
@@ -134,12 +134,10 @@
 		<cfset variables.fld_userEmail = form.fld_userEmail/>
 		<cfset variables.fld_userPwd = form.fld_userPwd/>		
 		<cfif variables.fld_userEmail EQ ''>
-			<cfset session.Errmsg = 'Please Enter Email' />
-			<cflocation url = "../index.cfm" addtoken="false" />			
+			<cfset arrayAppend(errorMessage, 'Please Enter Email')>						
 		</cfif>
 		<cfif variables.fld_userPwd EQ ''>
-			<cfset session.Errmsg = 'Please Enter Password' />
-			<cflocation url = "../index.cfm" addtoken="false" />				
+			<cfset arrayAppend(errorMessage, 'Please Enter Password')>								
 		</cfif>
 		<cfif arrayIsEmpty(errorMessage)>
 			<cfquery name="qry.checkLogin">
@@ -147,14 +145,12 @@
 					WHERE user_email = <cfqueryparam value="#variables.fld_userEmail#" cfsqltype="cf_sql_varchar" /> AND user_pwd = <cfqueryparam value="#hash(variables.fld_userPwd,'SHA')#" cfsqltype="cf_sql_varchar" />
 			</cfquery>
 			<cfif qry.checkLogin.recordcount EQ 1>
-				<cfset session.stLoggedInUser = {'userFullName' = qry.checkLogin.user_fullname, 'userID' = qry.checkLogin.user_id} > 
-				<cfset structdelete(session,'Errmsg')>				
-			<cfelse>				
-				<cfset session.Errmsg = 'Invalid User Login' />			
-				<cflocation url = "../index.cfm" addtoken="false" />
+				<cfset session.stLoggedInUser = {'userFullName' = qry.checkLogin.user_fullname, 'userID' = qry.checkLogin.user_id} > 							
+			<cfelse>	
+				<cfset arrayAppend(errorMessage, 'Invalid User Login')>							
 			</cfif>
-		</cfif>	
-		<cfreturn qry.checkLogin.recordcount />		
+		</cfif>			
+		<cfreturn variables.errorMessage />		
 	</cffunction>
 
 	<cffunction name="getUsrBookHis" access="public" output="false" returntype="query">			
@@ -196,7 +192,6 @@
 		</cfquery>
 				
 		<cfif NOT arrayIsEmpty(errorMessage)>
-			
 		</cfif>
 				
 		<cfif arrayIsEmpty(errorMessage)>			

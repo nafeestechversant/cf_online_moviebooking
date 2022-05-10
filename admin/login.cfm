@@ -51,7 +51,7 @@
         </div>
     </cfoutput>
     <script src="../js/jquery.min.js"></script>              
-    <script src="../js/jquery.validate.js"></script>
-    <script src="../js/validation.js"></script>
+    <script src="../js/jquery.validate.js"></script>    
+    <script src="../js/scripts.js"></script>
 </body>
 </html>
