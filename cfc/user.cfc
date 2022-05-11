@@ -176,16 +176,20 @@
 		<cfset variables.fld_userAddr = form.fld_userAddr/>
 		<cfset variables.fld_userCnfPwd = form.fld_userCnfPwd/>	
 		<cfif trim(variables.fld_userName) EQ ''>
-			<cfset arrayAppend(errorMessage, 'Please Enter Full Name')>
+			<cfset session.ProErrmsg = 'Please Enter Full Name' >
+			<cflocation url = "../edit-profile.cfm" addtoken="false" />
 		</cfif>	
-		<cfif trim(variables.fld_userEmail) EQ '' OR NOT isValid("eMail", variables.fld_userEmail)>
-			<cfset arrayAppend(errorMessage, 'Please Enter valid Email')>
+		<cfif trim(variables.fld_userEmail) EQ '' OR NOT isValid("eMail", variables.fld_userEmail)>			
+			<cfset session.ProErrmsg = 'Please Enter valid Email' >
+			<cflocation url = "../edit-profile.cfm" addtoken="false" />
 		</cfif>	
 		<cfif trim(variables.fld_userMobile) EQ ''>
-			<cfset arrayAppend(errorMessage, 'Please Enter Mobile')>
+			<cfset session.ProErrmsg = 'Please Enter Mobile' >
+			<cflocation url = "../edit-profile.cfm" addtoken="false" />
 		</cfif>		
-		<cfif  variables.fld_userCnfPwd NOT EQUAL '' AND variables.fld_userPwd NOT EQUAL variables.fld_userCnfPwd>
-			<cfset arrayAppend(errorMessage, 'Confirm Password Mismatch')>
+		<cfif  variables.fld_userCnfPwd NOT EQUAL '' AND variables.fld_userPwd NOT EQUAL variables.fld_userCnfPwd>			
+			<cfset session.ProErrmsg = 'Confirm Password Mismatch' >
+			<cflocation url = "../edit-profile.cfm" addtoken="false" />
 		</cfif>	
 		<cfquery name="qry.checkEmail">
 			SELECT user_email FROM mv_users WHERE user_email = <cfqueryparam value="#variables.fld_userEmail#" cfsqltype="cf_sql_varchar" />
@@ -202,7 +206,8 @@
 				user_email = <cfqueryparam value="#variables.fld_userEmail#" cfsqltype="cf_sql_varchar" />,				
 				user_address = <cfqueryparam value="#variables.fld_userAddr#" cfsqltype="cf_sql_varchar" />				
 				WHERE user_id = #session.stLoggedInUser.userID#
-			</cfquery>	
+			</cfquery>
+			<cfset structdelete(session,'ProErrmsg') />		
 			<cflocation url = "../edit-profile.cfm" addtoken="false" />		
 		</cfif>		
  		<cfreturn variables.errorMessage />
@@ -285,7 +290,20 @@
 							<cfqueryparam value="#session.BookingDetails.total_price#" cfsqltype="cf_sql_decimal" />,
 							<cfqueryparam value="Gold" cfsqltype="cf_sql_varchar" />																		
 						)
-			</cfquery>			
+			</cfquery>
+			<cfmail to="nafees.rahman@techversantinfo.com"
+				from="naf@mail.com"
+				subject="Welcome to Techversant"
+				type="text" mimeattach="C:/Users/Nafees/Downloads/e-Nomination.pdf">
+				Dear Nafees
+
+				We, here at Bedrock, would like to thank you for joining.
+
+				Attached is a PDF document outlining our terms and conditions.
+
+				Best wishes
+				Rahman
+			</cfmail>			
 			<cfset structdelete(session,'BookingDetails') />									
 		</cfif>	
 		<cfreturn result.RECORDCOUNT />						

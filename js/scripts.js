@@ -18,6 +18,26 @@ window.addEventListener('DOMContentLoaded', event => {
 
 $(document).ready(function() {
 
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("start_date").setAttribute("min", today);
+    document.getElementById("end_date").setAttribute("min", today);
+
+    console.log(today);
+
     $('#datatablesSimple,#datatablesMovies,#datatablesShows').DataTable({
         "sDom": "ltipr"
     });

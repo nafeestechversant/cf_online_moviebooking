@@ -13,12 +13,10 @@
 	</cffunction>
     <!---onRequestStart() method--->
 	<cffunction name="onRequestStart" returntype="boolean">		
-		<cfargument name="targetPage" type="string" required="true" />					
-		<cfif structKeyExists(URL,'logout')>
-			<cfset structdelete(session,'stLoggedInAdmin') />			
-		</cfif>
+		<cfargument name="targetPage" type="string" required="true" />						
 		<cfif structKeyExists(URL,'Usrlogout')>
-			<cfset structdelete(session,'stLoggedInUser') />			
+			<cfset structdelete(session,'stLoggedInUser') />
+			<cflocation url = "index.cfm" addtoken="false" />			
 		</cfif>
 		<cfset variables.fefiles = "edit-profile.cfm,dashboard.cfm,ticket_pdf.cfm,order_summary.cfm">
 		<cfif ListContains(variables.fefiles, GetFileFromPath(CGI.CF_TEMPLATE_PATH)) AND NOT structKeyExists(session,'stLoggedInUser')>
@@ -30,24 +28,9 @@
 		<cfreturn true />
 	</cffunction>
 
-	<cffunction name="onSessionStart" access="public" output="false" returntype="void">
-     	<cflock timeout=20 scope="Session" type="Exclusive">      
-			<cfset session.stLoggedInUser = {'Usrloggedin'=false,'userFullName' = '','userID' = 0} />   
-     	</cflock> 
+	<cffunction name="onSessionStart" access="public" output="false" returntype="void">     	    
+			 	
 	</cffunction>
 
-	<cffunction name="onError"> 
-		<cfargument name="Exception" required=true/> 
-		<cfargument type="String" name="EventName" required=true/> 				 		
-		<cfif NOT (Arguments.EventName IS "onSessionEnd") OR  
-				(Arguments.EventName IS "onApplicationEnd")> 
-			<cfoutput> 
-				<h2>An unexpected error occurred.</h2> 
-				<p>Please provide the following information to technical support:</p> 
-				<p>Error Event: #Arguments.EventName#</p> 
-				<p>Error details:<br> 
-				<cfdump var=#Arguments.Exception#></p> 
-			</cfoutput> 
-		</cfif>  
-	</cffunction>	 	
+		 	
 </cfcomponent>
