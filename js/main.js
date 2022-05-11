@@ -303,19 +303,19 @@ $("document").ready(function() {
             }
         }
     });
-    // $("#form_editUser").validate({
-    //     rules: {
-    //         fld_userName: {
-    //             required: true
-    //         },
-    //         fld_userEmail: {
-    //             required: true,
-    //         },
-    //         fld_userMobile: {
-    //             required: true,
-    //         }
-    //     }
-    // });
+    $("#form_editUser").validate({
+        rules: {
+            fld_userName: {
+                required: true
+            },
+            fld_userEmail: {
+                required: true,
+            },
+            fld_userMobile: {
+                required: true,
+            }
+        }
+    });
     $("#form_addUser").validate({
         rules: {
             fld_userName: {

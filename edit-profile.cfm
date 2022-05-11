@@ -39,10 +39,8 @@
                         </div>
                         <div class="col-md-9 col-sm-9 col-xs-12">                                                          
                                 <h4>Edit Profile</h4>
-                                <cfif isDefined('errorMessage') AND NOT arrayIsEmpty(errorMessage)>            
-                                    <cfloop array="#errorMessage#" index="message">
-                                        <p  class="red">#message#</p>
-                                    </cfloop>
+                                <cfif isDefined('session.ProErrmsg') AND session.ProErrmsg NEQ "">                                    
+                                    <p  class="red">#session.ProErrmsg#</p>                                    
                                 </cfif> 
                                 <cfparam name="form.fld_userName"  default=""  type="string">
                                 <cfparam name="form.fld_userEmail"  default=""  type="string"> 
@@ -58,7 +56,7 @@
                                         </div>
                                         <div class="col">
                                             <label for="inputEmail4">Email</label>
-                                            <input type="text" name="fld_userEmail" class="form-control" placeholder="Email" value="#UsersById.user_email#">
+                                            <input type="text" name="fld_userEmail" class="form-control" placeholder="Email" value="#UsersById.user_email#" readonly>
                                         </div>
                                     </div>
                                     <div class="row mr-bot">
