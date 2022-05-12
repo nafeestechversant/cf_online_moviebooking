@@ -16,6 +16,7 @@
 		<cfargument name="targetPage" type="string" required="true" />						
 		<cfif structKeyExists(URL,'Usrlogout')>
 			<cfset structdelete(session,'stLoggedInUser') />
+			<cfset structdelete(session,'BookingDetails') />
 			<cflocation url = "index.cfm" addtoken="false" />			
 		</cfif>
 		<cfset variables.fefiles = "edit-profile.cfm,dashboard.cfm,ticket_pdf.cfm,order_summary.cfm">

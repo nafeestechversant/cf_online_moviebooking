@@ -13,6 +13,13 @@
             <cfinvokeargument  name="theatre_id" value="#ShowById.theatre_id#" />
         </cfinvoke>
     </cfif> 
+    <cfset variables.convert_rupees = session.BookingDetails.total_price * 100>
+   
+</cfif>
+<cfif structKeyExists(session,'stLoggedInUser')>
+    <cfif session.stLoggedInUser.userID NEQ "">
+          <cfinvoke component="#OrderSummary#" method="getUsrById" returnvariable="UsrById"></cfinvoke>    
+    </cfif>
 </cfif>
 <!DOCTYPE html>
 <html>
@@ -25,6 +32,7 @@
     <link href="css/frontend/seat-style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/frontend/bootstrap.min.css" rel="stylesheet">     
     <link href="css/frontend/style.css" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
     <cfoutput>
@@ -59,6 +67,28 @@
                                     </tr>                                                                       
                                 </tbody>
                             </table>
+                            <div class="summary">
+                                <h3>User Details</h3>
+                                <table class="">                                
+                                    <tbody>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>:</td>
+                                            <td class="">#UsrById.user_fullname#</td>                                  
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>:</td>
+                                            <td class="">#UsrById.user_email#</td>                                  
+                                        </tr>
+                                        <tr>
+                                            <td>Mobile</td>
+                                            <td>:</td>
+                                            <td class="">#UsrById.user_phone#</td>                                  
+                                        </tr>                                                                                                                                                        
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="col-5">  
                         <div class="summary">
@@ -74,16 +104,57 @@
                             </ul>
                             <div class="clear"></div>  
                             <div class="">
-                                <input type="submit" value="Confirm Book" id="confirm_book" class="checkout-button" /> 
+                                <button id="rzp-button1" class="checkout-button">Make Payment</button>
+                            <!---  <input type="submit" value="Confirm Book" id="confirm_book" class="checkout-button" />  --->
                                 <input type="button" value="Cancel" class="checkout-button cnce-btn" />    
-                            </div>                                                                                                                                                                                                                      
+                                
+                            </div>                            
                         </div>
                     </div>
                 </div>                                                                                                                                                           
             </div>
         </main>
+        <script>
+            var options = {
+                "key": "rzp_test_dKHSAwIaRKIBft", 
+                "amount": "#variables.convert_rupees#", 
+                "currency": "INR",
+                "name": "Movie Ticket Booking",
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",  
+                "callback_url": "http://127.0.0.1:8500/cf_online_moviebooking/cfc/user.cfc?method=addBooking&returnformat=json",              
+                "prefill": {
+                    "name": "#UsrById.user_fullname#",
+                    "email": "#UsrById.user_email#",
+                    "contact": "#UsrById.user_phone#"
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "##3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.on('payment.failed', function (response){
+                // console.log("ggg"+response);
+                //     alert(response.error.code);
+                //     alert(response.error.description);
+                //     alert(response.error.source);
+                //     alert(response.error.step);
+                //     alert(response.error.reason);
+                //     alert(response.error.metadata.order_id);
+                //     alert(response.error.metadata.payment_id);
+            });
+            document.getElementById('rzp-button1').onclick = function(e){
+                rzp1.open();
+                e.preventDefault();
+            }
+        </script>
     </cfoutput>   
     <script src="js/jquery.min.js"></script>    
-    <script src="js/main.js"></script>
+    <script src="js/main.js"></script>    
+    
+    
 </body>
 </html>
