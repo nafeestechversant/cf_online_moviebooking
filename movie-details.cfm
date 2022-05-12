@@ -8,6 +8,7 @@
         <cfinvoke component="#MovieList#" method="getTheatresByDate" returnvariable="TheatreShow">
             <cfinvokeargument  name="movie_id" value="#variables.movie_id#" />
             <cfinvokeargument  name="curr_date" value="#DateFormat(Now(),"yyyy-mm-dd")#" />
+            <cfinvokeargument  name="curr_time" value="#DateFormat(Now(),"HH:mm:ss")#" />
         </cfinvoke>
         <cfinvoke component="#MovieList#" method="getDateofShow" returnvariable="DateofShow">
             <cfinvokeargument  name="movie_id" value="#variables.movie_id#" />
@@ -101,6 +102,7 @@
                                                         <cfinvoke component="#MovieList#" method="getTheatreShowTime" returnvariable="TheatreShowTime">
                                                             <cfinvokeargument  name="theatre_id" value="#TheatreShow.theatre_id#" />
                                                             <cfinvokeargument  name="curr_date" value="#DateFormat(Now(),"yyyy-mm-dd")#" />
+                                                            <cfinvokeargument  name="curr_time" value="#DateFormat(Now(),"HH:mm:ss")#" />
                                                         </cfinvoke>  
                                                         <div class="recent-post">                                           
                                                             <div class="recent-single-post">

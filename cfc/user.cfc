@@ -53,9 +53,10 @@
 
 	<cffunction name="getTheatresByDate" access="public" output="false" returntype="query">	
 		<cfargument name="movie_id" type="integer" required="true" />
-		<cfargument name="curr_date" type="string" required="true" />	
+		<cfargument name="curr_date" type="string" required="true" />
+		<cfargument name="curr_time" type="string" required="true" />		
 		<cfquery name="qry.rs_getTheatresByDate">
-			SELECT DISTINCT `theatre_id` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.curr_date#" cfsqltype="cf_sql_date" />;
+			SELECT DISTINCT `theatre_id` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.curr_date#" cfsqltype="cf_sql_date" /> AND start_time >=<cfqueryparam value="#arguments.curr_time#" cfsqltype="cf_sql_time" />;
 		</cfquery>		
 		<cfreturn qry.rs_getTheatresByDate />
 	</cffunction>
@@ -63,8 +64,9 @@
 	<cffunction name="getTheatreShowTime" access="public" output="false" returntype="query">	
 		<cfargument name="theatre_id" type="integer" required="true" />	
 		<cfargument name="curr_date" type="string" required="true" />	
+		<cfargument name="curr_time" type="string" required="true" />		
 		<cfquery name="qry.rs_getTheatresShowTime">
-			SELECT show_id,start_time,movie_id FROM mv_show_timing WHERE theatre_id=<cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.curr_date#" cfsqltype="cf_sql_date" /> ORDER BY start_time DESC;
+			SELECT show_id,start_time,movie_id FROM mv_show_timing WHERE theatre_id=<cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.curr_date#" cfsqltype="cf_sql_date" /> AND start_time >=<cfqueryparam value="#arguments.curr_time#" cfsqltype="cf_sql_time" /> ORDER BY start_time DESC;
 		</cfquery>		
 		<cfreturn qry.rs_getTheatresShowTime />
 	</cffunction>
@@ -290,10 +292,13 @@
 							<cfqueryparam value="#session.BookingDetails.total_price#" cfsqltype="cf_sql_decimal" />,
 							<cfqueryparam value="Gold" cfsqltype="cf_sql_varchar" />																		
 						)
-			</cfquery>
-			<cfmail to="nafees.rahman@techversantinfo.com"
+			</cfquery>				
+			<cfset structdelete(session,'BookingDetails') />									
+		</cfif>	
+		
+	<cfmail to="nafees.rahman@techversantinfo.com"
 				from="naf@mail.com"
-				subject="Welcome to Techversant"
+				subject="Booking Confirmation"
 				type="text" mimeattach="C:/Users/Nafees/Downloads/e-Nomination.pdf">
 				Dear Nafees
 
@@ -303,10 +308,11 @@
 
 				Best wishes
 				Rahman
-			</cfmail>			
-			<cfset structdelete(session,'BookingDetails') />									
+			</cfmail>
+		<cfif result.RECORDCOUNT > 0 >
+			<cflocation url = "../dashboard.cfm" addtoken="false" />	
 		</cfif>	
-		<cfreturn result.RECORDCOUNT />						
+<!--- 		<cfreturn result.RECORDCOUNT />						 --->
 	</cffunction>
 
 	<cffunction name="checkLoginOrNot" access="remote" returntype="boolean">				
