@@ -398,6 +398,10 @@ function addBookingSession() {
 
 }
 
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
 function autoPlayYouTubeModal() {
     var trigger = $('.trigger');
     trigger.click(function(e) {

@@ -20,6 +20,15 @@
 		<cfreturn qry.rs_getMovies />
 	</cffunction>
 
+	<cffunction name="getSearchMovies" access="public" output="false" returntype="query">	
+		<cfargument name="search_term" type="string" required="true" />	
+		<cfquery name="qry.rs_getSearchMovies" result="result">
+			SELECT movie_id,movie_name,movie_poster,movie_lang,movie_rating FROM mv_movies WHERE movie_name LIKE '%#arguments.search_term#%'
+		</cfquery>	
+		<cfdump  var="#result#">
+		<cfreturn qry.rs_getSearchMovies />
+	</cffunction>
+
 	<cffunction name="getMoviesById" access="public" output="false" returntype="query">	
 		<cfargument name="movie_id" type="integer" required="true" />	
 		<cfquery name="qry.rs_getMoviesById">
@@ -282,7 +291,7 @@
 	<cffunction name="addBooking" access="remote" output="false">
 		<cfif structKeyExists(session,'BookingDetails')> 	
 			<cfquery name="qry.rs_addBooking" result="result">
-					INSERT INTO mv_booking (user_id,movie_id,show_id,booked_on,booked_seat,total_price,category_name)
+					INSERT INTO mv_booking (user_id,movie_id,show_id,booked_on,booked_seat,total_price,category_name,payment_id)
 					VALUES (
 							<cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="cf_sql_integer" />,
 							<cfqueryparam value="#session.BookingDetails.mov_id#" cfsqltype="cf_sql_integer" />,
@@ -290,29 +299,17 @@
 							<cfqueryparam value="#session.BookingDetails.req_date#" cfsqltype="cf_sql_date" />,																		
 							<cfqueryparam value="#session.BookingDetails.booked_seats#" cfsqltype="cf_sql_varchar" />,
 							<cfqueryparam value="#session.BookingDetails.total_price#" cfsqltype="cf_sql_decimal" />,
-							<cfqueryparam value="Gold" cfsqltype="cf_sql_varchar" />																		
+							<cfqueryparam value="Gold" cfsqltype="cf_sql_varchar" />,
+							<cfqueryparam value="#form.razorpay_payment_id#" cfsqltype="cf_sql_varchar" />																	
 						)
 			</cfquery>				
 			<cfset structdelete(session,'BookingDetails') />									
 		</cfif>	
 		
-	<cfmail to="nafees.rahman@techversantinfo.com"
-				from="naf@mail.com"
-				subject="Booking Confirmation"
-				type="text" mimeattach="C:/Users/Nafees/Downloads/e-Nomination.pdf">
-				Dear Nafees
-
-				We, here at Bedrock, would like to thank you for joining.
-
-				Attached is a PDF document outlining our terms and conditions.
-
-				Best wishes
-				Rahman
-			</cfmail>
+		
 		<cfif result.RECORDCOUNT > 0 >
-			<cflocation url = "../dashboard.cfm" addtoken="false" />	
+			<cflocation url = "../dashboard.cfm" addtoken="false" />
 		</cfif>	
-<!--- 		<cfreturn result.RECORDCOUNT />						 --->
 	</cffunction>
 
 	<cffunction name="checkLoginOrNot" access="remote" returntype="boolean">				

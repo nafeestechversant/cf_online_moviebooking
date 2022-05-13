@@ -22,10 +22,7 @@
 		<cfset variables.fefiles = "edit-profile.cfm,dashboard.cfm,ticket_pdf.cfm,order_summary.cfm">
 		<cfif ListContains(variables.fefiles, GetFileFromPath(CGI.CF_TEMPLATE_PATH)) AND NOT structKeyExists(session,'stLoggedInUser')>
 			<cflocation url = "index.cfm" addtoken="false" />
-		</cfif>
-		<cfif ListContains("movieticket_booking.cfm", GetFileFromPath(CGI.CF_TEMPLATE_PATH)) >
-<!--- 			<cflocation url = "index.cfm" addtoken="false" /> --->
-		</cfif>
+		</cfif>	
 		<cfreturn true />
 	</cffunction>
 
