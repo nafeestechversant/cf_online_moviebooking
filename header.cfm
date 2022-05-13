@@ -4,7 +4,7 @@
         <div class="container d-flex justify-content-between">
             <div class="logo">
                 <h1><a href="index.cfm">Movie Booking</a></h1>
-            </div>
+            </div>           
             <nav id="navbar" class="navbar">
                 <ul class="adj-menubar">
                     <li><a class="nav-link scrollto" href="index.cfm">Home</a></li>
@@ -17,9 +17,20 @@
                     </li>
                     <li class="dropdown"><a href="theatres.cfm"><span>Theatres</span></a></li>                                       
                 </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
+                <i class="bi bi-list mobile-nav-toggle"></i>                
+                <div class="dropdown">
+                <button class="button search-icon" onclick="myFunction()" type="submit"><i class="bi bi-search"></i></button>
+                    <form action="movies.cfm">
+                        <div id="myDropdown" class="dropdown-content">
+                            <input type="text" name="search_term" placeholder="Search Movie" id="myInput" autocomplete="off"> 
+                            <button class="button" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>                   
+                        </div>
+                    </form>
+                </div>
                 <cfif structKeyExists(session,'stLoggedInUser')>               
-                    <ul class="">                   
+                    <ul class="login-menu">                   
                         <li class="dropdown"><a href="##"><span>#session.stLoggedInUser.userFullName#</span> <i class="bi bi-chevron-down"></i></a>
                             <ul class="user-menu">
                                 <li><a href="dashboard.cfm">Dashboard</a></li>
