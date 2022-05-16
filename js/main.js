@@ -243,11 +243,12 @@ $(document).on("submit", "#form_login", function(event) {
 $(".filterbyDate").click(function() {
     var currDate = $(this).attr('data-currdate');
     var movieId = $(this).attr('data-movieId');
+    var currTime = $(this).attr('data-currtime');
 
     $.ajax({
         url: "cfc/user.cfc?method=filterTheatre",
         type: "POST",
-        data: { currDate: currDate, movieId: movieId },
+        data: { currDate: currDate, movieId: movieId, currTime: currTime },
         cache: false,
         success: function(html) {
             $("#results").empty();

@@ -89,7 +89,7 @@
                                                 <ul class="nav nav-tabs">
                                                     <cfloop query="#DateofShow#">
                                                         <li class="nav-item">
-                                                            <a class="nav-link filterbyDate #IIF(DateofShow.start_date eq DateFormat(Now(),"yyyy-mm-dd"), de('active'), de(''))#" aria-current="page" data-currDate="#DateofShow.start_date#" data-movieId="#variables.movie_id#">#DateFormat(DateofShow.start_date,"dd")#<br>#DateFormat(DateofShow.start_date,"ddd")#</a>
+                                                            <a class="nav-link filterbyDate #IIF(DateofShow.start_date eq DateFormat(Now(),"yyyy-mm-dd"), de('active'), de(''))#" aria-current="page" data-currDate="#DateofShow.start_date#" data-currtime="#DateFormat(Now(),"HH:mm:ss")#" data-movieId="#variables.movie_id#">#DateFormat(DateofShow.start_date,"dd")#<br>#DateFormat(DateofShow.start_date,"ddd")#</a>
                                                         </li>
                                                     </cfloop>                                                                                             
                                                 </ul>
@@ -102,7 +102,7 @@
                                                             <cfinvoke component="#MovieList#" method="getTheatreShowTime" returnvariable="TheatreShowTime">
                                                                 <cfinvokeargument  name="theatre_id" value="#TheatreShow.theatre_id#" />
                                                                 <cfinvokeargument  name="curr_date" value="#DateFormat(Now(),"yyyy-mm-dd")#" />
-                                                                <cfinvokeargument  name="curr_time" value="#DateFormat(Now(),"HH:mm:ss")#" />
+                                                                <cfinvokeargument  name="curr_time" value="#DateFormat(Now(),"HH:mm:ss")#" /> 
                                                             </cfinvoke>  
                                                             <div class="recent-post">                                           
                                                                 <div class="recent-single-post">
