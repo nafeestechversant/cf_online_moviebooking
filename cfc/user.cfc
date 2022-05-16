@@ -73,7 +73,7 @@
 	<cffunction name="getTheatreShowTime" access="public" output="false" returntype="query">	
 		<cfargument name="theatre_id" type="integer" required="true" />	
 		<cfargument name="curr_date" type="string" required="true" />	
-		<cfargument name="curr_time" type="string" required="true" />		
+		<cfargument name="curr_time" type="string" required="false" />		 
 		<cfquery name="qry.rs_getTheatresShowTime">
 			SELECT show_id,start_time,movie_id FROM mv_show_timing WHERE theatre_id=<cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.curr_date#" cfsqltype="cf_sql_date" /> AND start_time >=<cfqueryparam value="#arguments.curr_time#" cfsqltype="cf_sql_time" /> ORDER BY start_time DESC;
 		</cfquery>		
@@ -226,7 +226,8 @@
 
 	<cffunction name="filterTheatre" access="remote" output="false" returnFormat = "plain" returntype="string">	
 		<cfargument name="movieId" type="integer" required="true" />
-		<cfargument name="currDate" type="string" required="true" />	
+		<cfargument name="currDate" type="string" required="true" />
+		<cfargument name="currTime" type="string" required="true" />	
 		<cfquery name="qry.rs_getTheatresByDate" result="result">
 			SELECT DISTINCT `theatre_id` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movieId#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.currDate#" cfsqltype="cf_sql_date" />;
 		</cfquery>	
@@ -237,7 +238,7 @@
 				<cfif qry.rs_getTheatresByDate.recordcount NEQ 0>				
 					<cfloop query="qry.rs_getTheatresByDate">
 						<cfset variables.TheatreById = this.getTheatreById(qry.rs_getTheatresByDate.theatre_id) />
-						<cfset variables.TheatreShowTime = this.getTheatreShowTime(qry.rs_getTheatresByDate.theatre_id,arguments.currDate) />
+						<cfset variables.TheatreShowTime = this.getTheatreShowTime(qry.rs_getTheatresByDate.theatre_id,arguments.currDate,arguments.currTime) />
 							<div class="recent-post">                                           
 								<div class="recent-single-post">
 									<div class="post-img">
