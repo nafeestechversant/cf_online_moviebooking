@@ -173,7 +173,7 @@
                         </script>
                     </div>       
                 </main>
-        <cfinclude template="footer.cfm">
+            <cfinclude template="footer.cfm">
         </cfoutput>
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>

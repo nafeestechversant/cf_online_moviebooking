@@ -14,7 +14,7 @@
         </cfinvoke>
     </cfif> 
     <cfset variables.convert_rupees = session.BookingDetails.total_price * 100>
-   
+    <cfset variables.paymentKey = application.paymentKey>
 </cfif>
 <cfif structKeyExists(session,'stLoggedInUser')>
     <cfif session.stLoggedInUser.userID NEQ "">
@@ -116,7 +116,7 @@
             </main>
             <script>
                 var options = {
-                    "key": "rzp_test_dKHSAwIaRKIBft", 
+                    "key": "#variables.paymentKey#", 
                     "amount": "#variables.convert_rupees#", 
                     "currency": "INR",
                     "name": "Movie Ticket Booking",

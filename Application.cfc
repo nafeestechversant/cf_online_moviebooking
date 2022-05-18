@@ -7,8 +7,10 @@
     <cfset this.datasource = 'cf_moviebooking' /> 
 	<cfset this.sessionManagement = true />
 	<cfset this.sessionTimeout = createTimespan(0,0,30,0) />  
+	 
     <!---OnApplicationStart() method--->
-	<cffunction name="onApplicationStart" returntype="boolean" >			
+	<cffunction name="onApplicationStart" returntype="boolean" >
+		<cfset application.paymentKey = "rzp_test_dKHSAwIaRKIBft" /> 			
 		<cfreturn true />
 	</cffunction>
     <!---onRequestStart() method--->
