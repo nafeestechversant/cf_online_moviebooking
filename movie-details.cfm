@@ -13,7 +13,8 @@
         <cfinvoke component="#MovieList#" method="getDateofShow" returnvariable="DateofShow">
             <cfinvokeargument  name="movie_id" value="#variables.movie_id#" />
             <cfinvokeargument  name="curr_date" value="#DateFormat(Now(),"yyyy-mm-dd")#" />            
-        </cfinvoke>           
+        </cfinvoke>  
+        <cfset variables.EncrptKey = application.EncrptKey>         
     </cfif>
 <cfelse>
     <cflocation url = "index.cfm" addtoken="false" />
@@ -118,7 +119,7 @@
                                                                     <div class="pst-shwtime">
                                                                         <ul>
                                                                             <cfloop query="#TheatreShowTime#">
-                                                                                <li><a href="movieticket_booking.cfm?Req_date=#URLEncodedFormat(Encrypt(DateFormat(Now(),"yyyy-mm-dd"), "abc!@"))#&shw_id=#URLEncodedFormat(Encrypt(TheatreShowTime.show_id, "abc!@"))#&mov_id=#URLEncodedFormat(Encrypt(variables.movie_id, "abc!@"))#">#TheatreShowTime.start_time#</a></li> 
+                                                                                <li><a href="movieticket_booking.cfm?Req_date=#URLEncodedFormat(Encrypt(DateFormat(Now(),"yyyy-mm-dd"), EncrptKey))#&shw_id=#URLEncodedFormat(Encrypt(TheatreShowTime.show_id, EncrptKey))#&mov_id=#URLEncodedFormat(Encrypt(variables.movie_id, EncrptKey))#">#TheatreShowTime.start_time#</a></li> 
                                                                             </cfloop>                                                                  
                                                                         </ul>                                                                
                                                                     </div>

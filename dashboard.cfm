@@ -1,5 +1,6 @@
 <cfobject name="MovieList" component="cfc/user">
 <cfinvoke component="#MovieList#" method="getUsrBookHis" returnvariable="BookingHistory"></cfinvoke>
+<cfset variables.EncrptKey = application.EncrptKey>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -69,7 +70,7 @@
                                                         <td>#TheatreById.theatre_name#</td>
                                                         <td>#BookingHistory.booked_on#</td>
                                                         <td>#BookingHistory.start_time#</td>
-                                                        <td><a href="ticket_pdf.cfm?tic_id=#URLEncodedFormat(Encrypt(BookingHistory.booking_id, "abc!@"))#">Download Ticket</a></td>
+                                                        <td><a href="ticket_pdf.cfm?tic_id=#URLEncodedFormat(Encrypt(BookingHistory.booking_id, EncrptKey))#">Download Ticket</a></td>
                                                         <cfset variables.text = 'Booking Id: BKTID00#BookingHistory.booking_id# Movie: #MoviesById.movie_name# Theatre: #TheatreById.theatre_name# DateTime: #BookingHistory.booked_on# #BookingHistory.start_time#' />	                                                    
                                                         <td><a href="https://wa.me/#UsrById.user_phone#?text=#EncodeForURL(variables.text)#" target="_blank"><i class="bi bi-whatsapp whatsappicon"></i></a></td>
 
