@@ -10,3 +10,18 @@
 <cfoutput>
 myVar = #myVar# (loop has finished)
 </cfoutput>
+
+
+<cfclient>
+<cfscript>
+function launchCamera()
+{
+// Capture the image from the device comera
+var opt = cfclient.camera.getOptions();
+var resp = cfclient.camera.getPicture(opt);
+var fileContent = cfclient.file.readFileURIAsBase64(resp);
+// Process the image
+return;
+}
+</cfscript>
+</cfclient>
