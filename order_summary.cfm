@@ -119,9 +119,9 @@
                     "key": "#variables.paymentKey#", 
                     "amount": "#variables.convert_rupees#", 
                     "currency": "INR",
-                    "name": "Movie Ticket Booking",
-                    "description": "Test Transaction",
-                    "image": "https://example.com/your_logo",  
+                    "name": "#MoviesById.movie_name#",
+                    "description": "#MoviesById.movie_lang#",
+                    "image": "http://127.0.0.1:8500/cf_online_moviebooking/admin/uploads/Movie/#MoviesById.movie_poster#",  
                     "callback_url": "http://127.0.0.1:8500/cf_online_moviebooking/cfc/user.cfc?method=addBooking&returnformat=json",                
                     "prefill": {
                         "name": "#UsrById.user_fullname#",
