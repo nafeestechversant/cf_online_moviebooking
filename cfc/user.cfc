@@ -356,7 +356,7 @@
 		<cfargument name="destinationNumber" type="string" required="true" />
 
 		<cfset variables.twilioAccountSid = "AC56b12986ec4463d8feb27b8a0e5d3c31" />
-		<cfset variables.twilioAuthToken = "fc874a0e00c9c3fff4a81cbf608e5f72" />
+		<cfset variables.twilioAuthToken = "" />
 		<cfset variables.twilioPhoneNumber = "+13192642947" />
 		<cfhttp 
 			result="result" 
