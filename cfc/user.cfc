@@ -308,10 +308,10 @@
 			<cfset structdelete(session,'BookingDetails') />									
 		</cfif>	
 		
-		
-		<cfif result.RECORDCOUNT > 0 >
+<!--- 		<cfdump  var="#result#"> --->
+<!--- 		<cfif result.RECORDCOUNT > 0 > --->
 			<cflocation url = "../dashboard.cfm" addtoken="false" />
-		</cfif>	
+<!--- 		</cfif>	 --->
 	</cffunction>
 
 	<cffunction name="checkLoginOrNot" access="remote" returntype="boolean">				
@@ -356,7 +356,7 @@
 		<cfargument name="destinationNumber" type="string" required="true" />
 
 		<cfset variables.twilioAccountSid = "AC56b12986ec4463d8feb27b8a0e5d3c31" />
-		<cfset variables.twilioAuthToken = "f4201bc3c1a9a21790b7753c101a5f0b" />
+		<cfset variables.twilioAuthToken = "fc874a0e00c9c3fff4a81cbf608e5f72" />
 		<cfset variables.twilioPhoneNumber = "+13192642947" />
 		<cfhttp 
 			result="result" 

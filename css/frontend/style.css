@@ -1825,6 +1825,14 @@ div#preloader {
     border-bottom: none;
 }
 
+.cus-tag {
+    padding-bottom: 29.5%;
+}
+
+.cus-tag2 {
+    margin-top: 50px;
+}
+
 .pst-content p a:hover,
 .left-blog ul li a:hover {
     color: #E72C30;
