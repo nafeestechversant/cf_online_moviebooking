@@ -33,6 +33,26 @@
 			 	
 	</cffunction>
 
+	<cffunction name="onMissingTemplate">
+        <cfargument name="targetPage" type="string" required=true/>
+        <cftry>            
+            <cflog type="error" text="Missing template: #Arguments.targetPage#">
+            
+<!---             <cfoutput> --->
+<!---                 <h3>#Arguments.targetPage# could not be found.</h2> --->
+<!---                 <p>You requested a non-existent ColdFusion page.<br /> --->
+<!---                 Please check the URL.</p> --->
+<!---             </cfoutput> --->
+					 <cfinclude template="missing-template.cfm">
+
+            <cfreturn true />         
+            <cfcatch>
+                <cfreturn false />
+            </cfcatch>
+        </cftry>
+
+    </cffunction>
+
 	<cffunction name="onError"> 
 		<cfargument name="Exception" required=true/> 
 		<cfargument type="String" name="EventName" required=true/> 				 		
