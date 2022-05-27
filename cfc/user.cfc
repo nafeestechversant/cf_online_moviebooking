@@ -164,16 +164,18 @@
 		<cfreturn variables.errorMessage />		
 	</cffunction>
 
-	<cffunction name="getUsrBookHis" access="public" output="false" returntype="query">			
+	<cffunction name="getUsrBookHis" access="public" output="false" returntype="query">	
+		<cfargument name="user_id" type="integer" required="true" />		
 		<cfquery name="qry.rs_getUsrBookHis">
-			SELECT mb.booked_on,mb.booking_id,ms.theatre_id,ms.movie_id,mb.show_id,ms.start_time FROM mv_booking mb JOIN mv_show_timing ms ON mb.show_id=ms.show_id WHERE  mb.user_id= <cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="cf_sql_integer" /> ORDER BY mb.created_time DESC
+			SELECT mb.booked_on,mb.booking_id,ms.theatre_id,ms.movie_id,mb.show_id,ms.start_time FROM mv_booking mb JOIN mv_show_timing ms ON mb.show_id=ms.show_id WHERE  mb.user_id= <cfqueryparam value="#arguments.user_id#" cfsqltype="cf_sql_integer" /> ORDER BY mb.created_time DESC
 		</cfquery>		
 		<cfreturn qry.rs_getUsrBookHis />
 	</cffunction>
 
-	<cffunction name="getUsrById" access="public" output="false" returntype="query">				
+	<cffunction name="getUsrById" access="public" output="false" returntype="query">
+		<cfargument name="user_id" type="integer" required="true" />				
 		<cfquery name="qry.rs_getUsrById">
-			SELECT user_fullname,user_phone,user_email,user_address FROM mv_users WHERE user_id = <cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="cf_sql_integer" />
+			SELECT user_fullname,user_phone,user_email,user_address FROM mv_users WHERE user_id = <cfqueryparam value="#arguments.user_id#" cfsqltype="cf_sql_integer" />
 		</cfquery>		
 		<cfreturn qry.rs_getUsrById />
 	</cffunction>
@@ -185,7 +187,8 @@
 		<cfset variables.fld_userMobile = form.fld_userMobile/>	
 		<cfset variables.fld_userPwd = form.fld_userPwd/>
 		<cfset variables.fld_userAddr = form.fld_userAddr/>
-		<cfset variables.fld_userCnfPwd = form.fld_userCnfPwd/>	
+		<cfset variables.fld_userCnfPwd = form.fld_userCnfPwd/>
+		<cfset variables.fld_userId = form.fld_userId/>		
 		<cfif trim(variables.fld_userName) EQ ''>
 			<cfset session.ProErrmsg = 'Please Enter Full Name' >
 			<cflocation url = "../edit-profile.cfm" addtoken="false" />
@@ -216,7 +219,7 @@
 				user_phone = <cfqueryparam value="#variables.fld_userMobile#" cfsqltype="cf_sql_varchar" />,
 				user_email = <cfqueryparam value="#variables.fld_userEmail#" cfsqltype="cf_sql_varchar" />,				
 				user_address = <cfqueryparam value="#variables.fld_userAddr#" cfsqltype="cf_sql_varchar" />				
-				WHERE user_id = #session.stLoggedInUser.userID#
+				WHERE user_id = <cfqueryparam value="#variables.fld_userId#" cfsqltype="cf_sql_integer" />
 			</cfquery>
 			<cfset structdelete(session,'ProErrmsg') />		
 			<cflocation url = "../edit-profile.cfm" addtoken="false" />		
@@ -290,18 +293,25 @@
 	</cffunction>
 
 	<cffunction name="addBooking" access="remote" output="false">
-		<cfif structKeyExists(session,'BookingDetails')> 	
+		<cfif structKeyExists(session,'BookingDetails')>
+			<cfset variables.userID = session.stLoggedInUser.userID/>
+			<cfset variables.mov_id = session.BookingDetails.mov_id/>
+			<cfset variables.shw_id = session.BookingDetails.shw_id/>
+			<cfset variables.req_date = session.BookingDetails.req_date/>
+			<cfset variables.booked_seats = session.BookingDetails.booked_seats/>
+			<cfset variables.total_price = session.BookingDetails.total_price/>
+			<cfset variables.razorpay_payment_id = form.razorpay_payment_id/>	 	 	
 			<cfquery name="qry.rs_addBooking" result="result">
 					INSERT INTO mv_booking (user_id,movie_id,show_id,booked_on,booked_seat,total_price,category_name,payment_id)
 					VALUES (
-							<cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="cf_sql_integer" />,
-							<cfqueryparam value="#session.BookingDetails.mov_id#" cfsqltype="cf_sql_integer" />,
-							<cfqueryparam value="#session.BookingDetails.shw_id#" cfsqltype="cf_sql_integer" />,
-							<cfqueryparam value="#session.BookingDetails.req_date#" cfsqltype="cf_sql_date" />,																		
-							<cfqueryparam value="#session.BookingDetails.booked_seats#" cfsqltype="cf_sql_varchar" />,
-							<cfqueryparam value="#session.BookingDetails.total_price#" cfsqltype="cf_sql_decimal" />,
+							<cfqueryparam value="#variables.userID#" cfsqltype="cf_sql_integer" />,
+							<cfqueryparam value="#variables.mov_id#" cfsqltype="cf_sql_integer" />,
+							<cfqueryparam value="#variables.shw_id#" cfsqltype="cf_sql_integer" />,
+							<cfqueryparam value="#variables.req_date#" cfsqltype="cf_sql_date" />,																		
+							<cfqueryparam value="#variables.booked_seats#" cfsqltype="cf_sql_varchar" />,
+							<cfqueryparam value="#variables.total_price#" cfsqltype="cf_sql_decimal" />,
 							<cfqueryparam value="Gold" cfsqltype="cf_sql_varchar" />,
-							<cfqueryparam value="#form.razorpay_payment_id#" cfsqltype="cf_sql_varchar" />																	
+							<cfqueryparam value="#variables.razorpay_payment_id#" cfsqltype="cf_sql_varchar" />																	
 						)
 			</cfquery>	
 			<cfset variables.MessageInfo = this.sendMessageWithTwilio("This is a test message.","+917200631317") />			

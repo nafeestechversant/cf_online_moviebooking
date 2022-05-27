@@ -1,5 +1,7 @@
 <cfobject name="MovieList" component="cfc/user">
-<cfinvoke component="#MovieList#" method="getUsrBookHis" returnvariable="BookingHistory"></cfinvoke>
+<cfinvoke component="#MovieList#" method="getUsrBookHis" returnvariable="BookingHistory">
+    <cfinvokeargument  name="user_id" value="#session.stLoggedInUser.userID#" />
+</cfinvoke>
 <cfset variables.EncrptKey = application.EncrptKey>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +64,8 @@
                                                     <cfinvoke component="#MovieList#" method="getTheatreById" returnvariable="TheatreById">
                                                         <cfinvokeargument  name="theatre_id" value="#BookingHistory.theatre_id#" />
                                                     </cfinvoke> 
-                                                    <cfinvoke component="#MovieList#" method="getUsrById" returnvariable="UsrById">                                                   
+                                                    <cfinvoke component="#MovieList#" method="getUsrById" returnvariable="UsrById">
+                                                        <cfinvokeargument  name="user_id" value="#session.stLoggedInUser.userID#" />                                                   
                                                     </cfinvoke> 
                                                     <tr>
                                                         <th scope="row">BKTID00#BookingHistory.booking_id#</th>
