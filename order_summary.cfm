@@ -18,7 +18,9 @@
 </cfif>
 <cfif structKeyExists(session,'stLoggedInUser')>
     <cfif session.stLoggedInUser.userID NEQ "">
-          <cfinvoke component="#OrderSummary#" method="getUsrById" returnvariable="UsrById"></cfinvoke>    
+        <cfinvoke component="#OrderSummary#" method="getUsrById" returnvariable="UsrById">
+            <cfinvokeargument  name="user_id" value="#session.stLoggedInUser.userID#" />          
+        </cfinvoke>    
     </cfif>
 </cfif>
 <!DOCTYPE html>

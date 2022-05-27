@@ -16,8 +16,8 @@
             <main id="main">       
                 <div class="blog-page area-padding cus-tag">
                     <div class="container">
-                        <div class="row cus-tag2"> 
-                            <h3>#arguments.exception#</h2>                          
+                        <div class="row cus-tag2">                             
+                            <cfdump var=#Arguments.Exception#></p>                        
                         </div>
                     </div>
                 </div>

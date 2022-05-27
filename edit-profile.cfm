@@ -1,5 +1,7 @@
 <cfobject name="Users" component="cfc/user">
-<cfinvoke component="#Users#" method="getUsrById" returnvariable="UsersById"></cfinvoke>
+<cfinvoke component="#Users#" method="getUsrById" returnvariable="UsersById">
+    <cfinvokeargument  name="user_id" value="#session.stLoggedInUser.userID#" />
+</cfinvoke>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -47,8 +49,9 @@
                                     <cfparam name="form.fld_userMobile"  default=""  type="string">
                                     <cfparam name="form.fld_userAddr"  default=""  type="string">
                                     <cfparam name="form.fld_userPwd"  default=""  type="string">
-                                    <cfparam name="form.fld_userCnfPwd"  default=""  type="string">  
+                                    <cfparam name="form.fld_userCnfPwd"  default=""  type="string"> 
                                     <form method="post" id="form_editUser" action="cfc/user.cfc?method=editUser">
+                                        <input type="hidden" name="fld_userId" id="" value="#session.stLoggedInUser.userID#">
                                         <div class="row mr-bot">
                                             <div class="col">
                                                 <label for="inputEmail4">Full Name</label>

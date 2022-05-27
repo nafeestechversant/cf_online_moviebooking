@@ -266,7 +266,7 @@ $('#confirm_book').on('click', function(e) {
     e.preventDefault();
     $.ajax({
         type: "POST",
-        url: "cfc/user.cfc?method=addBooking&returnformat=json",
+        url: "cfc/user.cfc?method=&returnformat=json",
         cache: false,
         success: function(data) {
             if (data > 0) {
