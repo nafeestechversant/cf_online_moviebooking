@@ -24,7 +24,7 @@
 		</cfif>
 		<cfset variables.fefiles = "edit-profile.cfm,dashboard.cfm,ticket_pdf.cfm,order_summary.cfm">
 		<cfif ListContains(variables.fefiles, GetFileFromPath(CGI.CF_TEMPLATE_PATH)) AND NOT structKeyExists(session,'stLoggedInUser')>
-			<cflocation url = "index.cfm" addtoken="false" />
+<!--- 			<cflocation url = "index.cfm" addtoken="false" /> --->
 		</cfif>	
 		<cfreturn true />
 	</cffunction>
@@ -60,7 +60,14 @@
 		<cfargument type="String" name="EventName" required=true/> 				 		
 		<cfif NOT (Arguments.EventName IS "onSessionEnd") OR  
 				(Arguments.EventName IS "onApplicationEnd")> 
-				<cfinclude template="error-page.cfm">			
+				<cfoutput>
+					<h2>An unexpected error occurred.</h2>
+					<p>Please provide the following information to technical support:</p>
+					<p>Error Event: #Arguments.EventName#</p>
+					<p>Error details:<br>
+					<cfdump var=#Arguments.Exception#></p>
+				</cfoutput>
+<!--- 				<cfinclude template="error-page.cfm">			 --->
 		</cfif>  
 	</cffunction>
 

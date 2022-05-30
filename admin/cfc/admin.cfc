@@ -33,6 +33,7 @@
 		<cfset variables.theatre_img = form.theatre_img/>
 		<cfset variables.theatre_id = form.theatre_id/>	
 		<cfset variables.hid_theatre_img = form.hid_theatre_img/>	
+		<cfset variables.hid_user_id = form.hid_user_id/>	
 		<cfif trim(variables.theatre_name) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter Theatre Name')>
 		</cfif>					
@@ -53,7 +54,7 @@
 				VALUES (
 						<cfqueryparam value="#variables.theatre_name#" cfsqltype="cf_sql_varchar" />,
 						<cfqueryparam value="#variables.theatre_image#" cfsqltype="cf_sql_varchar" />,
-						<cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />																					
+						<cfqueryparam value="#variables.hid_user_id#" cfsqltype="cf_sql_integer" />																					
 					)
 			</cfquery>												
 		</cfif>
@@ -63,23 +64,25 @@
 				UPDATE mv_movie_theatres SET 			
 				theatre_name = <cfqueryparam value="#variables.theatre_name#" cfsqltype="cf_sql_varchar" />,				
 				theatre_image = <cfqueryparam value="#variables.theatre_image#" cfsqltype="cf_sql_varchar" />
-				WHERE theatre_id = #variables.theatre_id# AND created_by = #session.stLoggedInAdmin.adminID#			
+				WHERE theatre_id = <cfqueryparam value="#variables.theatre_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#variables.hid_user_id#" cfsqltype="cf_sql_integer" />			
 			</cfquery>						
 		</cfif>
  		<cfreturn variables.errorMessage />
 	</cffunction>
 
-	<cffunction name="getMovieTheatres" access="public" output="false" returntype="query">		
+	<cffunction name="getMovieTheatres" access="public" output="false" returntype="query">
+		<cfargument name="admin_id" required="yes">		
 		<cfquery name="qry.rs_getMovieTheatres">
-			SELECT * FROM mv_movie_theatres  WHERE created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" /> ORDER BY theatre_id DESC
+			SELECT * FROM mv_movie_theatres  WHERE created_by = <cfqueryparam value="#arguments.admin_id#" cfsqltype="cf_sql_integer" /> ORDER BY theatre_id DESC
 		</cfquery>		
 		<cfreturn qry.rs_getMovieTheatres />
 	</cffunction>
 
 	<cffunction name="getTheatreById" access="remote" output="false" returntype="any" returnformat="JSON">
-		<cfargument name="theatre_id" required="yes">		
+		<cfargument name="theatre_id" required="yes">
+		<cfargument name="admin_id" required="yes">			
 		<cfquery name="qry.rs_getTheatreById">
-			SELECT theatre_name,theatre_image FROM mv_movie_theatres  WHERE theatre_id = <cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
+			SELECT theatre_name,theatre_image FROM mv_movie_theatres  WHERE theatre_id = <cfqueryparam value="#arguments.theatre_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#arguments.admin_id#" cfsqltype="cf_sql_integer" />
 		</cfquery>			
 		<cfreturn serializeJSON(qry.rs_getTheatreById,"struct") />
 	</cffunction>
@@ -136,7 +139,7 @@
 				movie_details = <cfqueryparam value="#variables.movie_details#" cfsqltype="cf_sql_varchar" />,
 				movie_lang = <cfqueryparam value="#variables.movie_language#" cfsqltype="cf_sql_varchar" />,
 				coming_soon = <cfqueryparam value="#variables.movie_cmngsoon#" cfsqltype="cf_sql_integer" />
-				WHERE movie_id = #variables.movie_id# AND created_by = #session.stLoggedInAdmin.adminID#			
+				WHERE movie_id = <cfqueryparam value="#variables.movie_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />			
 			</cfquery>						
 		</cfif>
 		<cfreturn variables.errorMessage />						
@@ -150,9 +153,10 @@
 	</cffunction>
 
 	<cffunction name="getMovieById" access="remote" output="false" returntype="any" returnformat="JSON">
-		<cfargument name="movie_id" required="yes">		
+		<cfargument name="movie_id" required="yes">	
+		<cfargument name="admin_id" required="yes">		
 		<cfquery name="qry.rs_getMovieById">
-			SELECT movie_id,movie_name,movie_poster,movie_youtubelink,movie_rating,movie_details,movie_lang,coming_soon FROM mv_movies  WHERE movie_id = <cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
+			SELECT movie_id,movie_name,movie_poster,movie_youtubelink,movie_rating,movie_details,movie_lang,coming_soon FROM mv_movies  WHERE movie_id = <cfqueryparam value="#arguments.movie_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#arguments.admin_id#" cfsqltype="cf_sql_integer" />
 		</cfquery>			
 		<cfreturn serializeJSON(qry.rs_getMovieById,"struct") />
 	</cffunction>
@@ -280,9 +284,10 @@
  		<cfreturn variables.errorMessage />
 	</cffunction>
 
-	<cffunction name="getShows" access="public" output="false" returntype="query">		
+	<cffunction name="getShows" access="public" output="false" returntype="query">
+		<cfargument name="admin_id" required="yes">		
 		<cfquery name="qry.rs_getShows">
-			SELECT * FROM mv_show_timing  WHERE created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
+			SELECT * FROM mv_show_timing  WHERE created_by = <cfqueryparam value="#arguments.admin_id#" cfsqltype="cf_sql_integer" />
 		</cfquery>		
 		<cfreturn qry.rs_getShows />
 	</cffunction>
