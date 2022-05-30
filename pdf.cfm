@@ -1,77 +1,36 @@
 <link href="css/frontend/pdf.css" rel="stylesheet">
-<div class="ticket">
-    <div class="title">
-        <p class="cinema">ODEON CINEMA PRESENTS</p>
-    </div>
-    <div class="info">
-        <table>
-            <tr>
-                <th>SCREEN</th>
-                <th>ROW</th>
-                <th>SEAT</th>
-            </tr>
-            <tr>
-                <td class="bigger">18</td>
-                <td class="bigger">H</td>
-                <td class="bigger">24</td>
-            </tr>
-        </table>
-        <table>
-            <tr>
-                <th>PRICE</th>
-                <th>DATE</th>
-                <th>TIME</th>
-            </tr>
-            <tr>
-                <td>$12.00</td>
-                <td>1/13/17</td>
-                <td>19:30</td>
-            </tr>
-        </table>
-    </div>
-    <div class="holes-lower"></div>
-    <div class="serial">
-        <table class="barcode">
-            <tr></tr>
-        </table>
-        <table class="numbers">
-            <tr>
-                <td>9</td>
-                <td>1</td>
-                <td>7</td>
-                <td>3</td>
-                <td>7</td>
-                <td>5</td>
-                <td>4</td>
-                <td>4</td>
-                <td>4</td>
-                <td>5</td>
-                <td>4</td>
-                <td>1</td>
-                <td>4</td>
-                <td>7</td>
-                <td>8</td>
-                <td>7</td>
-                <td>3</td>
-                <td>4</td>
-                <td>1</td>
-                <td>4</td>
-                <td>5</td>
-                <td>2</td>
-            </tr>
-        </table>
-    </div>
-</div>
-
-<script>
-    var code = '11010010000100111011001011101111011010001110101110011001101110010010111101110111001011001001000011011000111010110001001110111101101001011010111000101101'
-
-    table = $('.barcode tr');
-    for (var i = 0; i < code.length; i++) {
-        if (code[i] == 1) {
-            table.append('<td bgcolor="black">')
-        } else {
-            table.append('<td bgcolor="white">')
-        }
-    }
-</script>
+    <cfoutput>
+        <div class="ticket">
+            <div class="title">
+                <p class="cinema">ODEON CINEMA PRESENTS</p>
+            </div>
+            <div class="info">
+                <table>
+                    <tr>
+                        <th>SCREEN</th>
+                        <th>ROW</th>
+                        <th>SEAT</th>
+                    </tr>
+                    <tr>
+                        <td class="bigger">18</td>
+                        <td class="bigger">H</td>
+                        <td class="bigger">24</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>PRICE</th>
+                        <th>DATE</th>
+                        <th>TIME</th>
+                    </tr>
+                    <tr>
+                        <td>$12.00</td>
+                        <td>1/13/17</td>
+                        <td>19:30</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="holes-lower"></div>
+           
+        </div>
+    </cfoutput>

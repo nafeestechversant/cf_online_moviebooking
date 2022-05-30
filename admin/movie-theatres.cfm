@@ -1,5 +1,7 @@
 <cfobject name="MovieTheatresList" component="cfc/admin">
-<cfinvoke component="#MovieTheatresList#" method="getMovieTheatres" returnvariable="TheatresLists"></cfinvoke>
+<cfinvoke component="#MovieTheatresList#" method="getMovieTheatres" returnvariable="TheatresLists">
+    <cfinvokeargument  name="admin_id" value="#session.stLoggedInAdmin.adminID#" />
+</cfinvoke>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -88,6 +90,7 @@
                         <form class="row g-3" id="form_addTheatre" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="theatre_id" id="theatre_id" value="">
                             <input type="hidden" name="hid_theatre_img" id="hid_theatre_img" value="">
+                            <input type="hidden" name="hid_user_id" id="" value="#session.stLoggedInAdmin.adminID#">
                             <div class="modal-body">
                                 <div  class="red" id="valid-err"></div>
                                 <div class="col-md-12">

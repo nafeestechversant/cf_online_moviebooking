@@ -1,6 +1,10 @@
 <cfobject name="compAdmin" component="cfc/admin"> 
-<cfinvoke component="cfc/admin" method="getShows" returnvariable="ShowLists"></cfinvoke>
-<cfinvoke component="#compAdmin#" method="getMovieTheatres" returnvariable="Theatres"></cfinvoke>
+<cfinvoke component="cfc/admin" method="getShows" returnvariable="ShowLists">
+    <cfinvokeargument  name="admin_id" value="#session.stLoggedInAdmin.adminID#" />
+</cfinvoke>
+<cfinvoke component="#compAdmin#" method="getMovieTheatres" returnvariable="Theatres">
+    <cfinvokeargument  name="admin_id" value="#session.stLoggedInAdmin.adminID#" />
+</cfinvoke>
 <cfinvoke component="#compAdmin#" method="getMovies" returnvariable="Movies"></cfinvoke>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,8 +62,8 @@
                                                 <tbody>
                                                     <cfset variables.sno = 1 >
                                                     <cfloop query="#ShowLists#">
-                                                        <cfset  variables.Theatrename="#deserializeJSON(compAdmin.getTheatreById(ShowLists.theatre_id))#">
-                                                        <cfset  variables.Moviname="#deserializeJSON(compAdmin.getMovieById(ShowLists.movie_id))#">                                                                                                        
+                                                        <cfset  variables.Theatrename="#deserializeJSON(compAdmin.getTheatreById(ShowLists.theatre_id,session.stLoggedInAdmin.adminID))#">
+                                                        <cfset  variables.Moviname="#deserializeJSON(compAdmin.getMovieById(ShowLists.movie_id,session.stLoggedInAdmin.adminID))#">                                                                                                        
                                                         <tr>
                                                             <td>#sno#</td>
                                                             <td>#Theatrename[1].THEATRE_NAME#</td>

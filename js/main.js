@@ -246,13 +246,14 @@ $(".filterbyDate").click(function() {
     var currTime = $(this).attr('data-currtime');
 
     $.ajax({
-        url: "cfc/user.cfc?method=filterTheatre",
+        url: "cfc/user.cfc?method=filterTheatreFns&returnformat=json",
         type: "POST",
         data: { currDate: currDate, movieId: movieId, currTime: currTime },
         cache: false,
-        success: function(html) {
-            $("#results").empty();
-            $("#results").append(html);
+        success: function(data) {
+            console.log(data);
+            // $("#results").empty();
+            // $("#results").append(html);
         }
     });
 });
