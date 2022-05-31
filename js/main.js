@@ -250,10 +250,38 @@ $(".filterbyDate").click(function() {
         type: "POST",
         data: { currDate: currDate, movieId: movieId, currTime: currTime },
         cache: false,
-        success: function(data) {
-            console.log(data);
-            // $("#results").empty();
-            // $("#results").append(html);
+        success: function(response) {
+            var dataInJson = JSON.parse(response);
+            var textToInsert = '';
+            if (dataInJson) {
+                $.each(dataInJson, function(index, value) {
+
+                    textToInsert += '<div class="recent-post"><div class = "recent-single-post"><div class = "post-img" ><a href = "##" ><img src = "admin/uploads/MovieTheatres/' + value['IMAGE'] + '" alt = "" ></a> </div><div class = "pst-content" ><p><a href = "##" >' + value['NAME'] + '</a></p><span> Location </span> </div> <div class = "pst-shwtime" ><ul><li><a href = "movieticket_booking.cfm?Req_date=' + value['CURRDATE'] + '&shw_id=' + value['SHOW_ID'] + '&mov_id=' + value['MOVIE_ID'] + '" > ' + value['START_TIME'] + ' </a></li><ul></div></div></div>';
+                });
+                $("#results").empty();
+                $('#results').html(textToInsert);
+            } else {
+                alert('Error!');
+            }
+
+        }
+    });
+});
+
+$(".filterbyDateReady").click(function() {
+    var currDate = $(this).attr('data-currdate');
+    var movieId = $(this).attr('data-movieId');
+    var currTime = $(this).attr('data-currtime');
+
+    $.ajax({
+        url: "cfc/user.cfc?method=filterTheatreFns&returnformat=json",
+        type: "POST",
+        data: { currDate: currDate, movieId: movieId, currTime: currTime },
+        cache: false,
+        success: function(html) {
+            $("#results").empty();
+            $("#results").append(html);
+
         }
     });
 });
@@ -293,7 +321,7 @@ $('.cnce-btn').on('click', function(e) {
 
 $("document").ready(function() {
     autoPlayYouTubeModal();
-    $(".filterbyDate").trigger('click');
+    $(".filterbyDateReady").trigger('click');
 
     $("#form_login").validate({
         rules: {

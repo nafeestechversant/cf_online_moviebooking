@@ -16,11 +16,12 @@
         </cfinvoke>
    </cfif> 
 </cfif>
-<link href="css/frontend/pdf.css" rel="stylesheet">
+
 <cfheader name="Content-Disposition" value="attachment; filename=myDoc.pdf">
-    <cfcontent type="application/pdf">
+    <cfcontent type="application/pdf">    
     <cfdocument format="PDF">
-        <cfoutput>        
+        <cfoutput>  
+            <link href="css/frontend/pdf.css" rel="stylesheet">      
            <div class="ticket">
                 <div class="title">
                     <p class="cinema">#MoviesById.movie_name#</p>
