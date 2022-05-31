@@ -274,37 +274,33 @@
 	<cffunction name="filterTheatreFns" access="remote" output="false" >	
 		<cfargument name="movieId" type="integer" required="true" />
 		<cfargument name="currDate" type="string" required="true" />
-		<cfargument name="currTime" type="string" required="true" />	
+		<cfargument name="currTime" type="string" required="true" />
+		<cfset variables.EncrptKey = application.EncrptKey>	
 		<cfquery name="qry.rs_getTheatresByDate" result="result">
 			SELECT DISTINCT `theatre_id` FROM `mv_show_timing` WHERE movie_id=<cfqueryparam value="#arguments.movieId#" cfsqltype="cf_sql_integer" /> AND start_date=<cfqueryparam value="#arguments.currDate#" cfsqltype="cf_sql_date" />;
-		</cfquery>	
-
-		
-		<cfset Child = ArrayNew(1) />
-<!--- 		<cfset z.id = 1 /> --->
-<!--- 		<cfset z.name = "James" />	 --->
-		
-
+		</cfquery>			
+			<cfset dataArr = ArrayNew(1) />		
 			<cfif qry.rs_getTheatresByDate.recordcount NEQ 0>				
 				<cfloop query="qry.rs_getTheatresByDate">
 					<cfset variables.TheatreById = this.getTheatreById(qry.rs_getTheatresByDate.theatre_id) />
 					<cfset variables.TheatreShowTime = this.getTheatreShowTime(qry.rs_getTheatresByDate.theatre_id,arguments.currDate,arguments.currTime) />
-					<cfset z = structNew() />
-					<cfset z.image = TheatreById.theatre_image />
-					<cfset z.name = TheatreById.theatre_name />
-					<cfset ArrayAppend(Child,z) />
-<!--- 					<cfset StructInsert(local.dataArr,"item1",TheatreById.theatre_image,true) />  --->
-<!--- 					<cfset StructInsert(dataArr,"theatre_name","#TheatreById.theatre_name#",false) /> --->
-<!--- 						<cfloop query="#TheatreShowTime#"> --->
-<!--- 							<cfset StructInsert(dataArr,"show_id","#TheatreShowTime.show_id#",false) />	 --->
-<!--- 							<cfset StructInsert(dataArr,"movie_id","#TheatreShowTime.movie_id#",false) /> --->
-<!--- 							<cfset StructInsert(dataArr,"start_time","#TheatreShowTime.start_time#",false) />																 --->
-<!--- 						</cfloop> --->
-						
+					<cfset dataStruct = structNew() />
+					<cfset dataStruct.image = TheatreById.theatre_image />
+					<cfset dataStruct.name = TheatreById.theatre_name />
+					<cfset dataStruct.currDate = URLEncodedFormat(Encrypt(DateFormat(arguments.currDate,"yyyy-mm-dd"), EncrptKey)) />					
+					<cfoutput><cfdump  var="#TheatreShowTime#"></cfoutput>  
+ 						<cfloop query="#TheatreShowTime#">
+						 	<cfset dataShowTime = structNew() />
+						 	<cfset dataShowTime.show_id = URLEncodedFormat(Encrypt(TheatreShowTime.show_id, EncrptKey)) />
+							<cfset dataShowTime.movie_id = URLEncodedFormat(Encrypt(TheatreShowTime.movie_id, EncrptKey)) />
+							<cfset dataShowTime.start_time = TheatreShowTime.start_time />							
+ 						</cfloop>
+						<cfdump  var="#dataShowTime#">
+						 	<cfset structAppend(dataStruct, dataShowTime) /> 						 		
+							<cfset ArrayAppend(dataArr,dataStruct) />												
 				</cfloop>			
 			</cfif>
-<!--- 			<cfdump  var="#Child#">  --->
-  		<cfreturn #Child#>		 
+   		<cfreturn serializeJSON(dataArr,"struct")>		  
 	</cffunction>
 
 	<cffunction name="getShowById" access="public" output="false" returntype="query">	

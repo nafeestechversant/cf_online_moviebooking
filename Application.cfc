@@ -60,14 +60,14 @@
 		<cfargument type="String" name="EventName" required=true/> 				 		
 		<cfif NOT (Arguments.EventName IS "onSessionEnd") OR  
 				(Arguments.EventName IS "onApplicationEnd")> 
-				<cfoutput>
-					<h2>An unexpected error occurred.</h2>
-					<p>Please provide the following information to technical support:</p>
-					<p>Error Event: #Arguments.EventName#</p>
-					<p>Error details:<br>
-					<cfdump var=#Arguments.Exception#></p>
-				</cfoutput>
-<!--- 				<cfinclude template="error-page.cfm">			 --->
+<!--- 				<cfoutput> --->
+<!--- 					<h2>An unexpected error occurred.</h2> --->
+<!--- 					<p>Please provide the following information to technical support:</p> --->
+<!--- 					<p>Error Event: #Arguments.EventName#</p> --->
+<!--- 					<p>Error details:<br> --->
+<!--- 					<cfdump var=#Arguments.Exception#></p> --->
+<!--- 				</cfoutput> --->
+ 				<cfinclude template="error-page.cfm">			 
 		</cfif>  
 	</cffunction>
 
