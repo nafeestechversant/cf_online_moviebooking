@@ -1,20 +1,20 @@
 <cfcomponent>   	
    <cffunction name="checkAdminLogin" access="remote" output="false">
-		<cfset local.errorMessage= arrayNew(1) />
-		<cfset local.admin_loginEmail = form.admin_loginEmail/>
-		<cfset local.admin_loginPwd = form.admin_loginPwd/>		
-		<cfif local.admin_loginEmail EQ ''>
+		<cfset variables.errorMessage= arrayNew(1) />
+		<cfset variables.admin_loginEmail = form.admin_loginEmail/>
+		<cfset variables.admin_loginPwd = form.admin_loginPwd/>		
+		<cfif variables.admin_loginEmail EQ ''>
 			<cfset session.Errmsg = 'Please Enter Email' />
 			<cflocation url = "../login.cfm" addtoken="false" />			
 		</cfif>
-		<cfif local.admin_loginPwd EQ ''>
+		<cfif variables.admin_loginPwd EQ ''>
 			<cfset session.Errmsg = 'Please Enter Password' />
 			<cflocation url = "../login.cfm" addtoken="false" />				
 		</cfif>
 		<cfif arrayIsEmpty(errorMessage)>
 			<cfquery name="qry.checkLogin">
 				SELECT * FROM admin 
-					WHERE admin_email = <cfqueryparam value="#local.admin_loginEmail#" cfsqltype="cf_sql_varchar" /> AND admin_pwd = <cfqueryparam value="#hash(local.admin_loginPwd)#" cfsqltype="cf_sql_varchar" />
+					WHERE admin_email = <cfqueryparam value="#variables.admin_loginEmail#" cfsqltype="cf_sql_varchar" /> AND admin_pwd = <cfqueryparam value="#hash(variables.admin_loginPwd)#" cfsqltype="cf_sql_varchar" />
 			</cfquery>
 			<cfif qry.checkLogin.recordcount EQ 1>
 				<cfset session.stLoggedInAdmin = {'userFullName' = qry.checkLogin.admin_name, 'adminID' = qry.checkLogin.admin_id} > 
@@ -28,46 +28,46 @@
 	</cffunction>
 
 	<cffunction name="addTheatre" access="remote" output="false">
-		<cfset local.errorMessage= arrayNew(1) />
-		<cfset local.theatre_name = form.theatre_name/>
-		<cfset local.theatre_img = form.theatre_img/>
-		<cfset local.theatre_id = form.theatre_id/>	
-		<cfset local.hid_theatre_img = form.hid_theatre_img/>	
-		<cfset local.hid_user_id = form.hid_user_id/>	
-		<cfif trim(local.theatre_name) EQ ''>
+		<cfset variables.errorMessage= arrayNew(1) />
+		<cfset variables.theatre_name = form.theatre_name/>
+		<cfset variables.theatre_img = form.theatre_img/>
+		<cfset variables.theatre_id = form.theatre_id/>	
+		<cfset variables.hid_theatre_img = form.hid_theatre_img/>	
+		<cfset variables.hid_user_id = form.hid_user_id/>	
+		<cfif trim(variables.theatre_name) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter Theatre Name')>
 		</cfif>					
 		<cfif NOT arrayIsEmpty(errorMessage)>
 			<cfset arrayAppend(errorMessage, 'error')>
 		</cfif>
-		<cfset local.theatre_image = local.hid_theatre_img>
+		<cfset variables.theatre_image = variables.hid_theatre_img>
 		<cfif structKeyExists(form,"theatre_img") and len(trim(form.theatre_img))>
-			<cfset local.thisDir = expandPath(".")>
-			<cffile action="upload" fileField="form.theatre_img" destination="#local.thisDir#/../uploads/MovieTheatres" result="fileUpload" nameconflict="overwrite">
-			<cfset local.theatre_image = fileUpload.serverFile>
+			<cfset variables.thisDir = expandPath(".")>
+			<cffile action="upload" fileField="form.theatre_img" destination="#variables.thisDir#/../uploads/MovieTheatres" result="fileUpload" nameconflict="overwrite">
+			<cfset variables.theatre_image = fileUpload.serverFile>
 		</cfif>
-		<cfset local.curr_time = Now()>
-		<cfif arrayIsEmpty(errorMessage) AND local.theatre_id EQ ''>
+		<cfset variables.curr_time = Now()>
+		<cfif arrayIsEmpty(errorMessage) AND variables.theatre_id EQ ''>
 			<cfset arrayAppend(errorMessage, 'success')>
 			<cfquery name="tableElements" result="r">
 				INSERT INTO mv_movie_theatres (theatre_name,theatre_image,created_by)
 				VALUES (
-						<cfqueryparam value="#local.theatre_name#" cfsqltype="cf_sql_varchar" />,
-						<cfqueryparam value="#local.theatre_image#" cfsqltype="cf_sql_varchar" />,
-						<cfqueryparam value="#local.hid_user_id#" cfsqltype="cf_sql_integer" />																					
+						<cfqueryparam value="#variables.theatre_name#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.theatre_image#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.hid_user_id#" cfsqltype="cf_sql_integer" />																					
 					)
 			</cfquery>												
 		</cfif>
-		<cfif arrayIsEmpty(errorMessage) AND local.theatre_id NEQ ''>
+		<cfif arrayIsEmpty(errorMessage) AND variables.theatre_id NEQ ''>
 			<cfset arrayAppend(errorMessage, 'success')>
 			<cfquery>
 				UPDATE mv_movie_theatres SET 			
-				theatre_name = <cfqueryparam value="#local.theatre_name#" cfsqltype="cf_sql_varchar" />,				
-				theatre_image = <cfqueryparam value="#local.theatre_image#" cfsqltype="cf_sql_varchar" />
-				WHERE theatre_id = <cfqueryparam value="#local.theatre_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#local.hid_user_id#" cfsqltype="cf_sql_integer" />			
+				theatre_name = <cfqueryparam value="#variables.theatre_name#" cfsqltype="cf_sql_varchar" />,				
+				theatre_image = <cfqueryparam value="#variables.theatre_image#" cfsqltype="cf_sql_varchar" />
+				WHERE theatre_id = <cfqueryparam value="#variables.theatre_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#variables.hid_user_id#" cfsqltype="cf_sql_integer" />			
 			</cfquery>						
 		</cfif>
- 		<cfreturn local.errorMessage />
+ 		<cfreturn variables.errorMessage />
 	</cffunction>
 
 	<cffunction name="getMovieTheatres" access="public" output="false" returntype="query">
@@ -88,61 +88,61 @@
 	</cffunction>
 
 	<cffunction name="addMovie" access="remote" output="false" >
-		<cfset local.errorMessage= arrayNew(1) />
-		<cfset local.movie_name = form.movie_name/>
-		<cfset local.movie_poster = form.movie_poster/>
-		<cfset local.movie_youtubelink = form.movie_youtubelink/>
-		<cfset local.movie_rating = form.movie_rating/>
-		<cfset local.movie_details = form.movie_details/>
-		<cfset local.movie_language = form.movie_language/>
-		<cfset local.movie_cmngsoon = form.movie_cmngsoon/>
-		<cfset local.movie_id = form.movie_id/>
-		<cfset local.hid_movie_poster = form.hid_movie_poster/>
+		<cfset variables.errorMessage= arrayNew(1) />
+		<cfset variables.movie_name = form.movie_name/>
+		<cfset variables.movie_poster = form.movie_poster/>
+		<cfset variables.movie_youtubelink = form.movie_youtubelink/>
+		<cfset variables.movie_rating = form.movie_rating/>
+		<cfset variables.movie_details = form.movie_details/>
+		<cfset variables.movie_language = form.movie_language/>
+		<cfset variables.movie_cmngsoon = form.movie_cmngsoon/>
+		<cfset variables.movie_id = form.movie_id/>
+		<cfset variables.hid_movie_poster = form.hid_movie_poster/>
 
-		<cfif trim(local.movie_name) EQ ''>
+		<cfif trim(variables.movie_name) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter Movie Name')>
 		</cfif>						
 		<cfif NOT arrayIsEmpty(errorMessage)>
 			<cfset arrayAppend(errorMessage, 'error')>
 		</cfif>
-		<cfset local.movie_poster = local.hid_movie_poster>
+		<cfset variables.movie_poster = variables.hid_movie_poster>
 		<cfif structKeyExists(form,"movie_poster") and len(trim(form.movie_poster))>
-			<cfset local.thisDir = expandPath(".")>
-			<cffile action="upload" fileField="form.movie_poster" destination="#local.thisDir#/../uploads/Movie" result="fileUpload" nameconflict="overwrite">
-			<cfset local.movie_poster = fileUpload.serverFile>
+			<cfset variables.thisDir = expandPath(".")>
+			<cffile action="upload" fileField="form.movie_poster" destination="#variables.thisDir#/../uploads/Movie" result="fileUpload" nameconflict="overwrite">
+			<cfset variables.movie_poster = fileUpload.serverFile>
 		</cfif>
-		<cfset local.curr_time = Now()>
-		<cfif arrayIsEmpty(errorMessage) AND local.movie_id EQ ''>
+		<cfset variables.curr_time = Now()>
+		<cfif arrayIsEmpty(errorMessage) AND variables.movie_id EQ ''>
 			<cfset arrayAppend(errorMessage, 'success')>
 			<cfquery name="tableElements" result="r">
 				INSERT INTO mv_movies (movie_name,movie_poster,movie_youtubelink,movie_rating,movie_details,movie_lang,coming_soon,created_by)
 				VALUES (
-						<cfqueryparam value="#local.movie_name#" cfsqltype="cf_sql_varchar" />,
-						<cfqueryparam value="#local.movie_poster#" cfsqltype="cf_sql_varchar" />,
-						<cfqueryparam value="#local.movie_youtubelink#" cfsqltype="cf_sql_varchar" />,
-						<cfqueryparam value="#local.movie_rating#" cfsqltype="cf_sql_varchar" />,
-						<cfqueryparam value="#local.movie_details#" cfsqltype="cf_sql_varchar" />,
-						<cfqueryparam value="#local.movie_language#" cfsqltype="cf_sql_varchar" />,
-						<cfqueryparam value="#local.movie_cmngsoon#" cfsqltype="cf_sql_integer" />,
+						<cfqueryparam value="#variables.movie_name#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.movie_poster#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.movie_youtubelink#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.movie_rating#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.movie_details#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.movie_language#" cfsqltype="cf_sql_varchar" />,
+						<cfqueryparam value="#variables.movie_cmngsoon#" cfsqltype="cf_sql_integer" />,
 						<cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
 					)
 			</cfquery>												
 		</cfif>
-		<cfif arrayIsEmpty(errorMessage) AND local.movie_id NEQ ''>
+		<cfif arrayIsEmpty(errorMessage) AND variables.movie_id NEQ ''>
 			<cfset arrayAppend(errorMessage, 'success')>
 			<cfquery>
 				UPDATE mv_movies SET 			
-				movie_name = <cfqueryparam value="#local.movie_name#" cfsqltype="cf_sql_varchar" />,				
-				movie_poster = <cfqueryparam value="#local.movie_poster#" cfsqltype="cf_sql_varchar" />,
-				movie_youtubelink = <cfqueryparam value="#local.movie_youtubelink#" cfsqltype="cf_sql_varchar" />,
-				movie_rating = <cfqueryparam value="#local.movie_rating#" cfsqltype="cf_sql_integer" />,
-				movie_details = <cfqueryparam value="#local.movie_details#" cfsqltype="cf_sql_varchar" />,
-				movie_lang = <cfqueryparam value="#local.movie_language#" cfsqltype="cf_sql_varchar" />,
-				coming_soon = <cfqueryparam value="#local.movie_cmngsoon#" cfsqltype="cf_sql_integer" />
-				WHERE movie_id = <cfqueryparam value="#local.movie_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />			
+				movie_name = <cfqueryparam value="#variables.movie_name#" cfsqltype="cf_sql_varchar" />,				
+				movie_poster = <cfqueryparam value="#variables.movie_poster#" cfsqltype="cf_sql_varchar" />,
+				movie_youtubelink = <cfqueryparam value="#variables.movie_youtubelink#" cfsqltype="cf_sql_varchar" />,
+				movie_rating = <cfqueryparam value="#variables.movie_rating#" cfsqltype="cf_sql_integer" />,
+				movie_details = <cfqueryparam value="#variables.movie_details#" cfsqltype="cf_sql_varchar" />,
+				movie_lang = <cfqueryparam value="#variables.movie_language#" cfsqltype="cf_sql_varchar" />,
+				coming_soon = <cfqueryparam value="#variables.movie_cmngsoon#" cfsqltype="cf_sql_integer" />
+				WHERE movie_id = <cfqueryparam value="#variables.movie_id#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />			
 			</cfquery>						
 		</cfif>
-		<cfreturn local.errorMessage />						
+		<cfreturn variables.errorMessage />						
 	</cffunction>
 
 	<cffunction name="getMovies" access="public" output="false" returntype="query">		
@@ -165,9 +165,9 @@
 		<cfquery name="qry.rs_getFileById">
 			SELECT theatre_image FROM mv_movie_theatres  WHERE theatre_id  = <cfqueryparam value="#URL.DelId#" cfsqltype="cf_sql_integer" />
 		</cfquery>
-		<cfset local.thisDir = expandPath(".")>
-		<cfset local.DeleteFileName = qry.rs_getFileById.theatre_image>
-		<cffile action = "delete" file = "#local.thisDir#\..\uploads\MovieTheatres\#local.DeleteFileName#">			
+		<cfset variables.thisDir = expandPath(".")>
+		<cfset variables.DeleteFileName = qry.rs_getFileById.theatre_image>
+		<cffile action = "delete" file = "#variables.thisDir#\..\uploads\MovieTheatres\#Variables.DeleteFileName#">			
 		<cfquery>
 			DELETE FROM mv_movie_theatres WHERE theatre_id = <cfqueryparam value="#URL.DelId#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
 		</cfquery>
@@ -178,9 +178,9 @@
 		<cfquery name="qry.rs_getFileById">
 			SELECT movie_poster FROM mv_movies  WHERE movie_id  = <cfqueryparam value="#URL.DelId#" cfsqltype="cf_sql_integer" />
 		</cfquery>
-		<cfset local.thisDir = expandPath(".")>
-		<cfset local.DeleteFileName = qry.rs_getFileById.movie_poster>
-		<cffile action = "delete" file = "#local.thisDir#\..\uploads\Movie\#local.DeleteFileName#">			
+		<cfset variables.thisDir = expandPath(".")>
+		<cfset variables.DeleteFileName = qry.rs_getFileById.movie_poster>
+		<cffile action = "delete" file = "#variables.thisDir#\..\uploads\Movie\#Variables.DeleteFileName#">			
 		<cfquery>
 			DELETE FROM mv_movies WHERE movie_id = <cfqueryparam value="#URL.DelId#" cfsqltype="cf_sql_integer" /> AND created_by = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
 		</cfquery>
@@ -188,100 +188,100 @@
 	</cffunction>
 
 	<cffunction name="addShowTime" access="remote" output="false">
-		<cfset local.errorMessage= arrayNew(1) />
-		<cfset local.theatre_id = form.theatre_id/>
-		<cfset local.movie_id = form.movie_id/>
-		<cfset local.start_date = form.start_date/>	
-		<cfset local.end_date = form.end_date/>	
-		<cfset local.start_time = form.start_time/>	
-		<cfset local.end_time = form.end_time/>	
-		<cfset local.online_booking = form.online_booking/>	
-		<cfset local.price_gold_full = form.price_gold_full/>
-		<cfset local.price_gold_half = form.price_gold_half/>	
-		<cfset local.price_odc_full = form.price_odc_full/>	
-		<cfset local.price_odc_half = form.price_odc_half/>	
-		<cfset local.price_box = form.price_box/>
-		<cfset local.show_id = form.show_id/>	
-		<cfif trim(local.theatre_id) EQ ''>
+		<cfset variables.errorMessage= arrayNew(1) />
+		<cfset variables.theatre_id = form.theatre_id/>
+		<cfset variables.movie_id = form.movie_id/>
+		<cfset variables.start_date = form.start_date/>	
+		<cfset variables.end_date = form.end_date/>	
+		<cfset variables.start_time = form.start_time/>	
+		<cfset variables.end_time = form.end_time/>	
+		<cfset variables.online_booking = form.online_booking/>	
+		<cfset variables.price_gold_full = form.price_gold_full/>
+		<cfset variables.price_gold_half = form.price_gold_half/>	
+		<cfset variables.price_odc_full = form.price_odc_full/>	
+		<cfset variables.price_odc_half = form.price_odc_half/>	
+		<cfset variables.price_box = form.price_box/>
+		<cfset variables.show_id = form.show_id/>	
+		<cfif trim(variables.theatre_id) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Select Theatre')>
 		</cfif>	
-		<cfif trim(local.movie_id) EQ ''>
+		<cfif trim(variables.movie_id) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Select Movie')>
 		</cfif>	
-		<cfif trim(local.start_date) EQ ''>
+		<cfif trim(variables.start_date) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Select Start Date')>
 		</cfif>	
-		<cfif trim(local.end_date) EQ ''>
+		<cfif trim(variables.end_date) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Select End Date')>
 		</cfif>
-		<cfif trim(local.start_time) EQ ''>
+		<cfif trim(variables.start_time) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Select Start Time')>
 		</cfif>	
-		<cfif trim(local.end_time) EQ ''>
+		<cfif trim(variables.end_time) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Select End Time')>
 		</cfif>
-		<cfif trim(local.online_booking) EQ ''>
+		<cfif trim(variables.online_booking) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Select Online Booking Seat')>
 		</cfif>	
-		<cfif trim(local.price_gold_full) EQ ''>
+		<cfif trim(variables.price_gold_full) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter Price of  Gold Full')>
 		</cfif>	
-		<cfif trim(local.price_gold_half) EQ ''>
+		<cfif trim(variables.price_gold_half) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter Price of Gold Half')>
 		</cfif>	
-		<cfif trim(local.price_odc_full) EQ ''>
+		<cfif trim(variables.price_odc_full) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter Price of odc Full')>
 		</cfif>	
-		<cfif trim(local.price_odc_half) EQ ''>
+		<cfif trim(variables.price_odc_half) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter Price of odc Half')>
 		</cfif>	
-		<cfif trim(local.price_box) EQ ''>
+		<cfif trim(variables.price_box) EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter Price of Price Box')>
 		</cfif>						
 		<cfif NOT arrayIsEmpty(errorMessage)>
 			
 		</cfif>
-		<cfif arrayIsEmpty(errorMessage) AND local.show_id EQ ''>
+		<cfif arrayIsEmpty(errorMessage) AND variables.show_id EQ ''>
 			
 			<cfquery name="tableElements" result="r">
 				INSERT INTO mv_show_timing (theatre_id,movie_id,start_date,end_date,start_time,end_time,online_booking,price_gold_full,price_gold_half,price_odc_full,price_odc_half,price_box,created_by)
 				VALUES (
-						<cfqueryparam value="#local.theatre_id#" cfsqltype="cf_sql_integer" />,
-						<cfqueryparam value="#local.movie_id#" cfsqltype="cf_sql_integer" />,
-						<cfqueryparam value="#local.start_date#" cfsqltype="cf_sql_date" />,
-						<cfqueryparam value="#local.end_date#" cfsqltype="cf_sql_date" />,
-						<cfqueryparam value="#local.start_time#" cfsqltype="cf_sql_time" />,
-						<cfqueryparam value="#local.end_time#" cfsqltype="cf_sql_time" />,
-						<cfqueryparam value="#local.online_booking#" cfsqltype="cf_sql_integer" />,
-						<cfqueryparam value="#local.price_gold_full#" cfsqltype="cf_sql_decimal" />,
-						<cfqueryparam value="#local.price_gold_half#" cfsqltype="cf_sql_decimal" />,
-						<cfqueryparam value="#local.price_odc_full#" cfsqltype="cf_sql_decimal" />,
-						<cfqueryparam value="#local.price_odc_half#" cfsqltype="cf_sql_decimal" />,
-						<cfqueryparam value="#local.price_box#" cfsqltype="cf_sql_decimal" />,
+						<cfqueryparam value="#variables.theatre_id#" cfsqltype="cf_sql_integer" />,
+						<cfqueryparam value="#variables.movie_id#" cfsqltype="cf_sql_integer" />,
+						<cfqueryparam value="#variables.start_date#" cfsqltype="cf_sql_date" />,
+						<cfqueryparam value="#variables.end_date#" cfsqltype="cf_sql_date" />,
+						<cfqueryparam value="#variables.start_time#" cfsqltype="cf_sql_time" />,
+						<cfqueryparam value="#variables.end_time#" cfsqltype="cf_sql_time" />,
+						<cfqueryparam value="#variables.online_booking#" cfsqltype="cf_sql_integer" />,
+						<cfqueryparam value="#variables.price_gold_full#" cfsqltype="cf_sql_decimal" />,
+						<cfqueryparam value="#variables.price_gold_half#" cfsqltype="cf_sql_decimal" />,
+						<cfqueryparam value="#variables.price_odc_full#" cfsqltype="cf_sql_decimal" />,
+						<cfqueryparam value="#variables.price_odc_half#" cfsqltype="cf_sql_decimal" />,
+						<cfqueryparam value="#variables.price_box#" cfsqltype="cf_sql_decimal" />,
 						<cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />																					
 					)
 			</cfquery>												
 		</cfif>
-		<cfif arrayIsEmpty(errorMessage) AND local.show_id NEQ ''>
+		<cfif arrayIsEmpty(errorMessage) AND variables.show_id NEQ ''>
 			
 			<cfquery>
 				UPDATE mv_show_timing SET 			
-				theatre_id = <cfqueryparam value="#local.theatre_id#" cfsqltype="cf_sql_integer" />,				
-				movie_id = <cfqueryparam value="#local.movie_id#" cfsqltype="cf_sql_integer" />,
-				start_date = <cfqueryparam value="#local.start_date#" cfsqltype="cf_sql_date" />,
-				end_date = <cfqueryparam value="#local.end_date#" cfsqltype="cf_sql_date" />,
-				start_time = <cfqueryparam value="#local.start_time#" cfsqltype="cf_sql_time" />,
-				end_time = <cfqueryparam value="#local.end_time#" cfsqltype="cf_sql_time" />,
-				online_booking = <cfqueryparam value="#local.online_booking#" cfsqltype="cf_sql_integer" />,
-				price_gold_full = <cfqueryparam value="#local.price_gold_full#" cfsqltype="cf_sql_decimal" />,
-				price_gold_half = <cfqueryparam value="#local.price_gold_half#" cfsqltype="cf_sql_decimal" />,
-				price_odc_full = <cfqueryparam value="#local.price_odc_full#" cfsqltype="cf_sql_decimal" />,
-				price_odc_half = <cfqueryparam value="#local.price_odc_half#" cfsqltype="cf_sql_decimal" />,
-				price_box = <cfqueryparam value="#local.price_box#" cfsqltype="cf_sql_decimal" />
-				WHERE show_id = <cfqueryparam value="#local.show_id#" cfsqltype="cf_sql_integer" /> AND created_by =  <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />			
+				theatre_id = <cfqueryparam value="#variables.theatre_id#" cfsqltype="cf_sql_integer" />,				
+				movie_id = <cfqueryparam value="#variables.movie_id#" cfsqltype="cf_sql_integer" />,
+				start_date = <cfqueryparam value="#variables.start_date#" cfsqltype="cf_sql_date" />,
+				end_date = <cfqueryparam value="#variables.end_date#" cfsqltype="cf_sql_date" />,
+				start_time = <cfqueryparam value="#variables.start_time#" cfsqltype="cf_sql_time" />,
+				end_time = <cfqueryparam value="#variables.end_time#" cfsqltype="cf_sql_time" />,
+				online_booking = <cfqueryparam value="#variables.online_booking#" cfsqltype="cf_sql_integer" />,
+				price_gold_full = <cfqueryparam value="#variables.price_gold_full#" cfsqltype="cf_sql_decimal" />,
+				price_gold_half = <cfqueryparam value="#variables.price_gold_half#" cfsqltype="cf_sql_decimal" />,
+				price_odc_full = <cfqueryparam value="#variables.price_odc_full#" cfsqltype="cf_sql_decimal" />,
+				price_odc_half = <cfqueryparam value="#variables.price_odc_half#" cfsqltype="cf_sql_decimal" />,
+				price_box = <cfqueryparam value="#variables.price_box#" cfsqltype="cf_sql_decimal" />
+				WHERE show_id = <cfqueryparam value="#variables.show_id#" cfsqltype="cf_sql_integer" /> AND created_by =  <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />			
 			</cfquery>						
 		</cfif>
- 		<cfreturn local.errorMessage />
+ 		<cfreturn variables.errorMessage />
 	</cffunction>
 
 	<cffunction name="getShows" access="public" output="false" returntype="query">
@@ -361,26 +361,26 @@
 	</cffunction>
 
 	<cffunction name="updateAdminPwd" access="remote" output="false">
-		<cfset local.errorMessage= arrayNew(1) />	
-		<cfset local.admin_oldpwd = form.admin_oldpwd/>
-		<cfset local.admin_newpwd = form.admin_newpwd/>
-		<cfset local.admin_cnfpwd = form.admin_cnfpwd/>		
+		<cfset variables.errorMessage= arrayNew(1) />	
+		<cfset variables.admin_oldpwd = form.admin_oldpwd/>
+		<cfset variables.admin_newpwd = form.admin_newpwd/>
+		<cfset variables.admin_cnfpwd = form.admin_cnfpwd/>		
 			
-		<cfif local.admin_oldpwd EQ ''>
+		<cfif variables.admin_oldpwd EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter old Password')>
 		</cfif>
-		<cfif local.admin_newpwd EQ ''>
+		<cfif variables.admin_newpwd EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter new Password')>
 		</cfif>
-		<cfif local.admin_cnfpwd EQ ''>
+		<cfif variables.admin_cnfpwd EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter Confirm Password')>
 		</cfif>
-		<cfif  local.admin_cnfpwd NOT EQUAL '' AND local.admin_newpwd NOT EQUAL local.admin_cnfpwd>
+		<cfif  variables.admin_cnfpwd NOT EQUAL '' AND variables.admin_newpwd NOT EQUAL variables.admin_cnfpwd>
 			<cfset arrayAppend(errorMessage, 'Confirm Password Mismatch')>
 		</cfif>
-		<cfoutput>#hash(local.admin_oldpwd)#</cfoutput>
+		<cfoutput>#hash(variables.admin_oldpwd)#</cfoutput>
 		<cfquery name="qry.checkOldpwd">
-			SELECT admin_name FROM admin WHERE admin_pwd = <cfqueryparam value="#hash(local.admin_oldpwd)#" cfsqltype="cf_sql_varchar" />
+			SELECT admin_name FROM admin WHERE admin_pwd = <cfqueryparam value="#hash(variables.admin_oldpwd)#" cfsqltype="cf_sql_varchar" />
 		</cfquery>
 		<cfif qry.checkOldpwd.recordcount EQ 0>
 			<cfset arrayAppend(errorMessage, 'Old Password Not exists')>
@@ -389,7 +389,7 @@
 			<cfset structdelete(session,'ErrmsgForm')>
 			<cfquery name="qry.rs_updateHomePageMovie">
 				UPDATE admin SET 			
-				admin_pwd = <cfqueryparam value="#hash(local.admin_newpwd)#" cfsqltype="cf_sql_varchar" />
+				admin_pwd = <cfqueryparam value="#hash(variables.admin_newpwd)#" cfsqltype="cf_sql_varchar" />
 				WHERE admin_id  = <cfqueryparam value="#session.stLoggedInAdmin.adminID#" cfsqltype="cf_sql_integer" />
 			</cfquery>
 			<cflocation url = "../update-password.cfm?status=success" addtoken="false" />
@@ -397,7 +397,7 @@
 			<cfset session.ErrmsgForm = errorMessage />	
 			<cflocation url = "../update-password.cfm" addtoken="false" />					
 		</cfif>
-		<cfreturn local.errorMessage />						
+		<cfreturn variables.errorMessage />						
 	</cffunction>				 
 </cfcomponent>
 

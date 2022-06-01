@@ -33,8 +33,8 @@ $(document).ready(function() {
 
 
     today = yyyy + '-' + mm + '-' + dd;
-    document.getElementById("start_date").setAttribute("min", today);
-    document.getElementById("end_date").setAttribute("min", today);
+    // document.getElementById("start_date").setAttribute("min", today);
+    // document.getElementById("end_date").setAttribute("min", today);
 
     console.log(today);
 
