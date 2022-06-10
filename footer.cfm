@@ -73,7 +73,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <cfparam name="form.fld_userEmail"  default=""  type="string">
-                <cfparam name="form.fld_userPwd"  default=""  type="string">            
+                <cfparam name="form.fld_userPwd"  default=""  type="string">  
+                <cfparam name="form.remember_me" type="string" default="0" />          
                 <form class="row g-3" id="form_login" method="post" >              
                     <div class="modal-body">
                         <cfif isDefined('session.Errmsg') AND session.Errmsg NEQ "">
@@ -87,7 +88,11 @@
                         <div class="col-md-12">
                             <label for="inputPassword4" class="form-label">Password</label>
                             <input class="form-control" name="fld_userPwd" id="fld_userPwd" type="password" id="formFile">
-                        </div>                                                            
+                        </div> 
+                        <label>
+                            <input type="checkbox" name="remember_me" id="remember_me" value="1" />
+                            Remember Me
+                        </label>                                                           
                     </div>
                     <div class="modal-footer cus-modal-footer">                    
                         <input type="submit" class="btn-get-started" value ="Login"> 
