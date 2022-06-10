@@ -7,11 +7,14 @@
     <cfset this.datasource = 'cf_moviebooking' /> 
 	<cfset this.sessionManagement = true />
 	<cfset this.sessionTimeout = createTimespan(0,0,30,0) />  
+	<cfset this.SetClientCookies = true />
+	<cfset application.EncrptKey = "abc!@" />
 	 
     <!---OnApplicationStart() method--->
 	<cffunction name="onApplicationStart" returntype="boolean" >
 		<cfset application.paymentKey = "rzp_test_dKHSAwIaRKIBft" /> 
-		<cfset application.EncrptKey = "abc!@" /> 				
+		<cfset application.EncrptKey = "abc!@" /> 
+		<cfset application.EncryptionKey = "S3xy8run3tt3s" />				
 		<cfreturn true />
 	</cffunction>
     <!---onRequestStart() method--->
@@ -20,6 +23,7 @@
 		<cfif structKeyExists(URL,'Usrlogout')>
 			<cfset structdelete(session,'stLoggedInUser') />
 			<cfset structdelete(session,'BookingDetails') />
+			<cfcookie name="RememberMe" value="" expires="now" />
 			<cflocation url = "index.cfm" addtoken="false" />			
 		</cfif>
 		<cfset variables.fefiles = "edit-profile.cfm,dashboard.cfm,ticket_pdf.cfm,order_summary.cfm">
@@ -30,7 +34,20 @@
 	</cffunction>
 
 	<cffunction name="onSessionStart" access="public" output="false" returntype="void">     	    
-			 	
+			 	<cftry>			
+					<cfset local.RememberMe = Decrypt(cookie.RememberMe,application.EncryptionKey,"cfmx_compat","hex") />					
+					<cfset local.RememberMe = ListGetAt(local.RememberMe,2,":") />					
+					<cfif IsNumeric( local.RememberMe )>
+					
+						<cfset session.stLoggedInUser.userID = local.RememberMe />
+
+					</cfif>
+					
+					<cfcatch>
+					
+					</cfcatch>
+				</cftry>
+		<cfreturn />
 	</cffunction>
 
 	<cffunction name="onMissingTemplate">

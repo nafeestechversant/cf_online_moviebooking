@@ -149,6 +149,7 @@
 		<cfif local.fld_userPwd EQ ''>
 			<cfset arrayAppend(errorMessage, 'Please Enter Password')>								
 		</cfif>
+	
 		<cfif arrayIsEmpty(errorMessage)>
 			<cfquery name="qry.checkLogin">
 				SELECT * FROM mv_users 
@@ -159,6 +160,12 @@
 			<cfelse>	
 				<cfset arrayAppend(errorMessage, 'Invalid User Login')>							
 			</cfif>
+			<cfif form.remember_me EQ 1>
+				<cfset strRememberMe = (CreateUUID() & ":" & session.stLoggedInUser.userID & ":" & CreateUUID()) />				
+				<cfset strRememberMe = Encrypt(strRememberMe,"S3xy8run3tt3s","cfmx_compat","hex") />
+				<cfcookie name="RememberMe" value="#strRememberMe#" expires="never" />
+			</cfif>
+			
 		</cfif>			
 		<cfreturn local.errorMessage />		
 	</cffunction>
